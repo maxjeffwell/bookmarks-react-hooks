@@ -1,11 +1,33 @@
-import uuidv4 from 'uuid/v4';
-
 const bookmarksReducer = (state, action) => {
 	switch(action.type) {
+		case 'GET_BOOKMARKS':
+			return {
+				...state,
+				bookmarks: action.payload
+			};
+		case 'ADD_BOOKMARK':
+			// if (!action.payload) {
+			// 	return state;
+			// }
+			// if (state.bookmarks.findIndex(
+			// 	b => b.title === action.payload) > -1)
+			// 	return state;
+
+			const addedBookmark = [...state.bookmarks, action.payload];
+
+			return {
+				...state,
+				bookmarks: addedBookmark
+			};
+		case 'SET_CURRENT_BOOKMARK':
+			return {
+				...state,
+				currentBookmark: action.payload
+			};
 		case 'TOGGLE_BOOKMARK':
 			const toggledBookmarks = state.bookmarks.map(
 				b => b.id === action.payload.id
-			? {...action.payload, expanded: !action.payload.expanded}
+			? action.payload
 			: b
 			);
 
@@ -13,25 +35,39 @@ const bookmarksReducer = (state, action) => {
 				...state,
 				bookmarks: toggledBookmarks
 			};
+		case 'UPDATE_BOOKMARK':
+			// if (!action.payload) {
+			// 	return state;
+			// }
+			// if (state.bookmarks.findIndex(
+			// 	b => b.title === action.payload) > -1)
+			// 	return state;
+			const updatedBookmark = {
+				...action.payload
+			};
+			const updatedBookmarkIndex = state.bookmarks.findIndex(
+				b => b.id === state.currentBookmark.id);
+			const updatedBookmarks = [
+				...state.bookmarks.slice(0, updatedBookmarkIndex),
+				updatedBookmark,
+				...state.bookmarks.slice(updatedBookmarkIndex + 1)
+			];
+
+			return {
+				...state,
+				currentBookmark: {},
+				bookmarks: updatedBookmarks
+			};
 		case 'DELETE_BOOKMARK':
 			const filteredBookmarks = state.bookmarks.filter(
 				b => b.id !== action.payload.id);
+			const isDeletedBookmark = state.currentBookmark.id === action.payload.id
+			? {} : state.currentBookmark;
 
 			return {
 				...state,
+				currentBookmark: isDeletedBookmark,
 				bookmarks: filteredBookmarks
-			};
-		case 'ADD_BOOKMARK':
-			const newBookmark = {
-				id: uuidv4(),
-				title: action.payload,
-				expanded: false,
-			};
-			const addedBookmark = [...state.bookmarks, newBookmark];
-
-			return {
-				...state,
-				bookmarks: addedBookmark
 			};
 		default:
 			return state;
