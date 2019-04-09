@@ -34,6 +34,9 @@ export default function BookmarksList() {
 						<span>
 							{bookmark.description}
 						</span>
+						<span>
+							{bookmark.rating}
+						</span>
 						<button
 						onClick={() => dispatch({ type: 'SET_CURRENT_BOOKMARK',
 							payload: bookmark })}

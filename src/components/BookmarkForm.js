@@ -8,6 +8,7 @@ export default function BookmarkForm() {
 	const [bookmarkTitle, setBookmarkTitle] = useState('');
 	const [bookmarkUrl, setBookmarkUrl] = useState('');
 	const [bookmarkDescription, setBookmarkDescription] = useState('');
+	const [bookmarkRating, setBookmarkRating] = useState(null);
 	const { state: { currentBookmark = {} }, dispatch } = useContext(BookmarksContext);
 
 	useEffect(() => {
@@ -34,6 +35,14 @@ export default function BookmarkForm() {
 		}
 	}, [currentBookmark.id]);
 
+	useEffect(() => {
+		if (currentBookmark.rating) {
+			setBookmarkRating(currentBookmark.rating);
+		} else {
+			setBookmarkRating(null);
+		}
+	}, [currentBookmark.id]);
+
 	const handleSubmit = async event => {
 		event.preventDefault();
 		if (currentBookmark.title) {
@@ -42,6 +51,7 @@ export default function BookmarkForm() {
 					title: bookmarkTitle,
 					url: bookmarkUrl,
 					description: bookmarkDescription,
+					rating: bookmarkRating,
 				}
 			);
 			dispatch({ type: 'UPDATE_BOOKMARK', payload: res.data });
@@ -51,6 +61,7 @@ export default function BookmarkForm() {
 				title: bookmarkTitle,
 				url: bookmarkUrl,
 				description: bookmarkDescription,
+				rating: bookmarkRating,
 			});
 			dispatch({ type: 'ADD_BOOKMARK', payload: res.data });
 			console.log(res.data);
@@ -58,12 +69,13 @@ export default function BookmarkForm() {
 		setBookmarkTitle('');
 		setBookmarkUrl('');
 		setBookmarkDescription('');
+		setBookmarkRating(null);
 	};
 
 	return (
 	<form onSubmit={handleSubmit}>
 		<div>
-		<label htmlFor="namedInput">Title</label>
+		<label htmlFor="bookmarkTitle">Title</label>
 		<input
 			name="bookmarkTitle"
 			type="text"
@@ -76,7 +88,7 @@ export default function BookmarkForm() {
 			/>
 		</div>
 		<div>
-		<label htmlFor="namedInput">Url</label>
+		<label htmlFor="bookmarkUrl">Url</label>
 			<input
 				name="bookmarkUrl"
 				type="url"
@@ -89,10 +101,10 @@ export default function BookmarkForm() {
 				/>
 		</div>
 		<div>
-		<label htmlFor="namedInput">Description</label>
+		<label htmlFor="bookmarkDescription">Description</label>
 				<input
 					name="bookmarkDescription"
-					type="text"
+					type="textarea"
 					aria-label={bookmarkDescription}
 					aria-required="true"
 					onChange={event => setBookmarkDescription(event.target.value)}
@@ -100,7 +112,39 @@ export default function BookmarkForm() {
 					placeholder="Bookmark Description"
 					/>
 		</div>
-		<button type="submit">Submit
+		<div>
+			<label htmlFor="bookmarkRating">Rating</label>
+			<fieldset>
+				<legend>Rating</legend>
+				<input name="bookmarkRating" type="radio" aria-label={bookmarkRating}
+					onChange={event => setBookmarkRating(event.target.value)}
+					value="1 star" checked={bookmarkRating === "1 star"}
+				/>
+				<label htmlFor="bookmarkRating-1">1 star</label>
+				<input name="bookmarkRating" type="radio" aria-label={bookmarkRating}
+				       onChange={event => setBookmarkRating(event.target.value)}
+				       value="2 stars" checked={bookmarkRating === "2 stars"}
+				/>
+				<label htmlFor="bookmarkRating-2">2 stars</label>
+				<input name="bookmarkRating" type="radio" aria-label={bookmarkRating}
+				       onChange={event => setBookmarkRating(event.target.value)}
+				       value="3 stars" checked={bookmarkRating === "3 stars"}
+				/>
+				<label htmlFor="bookmarkRating-3">3 stars</label>
+				<input name="bookmarkRating" type="radio" aria-label={bookmarkRating}
+				       onChange={event => setBookmarkRating(event.target.value)}
+				       value="4 stars" checked={bookmarkRating === "4 stars"}
+				/>
+				<label htmlFor="bookmarkRating-4">4 stars</label>
+				<input name="bookmarkRating" type="radio" aria-label={bookmarkRating}
+				       onChange={event => setBookmarkRating(event.target.value)}
+				       value="5 stars" checked={bookmarkRating === "5 stars"}
+				/>
+				<label htmlFor="bookmarkRating-5">5 stars</label>
+			</fieldset>
+		</div>
+		<button type="submit">
+			Submit
 		</button>
 		</form>
 	);
