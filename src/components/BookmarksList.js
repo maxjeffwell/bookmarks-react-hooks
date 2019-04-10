@@ -11,6 +11,14 @@ export default function BookmarksList() {
 	return (
 		<>
 			<h1>{title}</h1>
+			<select>
+				<option value="">Sort By Rating</option>
+				<option value="5">5 stars</option>
+				<option value="4">4 stars +</option>
+				<option value="3">3 stars +</option>
+				<option value="2">2 stars +</option>
+				<option value="1">1 star +</option>
+		</select>
 			<ul>
 				{state.bookmarks.map(bookmark => (
 					<li key={bookmark.id}

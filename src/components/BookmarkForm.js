@@ -98,6 +98,7 @@ export default function BookmarkForm() {
 			onChange={event => setBookmarkTitle(event.target.value)}
 			value={bookmarkTitle}
 			placeholder="Bookmark Title"
+			minLength="1"
 			required
 			/>
 		</div>
@@ -110,7 +111,8 @@ export default function BookmarkForm() {
 				aria-required="true"
 				onChange={event => setBookmarkUrl(event.target.value)}
 				value={bookmarkUrl}
-				placeholder="Bookmark Url (https://...)"
+				placeholder="Bookmark Url (http(s)://...)"
+				minLength="7"
 				required
 				/>
 		</div>
@@ -127,7 +129,6 @@ export default function BookmarkForm() {
 					/>
 		</div>
 		<div>
-			<label htmlFor="bookmarkRating">Rating</label>
 			<fieldset>
 				<legend>Rating</legend>
 				<input name="bookmarkRating" type="radio" aria-label={bookmarkRating}
