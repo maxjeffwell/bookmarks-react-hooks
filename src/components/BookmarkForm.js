@@ -8,7 +8,8 @@ export default function BookmarkForm() {
 	const [bookmarkTitle, setBookmarkTitle] = useState('');
 	const [bookmarkUrl, setBookmarkUrl] = useState('');
 	const [bookmarkDescription, setBookmarkDescription] = useState('');
-	const [bookmarkRating, setBookmarkRating] = useState(null);
+	const [bookmarkRating, setBookmarkRating] = useState('');
+	const [toggleRadioButton, setToggleRadioButton] = useState(true);
 	const { state: { currentBookmark = {} }, dispatch } = useContext(BookmarksContext);
 
 	useEffect(() => {
@@ -36,10 +37,20 @@ export default function BookmarkForm() {
 	}, [currentBookmark.id]);
 
 	useEffect(() => {
-		if (currentBookmark.rating) {
+		if (currentBookmark.rating && currentBookmark.toggledRadioButton === true ) {
 			setBookmarkRating(currentBookmark.rating);
+		} else if (currentBookmark.toggledRadioButton === false) {
+			setBookmarkRating('');
 		} else {
-			setBookmarkRating(null);
+			setBookmarkRating('');
+		}
+	}, [currentBookmark.id]);
+
+	useEffect(() => {
+		if (currentBookmark.toggledRadioButton) {
+			setToggleRadioButton(currentBookmark.toggledRadioButton);
+		} else {
+			setToggleRadioButton(true);
 		}
 	}, [currentBookmark.id]);
 
@@ -52,6 +63,7 @@ export default function BookmarkForm() {
 					url: bookmarkUrl,
 					description: bookmarkDescription,
 					rating: bookmarkRating,
+					toggledRadioButton: toggleRadioButton,
 				}
 			);
 			dispatch({ type: 'UPDATE_BOOKMARK', payload: res.data });
@@ -62,6 +74,7 @@ export default function BookmarkForm() {
 				url: bookmarkUrl,
 				description: bookmarkDescription,
 				rating: bookmarkRating,
+				toggledRadioButton: toggleRadioButton,
 			});
 			dispatch({ type: 'ADD_BOOKMARK', payload: res.data });
 			console.log(res.data);
@@ -69,7 +82,8 @@ export default function BookmarkForm() {
 		setBookmarkTitle('');
 		setBookmarkUrl('');
 		setBookmarkDescription('');
-		setBookmarkRating(null);
+		setBookmarkRating('');
+		setToggleRadioButton(true);
 	};
 
 	return (
@@ -117,28 +131,38 @@ export default function BookmarkForm() {
 			<fieldset>
 				<legend>Rating</legend>
 				<input name="bookmarkRating" type="radio" aria-label={bookmarkRating}
-					onChange={event => setBookmarkRating(event.target.value)}
-					value="1 star" checked={bookmarkRating === "1 star"}
-				/>
+				       onChange={event => setBookmarkRating(event.target.value)}
+					     onClick={() => setToggleRadioButton(!toggleRadioButton)}
+					     value="1 star"
+					     checked={bookmarkRating === "1 star" && toggleRadioButton === true}
+				       />
 				<label htmlFor="bookmarkRating-1">1 star</label>
 				<input name="bookmarkRating" type="radio" aria-label={bookmarkRating}
 				       onChange={event => setBookmarkRating(event.target.value)}
-				       value="2 stars" checked={bookmarkRating === "2 stars"}
+				       onClick={() => setToggleRadioButton(!toggleRadioButton)}
+				       value="2 stars"
+				       checked={bookmarkRating === "2 stars" && toggleRadioButton === true}
 				/>
 				<label htmlFor="bookmarkRating-2">2 stars</label>
 				<input name="bookmarkRating" type="radio" aria-label={bookmarkRating}
 				       onChange={event => setBookmarkRating(event.target.value)}
-				       value="3 stars" checked={bookmarkRating === "3 stars"}
+				       onClick={() => setToggleRadioButton(!toggleRadioButton)}
+				       value="3 stars"
+				       checked={bookmarkRating === "3 stars" && toggleRadioButton === true}
 				/>
 				<label htmlFor="bookmarkRating-3">3 stars</label>
 				<input name="bookmarkRating" type="radio" aria-label={bookmarkRating}
 				       onChange={event => setBookmarkRating(event.target.value)}
-				       value="4 stars" checked={bookmarkRating === "4 stars"}
+				       onClick={() => setToggleRadioButton(!toggleRadioButton)}
+				       value="4 stars"
+				       checked={bookmarkRating === "4 stars" && toggleRadioButton === true}
 				/>
 				<label htmlFor="bookmarkRating-4">4 stars</label>
 				<input name="bookmarkRating" type="radio" aria-label={bookmarkRating}
 				       onChange={event => setBookmarkRating(event.target.value)}
-				       value="5 stars" checked={bookmarkRating === "5 stars"}
+				       onClick={() => setToggleRadioButton(!toggleRadioButton)}
+				       value="5 stars"
+				       checked={bookmarkRating === "5 stars" && toggleRadioButton === true}
 				/>
 				<label htmlFor="bookmarkRating-5">5 stars</label>
 			</fieldset>
