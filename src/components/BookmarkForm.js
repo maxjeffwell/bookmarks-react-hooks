@@ -145,7 +145,7 @@ export default function BookmarkForm() {
 				<legend>Rating</legend>
 				<input name="bookmarkRating" type="radio" aria-label={bookmarkRating}
 				       onChange={event => setBookmarkRating(event.target.value)}
-					     onClick={() => setToggleRadioButton(toggleRadioButton)}
+					     onClick={() => setToggleRadioButton(!toggleRadioButton)}
 					     value="1 star"
 					     checked={bookmarkRating === "1 star" && toggleRadioButton}
 				/>

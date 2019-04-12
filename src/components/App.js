@@ -24,7 +24,7 @@ const useAPI = endpoint => {
 export default function App() {
   const initialState = useContext(BookmarksContext);
   const [state, dispatch] = useReducer(bookmarksReducer, initialState);
-  const savedBookmarks = useAPI('https://hooks-api.maxjeffwell.now.sh/bookmarks');
+  const savedBookmarks = useAPI(`https://hooks-api.maxjeffwell.now.sh/bookmarks`);
 
   useEffect(() => {
     dispatch({ type: 'GET_BOOKMARKS', payload: savedBookmarks })
