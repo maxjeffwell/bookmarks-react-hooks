@@ -1,7 +1,12 @@
 {
-  "name": "bookmarks",
-  "version": "0.1.0",
-  "private": true,
+  "name": "coco-bookmarks-manager",
+  "version": "1.0.0",
+  "author": "Jeff Maxwell <maxjeffwell@gmail.com>",
+  "license": "GNU GPLv3",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/npm/npm.git"
+  },
   "dependencies": {
     "axios": "^0.18.0",
     "react": "^16.8.6",
@@ -13,7 +18,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint src"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -28,5 +34,6 @@
     "eslint-plugin-react-hooks": "^1.6.0",
     "install": "^0.12.2",
     "npm": "^6.9.0"
-  }
+  },
+  "heroku-run-build-script": true
 }
