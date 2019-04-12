@@ -33,9 +33,6 @@ const bookmarksReducer = (state, action) => {
 				bookmarks: checkedBookmarks
 			};
 
-			case 'SHOW_FAVORITES':
-			return 'FAVORITES';
-
 			case 'SET_CURRENT_BOOKMARK':
 			return {
 				...state,

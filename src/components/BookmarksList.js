@@ -1,25 +1,61 @@
-import React, { useContext } from 'react';
+import React, { useContext , useReducer, useState } from 'react';
 import axios from 'axios';
 
 import BookmarksContext from '../context';
+import filterReducer from '../reducers/filterReducer';
 
 export default function BookmarksList() {
 	const { state, dispatch } = useContext(BookmarksContext);
+	const [filter, dispatchFilter] = useReducer(filterReducer, 'ALL');
+	const [rating, setRating] = useState('');
 	const title = state.bookmarks.length > 0
 	? 'Bookmarks' : 'You have not created any bookmarks yet ...';
 
 	const handleShowFavorites = () => {
-
+		dispatchFilter({ type: 'SHOW_FAVORITES' });
 	};
+
+	const handleShowAll = () => {
+		dispatchFilter({ type: 'SHOW_ALL' });
+	};
+
+	const handleShowByRating = (event) => {
+		setRating(event.target.value);
+		dispatchFilter({ type: 'SHOW_BY_RATING'});
+	};
+
+	const filteredBookmarks = state.bookmarks.filter(b => {
+		if (filter === 'ALL') {
+			return true;
+		}
+		if (filter === 'FAVORITES' && b.checked) {
+			return true;
+		}
+		return filter === 'RATING' && b.rating === rating;
+	});
 
 	return (
 		<>
 			<h1>{title}</h1>
+			<button type="button" onClick={handleShowAll}>
+				Show All Bookmarks
+			</button>
 			<button type="button" onClick={handleShowFavorites}>
 				Show Favorites
 			</button>
+			<label>
+				Sort By Rating
+			</label>
+			<select onChange={handleShowByRating}>
+				<option value="" />>
+				<option value="5 stars">5 stars</option>
+				<option value="4 stars">4 stars</option>
+				<option value="3 stars">3 stars</option>
+				<option value="2 stars">2 stars</option>
+				<option value="1 star">1 star</option>
+		</select>
 			<ul>
-				{state.bookmarks.map(bookmark => (
+				{filteredBookmarks.map(bookmark => (
 					<li key={bookmark.id}
 					>
 						<span

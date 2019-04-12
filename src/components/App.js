@@ -2,7 +2,7 @@ import React, { useContext, useReducer, useState, useEffect } from 'react';
 import axios from 'axios';
 
 import BookmarksContext from '../context';
-import bookmarksReducer from '../reducer';
+import bookmarksReducer from '../reducers/bookmarksReducer';
 import BookmarksList from './BookmarksList';
 import BookmarkForm from './BookmarkForm';
 
