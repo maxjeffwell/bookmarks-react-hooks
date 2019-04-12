@@ -3,5 +3,8 @@ node_js: node
 cache:
   directories:
     - node_modules
+install:
+  - npm install
+script: true
 env:
   - CI=true
