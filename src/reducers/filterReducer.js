@@ -4,8 +4,10 @@ const filterReducer = (state, action) => {
 			return 'ALL';
 		case 'SHOW_FAVORITES':
 			return 'FAVORITES';
+		case 'SHOW_BY_RATING':
+			return 'RATING';
 		default:
-			throw new Error();
+			return state;
 	}
 };
 
