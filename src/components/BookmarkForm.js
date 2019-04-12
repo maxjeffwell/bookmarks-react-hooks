@@ -145,38 +145,37 @@ export default function BookmarkForm() {
 				<legend>Rating</legend>
 				<input name="bookmarkRating" type="radio" aria-label={bookmarkRating}
 				       onChange={event => setBookmarkRating(event.target.value)}
-					     onClick={() => setToggleRadioButton(!toggleRadioButton)}
+					     onClick={() => setToggleRadioButton(toggleRadioButton)}
 					     value="1 star"
-					     checked={bookmarkRating === "1 star" && toggleRadioButton === true}
-				       required
+					     checked={bookmarkRating === "1 star" && toggleRadioButton}
 				/>
 				<label htmlFor="bookmarkRating-1">1 star</label>
 				<input name="bookmarkRating" type="radio" aria-label={bookmarkRating}
 				       onChange={event => setBookmarkRating(event.target.value)}
-				       onClick={() => setToggleRadioButton(!toggleRadioButton)}
+				       onClick={() => setToggleRadioButton(toggleRadioButton)}
 				       value="2 stars"
-				       checked={bookmarkRating === "2 stars" && toggleRadioButton === true}
+				       checked={bookmarkRating === "2 stars" && toggleRadioButton}
 				/>
 				<label htmlFor="bookmarkRating-2">2 stars</label>
 				<input name="bookmarkRating" type="radio" aria-label={bookmarkRating}
 				       onChange={event => setBookmarkRating(event.target.value)}
-				       onClick={() => setToggleRadioButton(!toggleRadioButton)}
+				       onClick={() => setToggleRadioButton(toggleRadioButton)}
 				       value="3 stars"
-				       checked={bookmarkRating === "3 stars" && toggleRadioButton === true}
+				       checked={bookmarkRating === "3 stars" && toggleRadioButton}
 				/>
 				<label htmlFor="bookmarkRating-3">3 stars</label>
 				<input name="bookmarkRating" type="radio" aria-label={bookmarkRating}
 				       onChange={event => setBookmarkRating(event.target.value)}
-				       onClick={() => setToggleRadioButton(!toggleRadioButton)}
+				       onClick={() => setToggleRadioButton(toggleRadioButton)}
 				       value="4 stars"
-				       checked={bookmarkRating === "4 stars" && toggleRadioButton === true}
+				       checked={bookmarkRating === "4 stars" && toggleRadioButton}
 				/>
 				<label htmlFor="bookmarkRating-4">4 stars</label>
 				<input name="bookmarkRating" type="radio" aria-label={bookmarkRating}
 				       onChange={event => setBookmarkRating(event.target.value)}
-				       onClick={() => setToggleRadioButton(!toggleRadioButton)}
+				       onClick={() => setToggleRadioButton(toggleRadioButton)}
 				       value="5 stars"
-				       checked={bookmarkRating === "5 stars" && toggleRadioButton === true}
+				       checked={bookmarkRating === "5 stars" && toggleRadioButton}
 				/>
 				<label htmlFor="bookmarkRating-5">5 stars</label>
 			</fieldset>
