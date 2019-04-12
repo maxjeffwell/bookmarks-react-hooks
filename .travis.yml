@@ -8,3 +8,10 @@ install:
 script: true
 env:
   - CI=true
+deploy:
+  provider: heroku
+  api_key:
+    secure: 9c0a3e37-422f-44a0-a122-28cc3a6eee35
+  app: jmaxwell-bookmark-manager
+  on:
+    repo: maxjeffwell/bookmarks-react-hooks
