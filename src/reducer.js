@@ -1,11 +1,13 @@
 const bookmarksReducer = (state, action) => {
 	switch(action.type) {
-		case 'GET_BOOKMARKS':
+			case 'GET_BOOKMARKS':
+
 			return {
 				...state,
 				bookmarks: action.payload
 			};
-		case 'ADD_BOOKMARK':
+
+			case 'ADD_BOOKMARK':
 			// if (!action.payload) {
 			// 	return state;
 			// }
@@ -19,12 +21,28 @@ const bookmarksReducer = (state, action) => {
 				...state,
 				bookmarks: addedBookmark
 			};
-		case 'SET_CURRENT_BOOKMARK':
+
+			case 'ADD_BOOKMARK_TO_FAVORITES':
+			const checkedBookmarks = state.bookmarks.map(
+				b => b.id === action.payload.id
+				? action.payload : b
+			);
+
+			return {
+				...state,
+				bookmarks: checkedBookmarks
+			};
+
+			case 'SHOW_FAVORITES':
+			return 'FAVORITES';
+
+			case 'SET_CURRENT_BOOKMARK':
 			return {
 				...state,
 				currentBookmark: action.payload
 			};
-		case 'TOGGLE_BOOKMARK':
+
+			case 'TOGGLE_BOOKMARK':
 			const toggledBookmarks = state.bookmarks.map(
 				b => b.id === action.payload.id
 			? action.payload
@@ -35,7 +53,8 @@ const bookmarksReducer = (state, action) => {
 				...state,
 				bookmarks: toggledBookmarks
 			};
-		case 'UPDATE_BOOKMARK':
+
+			case 'UPDATE_BOOKMARK':
 			// if (!action.payload) {
 			// 	return state;
 			// }
@@ -58,7 +77,8 @@ const bookmarksReducer = (state, action) => {
 				currentBookmark: {},
 				bookmarks: updatedBookmarks
 			};
-		case 'DELETE_BOOKMARK':
+
+			case 'DELETE_BOOKMARK':
 			const filteredBookmarks = state.bookmarks.filter(
 				b => b.id !== action.payload.id);
 			const isDeletedBookmark = state.currentBookmark.id === action.payload.id
@@ -69,7 +89,8 @@ const bookmarksReducer = (state, action) => {
 				currentBookmark: isDeletedBookmark,
 				bookmarks: filteredBookmarks
 			};
-		default:
+
+			default:
 			return state;
 	}
 };

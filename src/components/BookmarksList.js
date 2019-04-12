@@ -8,17 +8,16 @@ export default function BookmarksList() {
 	const title = state.bookmarks.length > 0
 	? 'Bookmarks' : 'You have not created any bookmarks yet ...';
 
+	const handleShowFavorites = () => {
+
+	};
+
 	return (
 		<>
 			<h1>{title}</h1>
-			<select>
-				<option value="">Sort By Rating</option>
-				<option value="5">5 stars</option>
-				<option value="4">4 stars +</option>
-				<option value="3">3 stars +</option>
-				<option value="2">2 stars +</option>
-				<option value="1">1 star +</option>
-		</select>
+			<button type="button" onClick={handleShowFavorites}>
+				Show Favorites
+			</button>
 			<ul>
 				{state.bookmarks.map(bookmark => (
 					<li key={bookmark.id}
@@ -46,13 +45,15 @@ export default function BookmarksList() {
 							{bookmark.rating}
 						</span>
 						<button
-						onClick={() => dispatch({ type: 'SET_CURRENT_BOOKMARK',
+							type="button"
+							onClick={() => dispatch({ type: 'SET_CURRENT_BOOKMARK',
 							payload: bookmark })}
 						>
 							Edit
 						</button>
 						<button
-						onClick={async () => {
+							type="button"
+							onClick={async () => {
 							await axios.delete(
 								`https://hooks-api.maxjeffwell.now.sh/bookmarks/${bookmark.id}`
 							);
@@ -62,6 +63,22 @@ export default function BookmarksList() {
 						>
 							Delete
 						</button>
+						<label htmlFor="checkbox-favorite">Add to Favorites
+							<input
+								name="checkbox-favorite"
+								aria-label="checkbox-favorite"
+								type="checkbox"
+								onChange={async () => {
+									const res = await axios.patch(
+										`https://hooks-api.maxjeffwell.now.sh/bookmarks/${bookmark.id}`, {
+											checked: !bookmark.checked
+										});
+									dispatch({ type: 'ADD_BOOKMARK_TO_FAVORITES',
+										payload: res.data })
+								}}
+								checked={bookmark.checked}
+							/>
+						</label>
 					</li>
 				))}
 			</ul>

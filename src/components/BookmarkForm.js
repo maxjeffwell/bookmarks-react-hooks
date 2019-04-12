@@ -77,7 +77,6 @@ export default function BookmarkForm() {
 				toggledRadioButton: toggleRadioButton,
 			});
 			dispatch({ type: 'ADD_BOOKMARK', payload: res.data });
-			console.log(res.data);
 		}
 		setBookmarkTitle('');
 		setBookmarkUrl('');
