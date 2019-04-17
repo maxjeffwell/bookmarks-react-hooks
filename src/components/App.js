@@ -1,5 +1,7 @@
 import React, { useContext, useReducer, useState, useEffect } from 'react';
 import axios from 'axios';
+import { injectGlobal } from 'emotion';
+import WebFont from 'webfontloader';
 
 import BookmarksContext from '../context';
 import bookmarksReducer from '../reducers/bookmarksReducer';
@@ -7,6 +9,24 @@ import bookmarksReducer from '../reducers/bookmarksReducer';
 import Landing from './Landing';
 import BookmarksList from './BookmarksList';
 import BookmarkForm from './BookmarkForm';
+
+injectGlobal`
+	html {
+		box-sizing: border-box;
+		font-size: 14px;
+	}
+	
+	*, *:before, *:after {
+		box-sizing: inherit;
+	}
+	
+	body {
+		padding: 0;
+		margin: 0;
+		font-size: 1.5rem;
+		line-height: 2;
+	}
+`;
 
 const useAPI = endpoint => {
 	const [data, setData] = useState([]);
