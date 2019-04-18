@@ -10,7 +10,20 @@ import Landing from './Landing';
 import BookmarksList from './BookmarksList';
 import BookmarkForm from './BookmarkForm';
 
+WebFont.load({
+	custom: {
+		families: ['ITCAvantGardeStd-Demi']
+	},
+	timeout: 2000
+});
+
 injectGlobal`
+	@font-face {
+	font-family: ITCAvantGardeStd-Demi;
+	src: url('../../public/fonts/ITCAvantGardeStd-Demi.otf') format('opentype');
+	font-weight: normal;
+	font-style: normal;
+}
 	html {
 		box-sizing: border-box;
 		font-size: 14px;
@@ -23,6 +36,7 @@ injectGlobal`
 	body {
 		padding: 0;
 		margin: 0;
+		font-family: ITCAvantGardeStd-Demi, serif;
 		font-size: 1.5rem;
 		line-height: 2;
 	}

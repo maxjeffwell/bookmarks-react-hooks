@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 
 const StyledHeader = styled.h1`
 	  color: ${props => props.theme.colors.primary};
+	  font-style: ${props => props.theme.fonts.primary};
 `;
 
 const Landing = () => {

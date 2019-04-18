@@ -7,6 +7,9 @@ import App from './components/App';
 const theme = {
 	colors: {
 		primary: 'hotpink'
+	},
+	fonts: {
+		primary: 'ITCAvantGardeStd-Demi'
 	}
 };
 

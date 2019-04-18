@@ -101,7 +101,7 @@ export default function BookmarkForm() {
 	return (
 	<form onSubmit={handleSubmit}>
 		<div>
-			<header>Create A Bookmark</header>
+			<h1>Create A Bookmark</h1>
 		<label htmlFor="bookmarkTitle">Title</label>
 		<input
 			name="bookmarkTitle"
