@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 
 const StyledTitle = styled.h1`
 	grid-area: main;
+	grid-column: span 1;
 	color: ${props => props.theme.colors.primary};
 	font-family: ${props => props.theme.fonts.tertiary};
 	font-weight: bold;

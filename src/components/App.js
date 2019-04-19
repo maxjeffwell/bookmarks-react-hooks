@@ -48,12 +48,12 @@ injectGlobal`
 	}
 	body {
 		display: grid;
-		grid-template-columns: 1fr 2fr;
+		grid-template-columns: auto 2fr;
 		grid-template-rows: 1fr 10fr 1fr;
 		grid-template-areas:
-			"header"
+			"header header"
 			"main"
-			"footer";
+			"footer	footer";
 		grid-gap: 10px;
 		grid-auto-flow: column;
 		height: 100vh;
@@ -61,7 +61,7 @@ injectGlobal`
 		margin: 0;
 		text-shadow: 0 2px 0 rgba(0, 0, 0, 0.07);
 		font-size: 1.5rem;
-		line-height: 1.2;
+		line-height: 2;
 	}
 	header {
 		grid-area: header;

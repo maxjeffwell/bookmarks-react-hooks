@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 
 const StyledHeader = styled.header`
 	display: grid;
+	grid-template-columns: 1fr auto;
 	grid-auto-flow: column;
 	grid-area: header;
 	background: black;
@@ -18,7 +19,7 @@ const StyledHeader = styled.header`
 const StyledLink = styled(Link)`
 	color: white;
 	text-decoration: none;
-	:hover {
+	&:hover {
 		text-decoration: underline;
 	}
 `;
