@@ -1,8 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react';
+import styled from '@emotion/styled';
 import axios from 'axios';
 import uuidv4 from 'uuid/v4';
 
 import BookmarksContext from '../context';
+
+const StyledForm = styled.form`
+	grid-area: main;
+	font-family: ${props => props.theme.fonts.secondary};
+`;
 
 export default function BookmarkForm() {
 	const [bookmarkTitle, setBookmarkTitle] = useState('');
@@ -99,9 +105,9 @@ export default function BookmarkForm() {
 	};
 
 	return (
-	<form onSubmit={handleSubmit}>
+	<StyledForm onSubmit={handleSubmit}>
+		<h3>Create Bookmark</h3>
 		<div>
-			<h1>Create A Bookmark</h1>
 		<label htmlFor="bookmarkTitle">Title</label>
 		<input
 			name="bookmarkTitle"
@@ -185,6 +191,6 @@ export default function BookmarkForm() {
 		<button type="submit">
 			Create Bookmark
 		</button>
-		</form>
+		</StyledForm>
 	);
 };

@@ -1,8 +1,25 @@
 import React, { useContext , useReducer, useState } from 'react';
+import styled from '@emotion/styled';
 import axios from 'axios';
 
 import BookmarksContext from '../context';
 import filterReducer from '../reducers/filterReducer';
+
+import BookmarkForm from './BookmarkForm';
+
+const StyledDiv = styled.div`
+	grid-area: main;
+	font-family: ${props => props.theme.fonts.secondary};
+	button {
+		background: ${props => props.theme.colors.secondary};
+		color: white;
+		border: 0;
+		padding: 5px;
+		margin: 5px;
+		border-radius: 5px;
+		cursor: pointer;
+	}
+`;
 
 export default function BookmarksList() {
 	const { state, dispatch } = useContext(BookmarksContext);
@@ -36,7 +53,11 @@ export default function BookmarksList() {
 
 	return (
 		<>
-			<h1>{title}</h1>
+			<StyledDiv>
+			<BookmarkForm />
+			</StyledDiv>
+		<StyledDiv>
+			<h3>{title}</h3>
 			<button type="button" onClick={handleShowAll}>
 				Show All Bookmarks
 			</button>
@@ -118,6 +139,7 @@ export default function BookmarksList() {
 					</li>
 				))}
 			</ul>
-		</>
-	)
-};
+		</StyledDiv>
+			</>
+	);
+}
