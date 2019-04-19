@@ -1,4 +1,5 @@
 import React, { useContext, useReducer, useState, useEffect } from 'react';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import axios from 'axios';
 import { injectGlobal } from 'emotion';
 import WebFont from 'webfontloader';
@@ -7,8 +8,9 @@ import BookmarksContext from '../context';
 import bookmarksReducer from '../reducers/bookmarksReducer';
 
 import Landing from './Landing';
+import Header from './Header';
+import Footer from './Footer';
 import BookmarksList from './BookmarksList';
-import BookmarkForm from './BookmarkForm';
 
 WebFont.load({
 	custom: {
@@ -27,6 +29,9 @@ injectGlobal`
 	html {
 		box-sizing: border-box;
 		font-size: 14px;
+		font-weight: normal;
+		color: #272727;
+		text-shadow: 0 2px 0 rgba(0, 0, 0, 0.07);
 	}
 	
 	*, *:before, *:after {
@@ -34,11 +39,15 @@ injectGlobal`
 	}
 	
 	body {
+		display: grid;
+		grid-template-rows: auto 1fr 1fr auto;
+		grid-template-columns: repeat(3, 1fr);
+		height: 100vh;
 		padding: 0;
 		margin: 0;
-		font-family: ITCAvantGardeStd-Demi, serif;
+		font-family: ITCAvantGardeStd-Demi, monospace;
 		font-size: 1.5rem;
-		line-height: 2;
+		line-height: 1.2;
 	}
 `;
 
@@ -69,11 +78,16 @@ export default function App() {
 	);
 
 	return (
+		<BrowserRouter>
 		<BookmarksContext.Provider value={{ state, dispatch }}>
-			<Landing />
-			<BookmarkForm />
-			<BookmarksList />
+			<Header />
+			<Switch>
+				<Route exact path='/' component={Landing} />
+				<Route exact path='/bookmarks' component={BookmarksList} />
+			</Switch>
+			<Footer />
 		</BookmarksContext.Provider>
+		</BrowserRouter>
 	)
 };
 

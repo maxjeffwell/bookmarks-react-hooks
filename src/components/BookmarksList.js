@@ -4,6 +4,8 @@ import axios from 'axios';
 import BookmarksContext from '../context';
 import filterReducer from '../reducers/filterReducer';
 
+import BookmarkForm from './BookmarkForm';
+
 export default function BookmarksList() {
 	const { state, dispatch } = useContext(BookmarksContext);
 	const [filter, dispatchFilter] = useReducer(filterReducer, 'ALL');
@@ -35,7 +37,8 @@ export default function BookmarksList() {
 	});
 
 	return (
-		<>
+		<div>
+			<BookmarkForm />
 			<h1>{title}</h1>
 			<button type="button" onClick={handleShowAll}>
 				Show All Bookmarks
@@ -118,6 +121,6 @@ export default function BookmarksList() {
 					</li>
 				))}
 			</ul>
-		</>
+		</div>
 	)
 };
