@@ -1,5 +1,5 @@
 {
-  "name": "coco-bookmarks-manager",
+  "name": "bookmarked",
   "version": "1.0.0",
   "author": "Jeff Maxwell <maxjeffwell@gmail.com>",
   "license": "GNU GPLv3",
@@ -11,6 +11,7 @@
     "@emotion/core": "^10.0.10",
     "@emotion/styled": "^10.0.10",
     "axios": "^0.18.0",
+    "babel-plugin-emotion": "^10.0.9",
     "emotion": "^10.0.9",
     "emotion-theming": "^10.0.10",
     "react": "^16.8.6",
@@ -38,6 +39,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "eslint-plugin-emotion": "^10.0.7",
     "eslint-plugin-react-hooks": "^1.6.0",
     "install": "^0.12.2",
     "npm": "^6.9.0"

@@ -14,7 +14,7 @@ import BookmarksList from './BookmarksList';
 
 WebFont.load({
 	custom: {
-		families: ['ITCAvantGardeStd-Demi']
+		families: ['ITCAvantGardeStd-Demi', 'GillSansStd-Shadowed', 'WarnockPro-SemiboldIt']
 	},
 	timeout: 2000
 });
@@ -25,29 +25,59 @@ injectGlobal`
 	src: url('../../public/fonts/ITCAvantGardeStd-Demi.otf') format('opentype');
 	font-weight: normal;
 	font-style: normal;
-}
+	}
+	@font-face {
+	font-family: GillSansStd-Shadowed;
+	src: url('../../public/fonts/GillSansStd-Shadowed.otf') format('opentype');
+	font-weight: normal;
+	font-style: normal;
+	}
+	@font-face {
+	font-family: WarnockPro-SemiboldIt;
+	src: url('../../public/fonts/WarnockPro-SemiboldIt.otf') format('opentype');
+	font-weight: normal;
+	font-style: normal;
+	}
 	html {
 		box-sizing: border-box;
 		font-size: 14px;
-		font-weight: normal;
 		color: #272727;
-		text-shadow: 0 2px 0 rgba(0, 0, 0, 0.07);
 	}
-	
 	*, *:before, *:after {
 		box-sizing: inherit;
 	}
-	
 	body {
 		display: grid;
-		grid-template-rows: auto 1fr 1fr auto;
-		grid-template-columns: repeat(3, 1fr);
+		grid-template-columns: 1fr 2fr;
+		grid-template-rows: 1fr 10fr 1fr;
+		grid-template-areas:
+			"header"
+			"main"
+			"footer";
+		grid-gap: 10px;
+		grid-auto-flow: column;
 		height: 100vh;
 		padding: 0;
 		margin: 0;
-		font-family: ITCAvantGardeStd-Demi, monospace;
+		text-shadow: 0 2px 0 rgba(0, 0, 0, 0.07);
 		font-size: 1.5rem;
 		line-height: 1.2;
+	}
+	header {
+		grid-area: header;
+	}
+	main {
+		grid-area: main;
+	}
+	footer {
+		grid-area: footer;
+	}
+	button {
+		background: ${props => props.theme.colors.secondary};
+		color: white;
+		border-radius: 5px;
+		cursor: pointer;
+		font-size: 1.2rem;
 	}
 `;
 
@@ -89,5 +119,5 @@ export default function App() {
 		</BookmarksContext.Provider>
 		</BrowserRouter>
 	)
-};
+}
 

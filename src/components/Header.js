@@ -5,23 +5,38 @@ import styled from '@emotion/styled';
 
 const StyledHeader = styled.header`
 	display: grid;
-	grid-template-columns: 1fr;
 	grid-auto-flow: column;
-	align-items: center;
-	grid-gap: 10px;
+	grid-area: header;
 	background: black;
 	border-bottom: 5px solid ${props => props.theme.colors.secondary};
+	font-family: ${props => props.theme.fonts.primary};
+	font-size: 1.5rem;
+	color: white;
+	padding: 10px;
+`;
+
+const StyledLink = styled(Link)`
+	color: white;
+	text-decoration: none;
+	:hover {
+		text-decoration: underline;
+	}
 `;
 
 const Header = () => {
-	const link = <Link to='/'>Home</Link>;
+	const home = <StyledLink to='/'>Home</StyledLink>;
+	const bookmarks = <StyledLink to='/bookmarks'>My Bookmarks</StyledLink>;
 	const { location } = useReactRouter();
-	const ConditionalLink = () => location.pathname !== '/' ? link : null;
+	const ConditionalHomeLink = () => location.pathname !== '/' ? home : bookmarks;
+
+	const bookmarked = <>Bookmarked</>;
+	const empty = <></>;
+	const ConditionalBookmarkedHeader = () => location.pathname !== '/' ? bookmarked : empty;
 
 	return (
 	<StyledHeader>
-		Bookmarked
-		<ConditionalLink />
+		<ConditionalBookmarkedHeader />
+		<ConditionalHomeLink />
 	</StyledHeader>
 	);
 };

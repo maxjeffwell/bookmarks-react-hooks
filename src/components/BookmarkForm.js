@@ -6,7 +6,8 @@ import uuidv4 from 'uuid/v4';
 import BookmarksContext from '../context';
 
 const StyledForm = styled.form`
-	display: grid;
+	grid-area: main;
+	font-family: ${props => props.theme.fonts.secondary};
 `;
 
 export default function BookmarkForm() {
@@ -105,7 +106,7 @@ export default function BookmarkForm() {
 
 	return (
 	<StyledForm onSubmit={handleSubmit}>
-		<h1>Create A Bookmark</h1>
+		<h3>Create Bookmark</h3>
 		<div>
 		<label htmlFor="bookmarkTitle">Title</label>
 		<input

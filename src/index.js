@@ -6,12 +6,14 @@ import App from './components/App';
 
 const theme = {
 	colors: {
-		primary: 'hotpink',
-		secondary: '#343436'
+		primary: '#393939',
+		secondary: '#343436',
 	},
 	fonts: {
-		primary: 'ITCAvantGardeStd-Demi'
-	}
+		primary: 'ITCAvantGardeStd-Demi, monospace',
+		secondary: 'GillSansStd-Shadowed, sans-serif',
+		tertiary: 'WarnockPro-SemiboldIt, serif',
+	},
 };
 
 ReactDOM.render(

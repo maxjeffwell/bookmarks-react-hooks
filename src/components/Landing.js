@@ -1,20 +1,21 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 
-const StyledHeader = styled.h1`
-		display: grid;
-	  color: ${props => props.theme.colors.primary};
-	  font-family: ${props => props.theme.fonts.primary};
+const StyledTitle = styled.h1`
+	grid-area: main;
+	color: ${props => props.theme.colors.primary};
+	font-family: ${props => props.theme.fonts.tertiary};
+	font-weight: bold;
+	writing-mode: vertical-lr;
+	text-orientation: sideways;
+	font-size: 7.3rem;
 `;
 
 const Landing = () => {
 	return (
-			<Link to='/bookmarks'>
-			<StyledHeader>
-				Landing Page
-			</StyledHeader>
-			</Link>
+			<StyledTitle>
+				Bookmarked
+			</StyledTitle>
 	)
 };
 
