@@ -12,7 +12,7 @@ const StyledTitle = styled.h1`
 	font-weight: bold;
 	writing-mode: vertical-lr;
 	text-orientation: sideways;
-	font-size: 5.25rem;
+	font-size: 6.7rem;
 	margin-top: 5px;
 	margin-bottom: 5px;
 `;
