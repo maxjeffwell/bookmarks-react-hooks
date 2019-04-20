@@ -5,7 +5,8 @@ import Sidebar from './Sidebar';
 
 const StyledLanding = styled.div`
 	display: grid;
-	grid-auto-flow: column;
+	grid-template-rows: auto auto auto;
+	grid-template-columns: 1fr 2fr;
 `;
 
 const StyledText = styled.div`
@@ -16,6 +17,8 @@ const StyledText = styled.div`
 	color: ${props => props.theme.colors.primary};
 	font-style: italic;
 	line-height: 1.5;
+	margin-top: 50px;
+	margin-right: 10px;
 	}
 `;
 

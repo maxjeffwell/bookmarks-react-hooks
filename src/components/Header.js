@@ -13,12 +13,13 @@ const StyledHeader = styled.header`
 	font-family: ${props => props.theme.fonts.primary};
 	font-size: 1.5rem;
 	color: white;
-	padding: 10px;
+	padding: 5px 0 0 10px;
 `;
 
 const StyledLink = styled(Link)`
 	color: white;
 	text-decoration: none;
+	padding-right: 10px;
 	&:hover {
 		text-decoration: underline;
 	}
