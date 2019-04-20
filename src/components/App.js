@@ -92,6 +92,6 @@ export default function App() {
 			<Footer />
 		</BookmarksContext.Provider>
 		</BrowserRouter>
-	)
+	);
 }
 

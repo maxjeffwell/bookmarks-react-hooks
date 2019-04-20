@@ -13,7 +13,6 @@ const StyledGrid = styled.div`
 	grid-gap: 25px;
 	text-align: center;
 	line-height: 1.5;
-	margin-bottom: 10%;
 	margin-top: -25px;
 	button {
 		background: ${props => props.theme.colors.secondary};
@@ -22,29 +21,40 @@ const StyledGrid = styled.div`
 		border: 0;
 		border-radius: 5px;
 		cursor: pointer;
-		margin: 5px auto;
-		height: 75%;
+		margin: -50px auto;
+		height: 50%;
 		justify-content: space-evenly;
 	}
 	button:hover, button:focus {
-	box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
-}
-	h3 {
-	font-size: 2rem;
-	margin-bottom: 0;
+		box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
 	}
-	label:not(#checkbox-favorite){
-	font-weight: bold;
-	margin: auto;
+	h3 {
+		font-size: 2rem;
+		margin-bottom: 0;
+	}
+	label:nth-of-type(1) {
+		font-weight: bold;
+		margin: -50px auto;
 	}
 	select {
-	width: 25%;
-	height: 75%;
-	margin: 0 auto;
-	font-size: 1.5rem;
-	color: white;
-	text-align: center;
-	justify-content: space-evenly;
+		width: 25%;
+		height: 75%;
+		margin: -75px auto;
+		font-size: 1.5rem;
+		color: white;
+		background: ${props => props.theme.colors.secondary};
+		text-align: center;
+		border: 2px solid ${props => props.theme.colors.secondary};
+		border-radius: 5px;
+	}
+	select:hover {
+		cursor: pointer;
+	}
+	select:active {
+		box-shadow: 3px 3px 5px 6px rgba(0, 0, 0, 0.4);
+	}
+	ul {
+		margin: -25px auto;
 	}
 `;
 
@@ -91,10 +101,11 @@ export default function BookmarksList() {
 	});
 
 	return (
-		<StyledGrid>
-			<StyledForm>
-			<BookmarkForm />
-			</StyledForm>
+
+	<StyledGrid>
+		<StyledForm>
+			<BookmarkForm/>
+		</StyledForm>
 		<StyledList>
 			<h3>{title}</h3>
 			<button type="button" onClick={handleShowAll}>
@@ -113,21 +124,23 @@ export default function BookmarksList() {
 				<option value="3 stars">3 stars</option>
 				<option value="2 stars">2 stars</option>
 				<option value="1 star">1 star</option>
-		</select>
+			</select>
 			<ul>
 				{filteredBookmarks.map(bookmark => (
 					<li key={bookmark.id}
 					>
 						<span
-						onClick={async () => {
-							const res = await axios.patch(
-								`https://hooks-api.maxjeffwell.now.sh/bookmarks/${bookmark.id}`, {
-									toggled: !bookmark.toggled
-								}
-							);
-							dispatch({ type: 'TOGGLE_BOOKMARK',
-								payload: res.data })
-						}}
+							onClick={async () => {
+								const res = await axios.patch(
+									`https://hooks-api.maxjeffwell.now.sh/bookmarks/${bookmark.id}`, {
+										toggled: !bookmark.toggled
+									}
+								);
+								dispatch({
+									type: 'TOGGLE_BOOKMARK',
+									payload: res.data
+								})
+							}}
 						>
 							{bookmark.title}
 						</span>
@@ -142,20 +155,21 @@ export default function BookmarksList() {
 						</span>
 						<button
 							type="button"
-							onClick={() => dispatch({ type: 'SET_CURRENT_BOOKMARK',
-							payload: bookmark })}
+							onClick={() => dispatch({type: 'SET_CURRENT_BOOKMARK', payload: bookmark})}
 						>
 							Edit
 						</button>
 						<button
 							type="button"
 							onClick={async () => {
-							await axios.delete(
-								`https://hooks-api.maxjeffwell.now.sh/bookmarks/${bookmark.id}`
-							);
-							dispatch({ type: 'DELETE_BOOKMARK',
-								payload: bookmark })
-						}}
+								await axios.delete(
+									`https://hooks-api.maxjeffwell.now.sh/bookmarks/${bookmark.id}`
+								);
+								dispatch({
+									type: 'DELETE_BOOKMARK',
+									payload: bookmark
+								})
+							}}
 						>
 							Delete
 						</button>
@@ -169,8 +183,10 @@ export default function BookmarksList() {
 										`https://hooks-api.maxjeffwell.now.sh/bookmarks/${bookmark.id}`, {
 											checked: !bookmark.checked
 										});
-									dispatch({ type: 'ADD_BOOKMARK_TO_FAVORITES',
-										payload: res.data })
+									dispatch({
+										type: 'ADD_BOOKMARK_TO_FAVORITES',
+										payload: res.data
+									})
 								}}
 								checked={bookmark.checked}
 							/>
@@ -179,6 +195,6 @@ export default function BookmarksList() {
 				))}
 			</ul>
 		</StyledList>
-			</StyledGrid>
-	);
+	</StyledGrid>
+);
 }

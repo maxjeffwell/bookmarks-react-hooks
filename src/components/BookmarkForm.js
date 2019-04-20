@@ -5,7 +5,7 @@ import uuidv4 from 'uuid/v4';
 
 import BookmarksContext from '../context';
 
-const StyledForm = styled.form`
+export const StyledForm = styled.form`
 	font-family: ${props => props.theme.fonts.secondary};
 	font-weight: bold;
 	padding-left: 10px;
@@ -17,6 +17,7 @@ const StyledForm = styled.form`
 	grid-template-columns: 1fr;
 	width: 100%;
 	padding: 0 5px 0 5px;
+	cursor: text;
 	}
 	&::placeholder {
   color: ${props => props.theme.colors.secondary};
@@ -36,6 +37,7 @@ textarea {
 	line-height: 1.5;
 	border: 2px solid ${props => props.theme.colors.secondary};
   box-shadow: 1px 1px 1px #999;
+  margin-bottom: 10px;
 }
 fieldset legend {
 	font-weight: normal;
@@ -134,6 +136,9 @@ export default function BookmarkForm() {
 		}
 	}, [currentBookmark.id]);
 
+	const title = !!currentBookmark && currentBookmark.title ? 'Edit Bookmark' : 'Create Bookmark';
+	const ConditionalButton = currentBookmark.title ? 'Edit Bookmark' : 'Create Bookmark';
+
 	const handleSubmit = async event => {
 		event.preventDefault();
 		if (currentBookmark.title) {
@@ -170,7 +175,7 @@ export default function BookmarkForm() {
 
 	return (
 	<StyledForm onSubmit={handleSubmit}>
-		<h3>Create Bookmark</h3>
+		<h3>{title}</h3>
 		<div>
 		<label htmlFor="bookmarkTitle">Title</label>
 		<input
@@ -256,8 +261,8 @@ export default function BookmarkForm() {
 			</fieldset>
 		</div>
 		<button type="submit">
-			Create Bookmark
+			{ConditionalButton}
 		</button>
 		</StyledForm>
 	);
-};
+}
