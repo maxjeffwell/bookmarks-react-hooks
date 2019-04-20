@@ -18,6 +18,8 @@ export const StyledForm = styled.form`
 	width: 100%;
 	padding: 0 5px 0 5px;
 	cursor: text;
+	margin-bottom: 10px;
+	margin-top: 10px;
 	}
 	&::placeholder {
   color: ${props => props.theme.colors.secondary};
@@ -28,7 +30,7 @@ textarea {
 	display: grid;
 	grid-template-columns: 1fr;
 	width: 100%;
-	font-size: 1.25rem;
+	font-size: 1.2rem;
 	letter-spacing: 1px;
 	color: white;
 	background: ${props => props.theme.colors.secondary};
@@ -38,6 +40,7 @@ textarea {
 	border: 2px solid ${props => props.theme.colors.secondary};
   box-shadow: 1px 1px 1px #999;
   margin-bottom: 10px;
+  margin-top: 10px;
 }
 fieldset legend {
 	font-weight: normal;
@@ -46,7 +49,7 @@ fieldset legend {
 	border: 2px solid ${props => props.theme.colors.secondary};
 	border-radius: 5px;
 	box-shadow: 1px 1px 1px #999;
-	padding: 5px 5px 5px 5px;
+	padding: 2px 5px 2px 5px;
 	margin-top: 10px;
 }
 fieldset input {
@@ -55,9 +58,10 @@ fieldset input {
 	transition: 0.2s all linear;
 	border: 2px solid ${props => props.theme.colors.secondary};
 	border-radius: 50%;
+	margin-bottom: -2px;
 }
 fieldset input:checked {
-  border: 6px solid black;
+  border: 2px solid black;
 }
 button {
 	font-size: 1.5rem;
@@ -177,7 +181,7 @@ export default function BookmarkForm() {
 	<StyledForm onSubmit={handleSubmit}>
 		<h3>{title}</h3>
 		<div>
-		<label htmlFor="bookmarkTitle">Title</label>
+		<label htmlFor="bookmarkTitle">Bookmark Title</label>
 		<input
 			name="bookmarkTitle"
 			autoFocus="true"
@@ -193,7 +197,7 @@ export default function BookmarkForm() {
 			/>
 		</div>
 		<div>
-		<label htmlFor="bookmarkUrl">Url</label>
+		<label htmlFor="bookmarkUrl">Bookmark Url</label>
 			<input
 				name="bookmarkUrl"
 				type="url"
@@ -207,7 +211,7 @@ export default function BookmarkForm() {
 				/>
 		</div>
 		<div>
-		<label htmlFor="bookmarkDescription">Description</label>
+		<label htmlFor="bookmarkDescription">Bookmark Description</label>
 				<textarea
 					name="bookmarkDescription"
 					aria-label={bookmarkDescription}

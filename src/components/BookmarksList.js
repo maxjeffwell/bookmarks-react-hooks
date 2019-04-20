@@ -12,7 +12,7 @@ const StyledGrid = styled.div`
 	grid-template-rows: auto auto auto;
 	grid-gap: 25px;
 	text-align: center;
-	line-height: 1.5;
+	line-height: 1;
 	margin-top: -25px;
 	button {
 		background: ${props => props.theme.colors.secondary};
@@ -21,25 +21,31 @@ const StyledGrid = styled.div`
 		border: 0;
 		border-radius: 5px;
 		cursor: pointer;
-		margin: -50px auto;
+		margin: -90px auto -10px auto;
 		height: 50%;
 		justify-content: space-evenly;
+		padding: auto;
 	}
 	button:hover, button:focus {
 		box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
 	}
 	h3 {
 		font-size: 2rem;
-		margin-bottom: 0;
+		margin-bottom: 5px;
 	}
-	label:nth-of-type(1) {
+	label {
+		height: 50%;
 		font-weight: bold;
-		margin: -50px auto;
+		margin: 5px auto 0;
+		padding: 5px 5px 5px 5px;
+		box-shadow: inset 0 -4px 0px rgba(0,0,0,0.5), 0 1px 0 rgba(255,255,255,1);
+		background: linear-gradient(top, #222 0%, #45484d 100%);
 	}
 	select {
+		grid-row: 4;
 		width: 25%;
-		height: 75%;
-		margin: -75px auto;
+		height: 50%;
+		margin: -90px auto -10px auto;
 		font-size: 1.5rem;
 		color: white;
 		background: ${props => props.theme.colors.secondary};
@@ -54,8 +60,21 @@ const StyledGrid = styled.div`
 		box-shadow: 3px 3px 5px 6px rgba(0, 0, 0, 0.4);
 	}
 	ul {
-		margin: -25px auto;
+		margin: -90px auto;
 	}
+	input[type=checkbox] {
+  background: linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+  border-radius: 50px;
+  margin-bottom: auto;
+  box-shadow: inset 0 1px 1px white, 0 1px 3px rgba(0,0,0,0.5);
+  }
+  &:checked + label:after {
+      opacity: 1;
+    } 
+    &:hover::after {
+      opacity: 0.3;
+    }
+  }
 `;
 
 const StyledForm = styled.div`
@@ -101,8 +120,7 @@ export default function BookmarksList() {
 	});
 
 	return (
-
-	<StyledGrid>
+		<StyledGrid>
 		<StyledForm>
 			<BookmarkForm/>
 		</StyledForm>
@@ -114,9 +132,6 @@ export default function BookmarksList() {
 			<button type="button" onClick={handleShowFavorites}>
 				Show Favorites
 			</button>
-			<label htmlFor="rating">
-				Sort Bookmarks By Rating
-			</label>
 			<select onChange={handleShowByRating}>
 				<option value="" hidden>Select a Rating</option>
 				<option value="5 stars">5 stars</option>
@@ -124,6 +139,7 @@ export default function BookmarksList() {
 				<option value="3 stars">3 stars</option>
 				<option value="2 stars">2 stars</option>
 				<option value="1 star">1 star</option>
+				<option value="" />
 			</select>
 			<ul>
 				{filteredBookmarks.map(bookmark => (
@@ -173,6 +189,7 @@ export default function BookmarksList() {
 						>
 							Delete
 						</button>
+						<p>
 						<label htmlFor="checkbox-favorite">Add to Favorites
 							<input
 								name="checkbox-favorite"
@@ -191,10 +208,11 @@ export default function BookmarksList() {
 								checked={bookmark.checked}
 							/>
 						</label>
+						</p>
 					</li>
 				))}
 			</ul>
 		</StyledList>
 	</StyledGrid>
-);
+	);
 }
