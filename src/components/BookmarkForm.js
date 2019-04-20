@@ -6,7 +6,6 @@ import uuidv4 from 'uuid/v4';
 import BookmarksContext from '../context';
 
 const StyledForm = styled.form`
-	grid-area: main;
 	font-family: ${props => props.theme.fonts.secondary};
 `;
 

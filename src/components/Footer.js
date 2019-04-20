@@ -2,7 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 
 const StyledFooter = styled.footer`
-	grid-area: footer;
+	grid-row: 3 / 3;
 	font-family: ${props => props.theme.fonts.primary};
 	text-align: center;
 	background: black;
