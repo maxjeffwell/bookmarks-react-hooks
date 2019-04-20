@@ -12,7 +12,7 @@ const StyledGrid = styled.div`
 	grid-template-rows: auto auto auto;
 	grid-gap: 25px;
 	text-align: center;
-	line-height: 1;
+	line-height: 1.75;
 	margin-top: -25px;
 	button {
 		background: ${props => props.theme.colors.secondary};
@@ -22,30 +22,34 @@ const StyledGrid = styled.div`
 		border-radius: 5px;
 		cursor: pointer;
 		margin: -90px auto -10px auto;
-		height: 50%;
-		justify-content: space-evenly;
+		height: 30%;
 		padding: auto;
 	}
 	button:hover, button:focus {
 		box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+	}
+	span + span {
+    margin-left: 10px;
 	}
 	h3 {
 		font-size: 2rem;
 		margin-bottom: 5px;
 	}
 	label {
-		height: 50%;
 		font-weight: bold;
+		font-size: 2rem;
 		margin: 5px auto 0;
 		padding: 5px 5px 5px 5px;
 		box-shadow: inset 0 -4px 0px rgba(0,0,0,0.5), 0 1px 0 rgba(255,255,255,1);
 		background: linear-gradient(top, #222 0%, #45484d 100%);
+		white-space: nowrap;
 	}
 	select {
 		grid-row: 4;
-		width: 25%;
-		height: 50%;
+		width: 50%;
+		height: 30%;
 		margin: -90px auto -10px auto;
+		padding-left: 10px;
 		font-size: 1.5rem;
 		color: white;
 		background: ${props => props.theme.colors.secondary};
@@ -59,8 +63,25 @@ const StyledGrid = styled.div`
 	select:active {
 		box-shadow: 3px 3px 5px 6px rgba(0, 0, 0, 0.4);
 	}
+	option {
+	text-align: center;
+	}
 	ul {
 		margin: -90px auto;
+		list-style-type: none;
+	}
+	li {
+		font-size: 1.5rem;
+		border: 1px solid black;
+		line-height: .5;
+		padding: 10px;
+		width: 100%;
+	}
+	li > button, label {
+		font-size: 1rem;
+		display: inline;
+		height: 50%;
+		margin: 2px auto;
 	}
 	input[type=checkbox] {
   background: linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
@@ -160,21 +181,24 @@ export default function BookmarksList() {
 						>
 							{bookmark.title}
 						</span>
+						{/*<span>*/}
+						{/*	{bookmark.url}*/}
+						{/*</span>*/}
+						{/*<span>*/}
+						{/*	{bookmark.description}*/}
+						{/*</span>*/}
+						{/*<span>*/}
+						{/*	{bookmark.rating}*/}
+						{/*</span>*/}
 						<span>
-							{bookmark.url}
-						</span>
-						<span>
-							{bookmark.description}
-						</span>
-						<span>
-							{bookmark.rating}
-						</span>
 						<button
 							type="button"
 							onClick={() => dispatch({type: 'SET_CURRENT_BOOKMARK', payload: bookmark})}
 						>
 							Edit
 						</button>
+						</span>
+						<span>
 						<button
 							type="button"
 							onClick={async () => {
@@ -189,7 +213,8 @@ export default function BookmarksList() {
 						>
 							Delete
 						</button>
-						<p>
+						</span>
+						<span>
 						<label htmlFor="checkbox-favorite">Add to Favorites
 							<input
 								name="checkbox-favorite"
@@ -208,7 +233,7 @@ export default function BookmarksList() {
 								checked={bookmark.checked}
 							/>
 						</label>
-						</p>
+						</span>
 					</li>
 				))}
 			</ul>
