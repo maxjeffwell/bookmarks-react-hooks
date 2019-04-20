@@ -154,7 +154,7 @@ export default function BookmarksList() {
 				Show Favorites
 			</button>
 			<select onChange={handleShowByRating}>
-				<option value="" hidden>Select a Rating</option>
+				<option value="" hidden>Sort by Rating</option>
 				<option value="5 stars">5 stars</option>
 				<option value="4 stars">4 stars</option>
 				<option value="3 stars">3 stars</option>
