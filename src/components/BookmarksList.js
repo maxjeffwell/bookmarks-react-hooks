@@ -4,21 +4,60 @@ import axios from 'axios';
 
 import BookmarksContext from '../context';
 import filterReducer from '../reducers/filterReducer';
-
 import BookmarkForm from './BookmarkForm';
 
-const StyledDiv = styled.div`
-	grid-area: main;
-	font-family: ${props => props.theme.fonts.secondary};
+const StyledGrid = styled.div`
+	display: grid;
+	grid-template-columns: 1fr 2fr;
+	grid-template-rows: auto auto auto;
+	grid-gap: 25px;
+	text-align: center;
+	line-height: 1.5;
+	margin-bottom: 10%;
+	margin-top: -25px;
 	button {
 		background: ${props => props.theme.colors.secondary};
+		font-size: 1.5rem;
 		color: white;
 		border: 0;
-		padding: 5px;
-		margin: 5px;
 		border-radius: 5px;
 		cursor: pointer;
+		margin: 5px auto;
+		height: 75%;
+		justify-content: space-evenly;
 	}
+	button:hover, button:focus {
+	box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+	h3 {
+	font-size: 2rem;
+	margin-bottom: 0;
+	}
+	label:not(#checkbox-favorite){
+	font-weight: bold;
+	margin: auto;
+	}
+	select {
+	width: 25%;
+	height: 75%;
+	margin: 0 auto;
+	font-size: 1.5rem;
+	color: white;
+	text-align: center;
+	justify-content: space-evenly;
+	}
+`;
+
+const StyledForm = styled.div`
+	grid-column: 1;
+	grid-row: 2 / 3;
+`;
+
+const StyledList= styled.div`
+	display: grid;
+	grid-column: 2;
+	grid-row: 2 / 3;
+	font-family: ${props => props.theme.fonts.secondary};
 `;
 
 export default function BookmarksList() {
@@ -26,7 +65,7 @@ export default function BookmarksList() {
 	const [filter, dispatchFilter] = useReducer(filterReducer, 'ALL');
 	const [rating, setRating] = useState('');
 	const title = state.bookmarks.length > 0
-	? 'Bookmarks' : 'You have not created any bookmarks yet ...';
+	? 'My Bookmarks' : 'You have not created any bookmarks yet ...';
 
 	const handleShowFavorites = () => {
 		dispatchFilter({ type: 'SHOW_FAVORITES' });
@@ -52,11 +91,11 @@ export default function BookmarksList() {
 	});
 
 	return (
-		<>
-			<StyledDiv>
+		<StyledGrid>
+			<StyledForm>
 			<BookmarkForm />
-			</StyledDiv>
-		<StyledDiv>
+			</StyledForm>
+		<StyledList>
 			<h3>{title}</h3>
 			<button type="button" onClick={handleShowAll}>
 				Show All Bookmarks
@@ -64,11 +103,11 @@ export default function BookmarksList() {
 			<button type="button" onClick={handleShowFavorites}>
 				Show Favorites
 			</button>
-			<label>
-				Sort By Rating
+			<label htmlFor="rating">
+				Sort Bookmarks By Rating
 			</label>
 			<select onChange={handleShowByRating}>
-				<option value="" />>
+				<option value="" hidden>Select a Rating</option>
 				<option value="5 stars">5 stars</option>
 				<option value="4 stars">4 stars</option>
 				<option value="3 stars">3 stars</option>
@@ -139,7 +178,7 @@ export default function BookmarksList() {
 					</li>
 				))}
 			</ul>
-		</StyledDiv>
-			</>
+		</StyledList>
+			</StyledGrid>
 	);
 }

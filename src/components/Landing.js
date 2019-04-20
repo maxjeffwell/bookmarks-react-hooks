@@ -5,7 +5,8 @@ import Sidebar from './Sidebar';
 
 const StyledLanding = styled.div`
 	display: grid;
-	grid-auto-flow: column;
+	grid-template-rows: auto auto auto;
+	grid-template-columns: 1fr 2fr;
 `;
 
 const StyledText = styled.div`

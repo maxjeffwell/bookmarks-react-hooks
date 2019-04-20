@@ -51,13 +51,7 @@ injectGlobal`
 		margin: 0;
 		font-size: 1.5rem;
 		line-height: 2;
-	}
-	button {
-		background: ${props => props.theme.colors.secondary};
-		color: white;
-		border-radius: 5px;
-		cursor: pointer;
-		font-size: 1.2rem;
+		height: 100%;
 	}
 `;
 
