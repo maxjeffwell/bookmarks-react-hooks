@@ -187,9 +187,6 @@ export default function BookmarksList() {
 						{/*<span>*/}
 						{/*	{bookmark.description}*/}
 						{/*</span>*/}
-						{/*<span>*/}
-						{/*	{bookmark.rating}*/}
-						{/*</span>*/}
 						<span>
 						<button
 							type="button"
@@ -213,6 +210,9 @@ export default function BookmarksList() {
 						>
 							Delete
 						</button>
+						</span>
+						<span>
+							Rating: {bookmark.rating}
 						</span>
 						<span>
 						<label htmlFor="checkbox-favorite">Add to Favorites
