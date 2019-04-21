@@ -21,22 +21,22 @@ WebFont.load({
 
 injectGlobal`
 	@font-face {
-	font-family: ITCAvantGardeStd-Demi;
-	src: url('../../public/fonts/ITCAvantGardeStd-Demi.otf') format('opentype');
-	font-weight: normal;
-	font-style: normal;
+		font-family: ITCAvantGardeStd-Demi;
+		src: url('../../public/fonts/ITCAvantGardeStd-Demi.otf') format('opentype');
+		font-weight: normal;
+		font-style: normal;
 	}
 	@font-face {
-	font-family: GillSansStd-Shadowed;
-	src: url('../../public/fonts/GillSansStd-Shadowed.otf') format('opentype');
-	font-weight: normal;
-	font-style: normal;
+		font-family: GillSansStd-Shadowed;
+		src: url('../../public/fonts/GillSansStd-Shadowed.otf') format('opentype');
+		font-weight: normal;
+		font-style: normal;
 	}
 	@font-face {
-	font-family: WarnockPro-SemiboldIt;
-	src: url('../../public/fonts/WarnockPro-SemiboldIt.otf') format('opentype');
-	font-weight: normal;
-	font-style: normal;
+		font-family: WarnockPro-SemiboldIt;
+		src: url('../../public/fonts/WarnockPro-SemiboldIt.otf') format('opentype');
+		font-weight: normal;
+		font-style: normal;
 	}
 	html {
 		box-sizing: border-box;
@@ -66,7 +66,6 @@ const useAPI = endpoint => {
 		const res = await axios.get(endpoint);
 		setData(res.data)
 	};
-
 	return data;
 };
 

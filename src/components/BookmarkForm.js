@@ -12,8 +12,11 @@ export const StyledForm = styled.form`
 	text-align: center;
 	input {
 	font-size: 1.5rem;
+	color: white;
+	border: 2 px solid ${props => props.theme.colors.primary};
 	border-radius: 5px;
 	display: grid;
+	background: ${props => props.theme.colors.secondary};
 	grid-template-columns: 1fr;
 	width: 100%;
 	padding: 5px;
@@ -23,27 +26,34 @@ export const StyledForm = styled.form`
 	}
 	input::placeholder {
   	color: white;
+  	opacity: 0.4;
   	font-size: 1.5rem;
+}
+	input:focus {
+		outline: none;
 }
 	textarea {
 		display: grid;
 		grid-template-columns: 1fr;
 		width: 100%;
 		font-size: 1.25rem;
+		font-family: ${props => props.theme.fonts.secondary};
 		letter-spacing: 1px;
 		color: white;
 		background: ${props => props.theme.colors.secondary};
 		padding: 5px;
 		border-radius: 5px;
 		line-height: 1.5;
-		border: 2px solid ${props => props.theme.colors.secondary};
+		border: 2px solid ${props => props.theme.colors.primary};
   	box-shadow: 1px 1px 1px #999;
   	margin-bottom: 10px;
   	margin-top: 10px;
 }	
 	textarea::placeholder {
   	color: white;
+  	opacity: 0.4;
   	font-size: 1.5rem;
+  	white-space: nowrap;
 }
 	fieldset legend {
 		font-weight: normal;
@@ -84,6 +94,7 @@ export const StyledForm = styled.form`
   	outline: 1px solid black;
 }
 `;
+
 export default function BookmarkForm() {
 	const [bookmarkTitle, setBookmarkTitle] = useState('');
 	const [bookmarkUrl, setBookmarkUrl] = useState('');
