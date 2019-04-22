@@ -14,19 +14,36 @@ const StyledGrid = styled.div`
 	text-align: center;
 	line-height: 1.75;
 	margin-top: -25px;
+	.filters {
+		margin-top: -255px;
+		height: 90%;
+	}
+	.list {
+		margin-top: -360px;
+		margin-right: 30px;
+	}
 	button {
+		grid-row: 2;
+		height: 12%;
+		width: 30%;
 		background: ${props => props.theme.colors.secondary};
 		font-size: 1.5rem;
 		color: white;
 		border: 0;
 		border-radius: 5px;
 		cursor: pointer;
-		margin: -90px auto -10px auto;
-		height: 30%;
-		padding: auto;
 	}
 	button:hover, button:focus {
 		box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+	}
+	button:active {
+  	background: ${props => props.theme.colors.secondary};
+  	color: white;
+  	outline: 1px solid black;
+	}
+	.bookmark-list-btn {
+		width: 15%;
+		height: 50%;
 	}
 	span + span {
     margin-left: 10px;
@@ -45,28 +62,29 @@ const StyledGrid = styled.div`
 		white-space: nowrap;
 	}
 	select {
-		grid-row: 4;
-		width: 50%;
-		height: 30%;
-		margin: -90px auto -10px auto;
-		padding-left: 10px;
+		grid-row: 2;
+		width: 30%;
+		height: 12%;
 		font-size: 1.5rem;
 		color: white;
 		background: ${props => props.theme.colors.secondary};
 		text-align: center;
-		border: 2px solid ${props => props.theme.colors.secondary};
+		border: 0;
 		border-radius: 5px;
+		padding: auto;
 	}
 	select:hover {
 		cursor: pointer;
+		box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
 	}
 	select:active {
 		box-shadow: 3px 3px 5px 6px rgba(0, 0, 0, 0.4);
 	}
 	option {
-	text-align: center;
+		text-align: center;
 	}
 	ul {
+		grid-row: 3;
 		margin: -90px auto;
 		list-style-type: none;
 	}
@@ -76,25 +94,24 @@ const StyledGrid = styled.div`
 		line-height: .5;
 		padding: 10px;
 		width: 100%;
+		white-space: nowrap;
 	}
 	li > button, label {
 		font-size: 1rem;
 		display: inline;
-		height: 50%;
 		margin: 2px auto;
 	}
 	input[type=checkbox] {
-  background: linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-  border-radius: 50px;
-  margin-bottom: auto;
-  box-shadow: inset 0 1px 1px white, 0 1px 3px rgba(0,0,0,0.5);
+  	background: linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+  	border-radius: 50px;
+  	margin-bottom: auto;
+  	box-shadow: inset 0 1px 1px white, 0 1px 3px rgba(0,0,0,0.5);
   }
   &:checked + label:after {
-      opacity: 1;
-    } 
-    &:hover::after {
-      opacity: 0.3;
-    }
+    opacity: 1;
+  }
+  &:hover::after {
+    opacity: 0.3;
   }
 `;
 
@@ -147,12 +164,18 @@ export default function BookmarksList() {
 		</StyledForm>
 		<StyledList>
 			<h3>{title}</h3>
+			<div className="filters">
+				<span>
 			<button type="button" onClick={handleShowAll}>
 				Show All Bookmarks
 			</button>
+				</span>
+				<span>
 			<button type="button" onClick={handleShowFavorites}>
 				Show Favorites
 			</button>
+				</span>
+				<span>
 			<select onChange={handleShowByRating}>
 				<option value="" hidden>Sort by Rating</option>
 				<option value="5 stars">5 stars</option>
@@ -160,8 +183,11 @@ export default function BookmarksList() {
 				<option value="3 stars">3 stars</option>
 				<option value="2 stars">2 stars</option>
 				<option value="1 star">1 star</option>
-				<option value="" />
+				<option value="">Not Rated</option>
 			</select>
+				</span>
+			</div>
+			<div className="list">
 			<ul>
 				{filteredBookmarks.map(bookmark => (
 					<li key={bookmark.id}
@@ -189,6 +215,7 @@ export default function BookmarksList() {
 						{/*</span>*/}
 						<span>
 						<button
+							className="bookmark-list-btn"
 							type="button"
 							onClick={() => dispatch({type: 'SET_CURRENT_BOOKMARK', payload: bookmark})}
 						>
@@ -197,6 +224,7 @@ export default function BookmarksList() {
 						</span>
 						<span>
 						<button
+							className="bookmark-list-btn"
 							type="button"
 							onClick={async () => {
 								await axios.delete(
@@ -211,11 +239,13 @@ export default function BookmarksList() {
 							Delete
 						</button>
 						</span>
-						<span>
-							Rating: {bookmark.rating}
-						</span>
+						{/*<span>*/}
+						{/*	Rating: {bookmark.rating}*/}
+						{/*</span>*/}
 						<span>
 						<label htmlFor="checkbox-favorite">Add to Favorites
+						</label>
+						</span>
 							<input
 								name="checkbox-favorite"
 								aria-label="checkbox-favorite"
@@ -232,11 +262,10 @@ export default function BookmarksList() {
 								}}
 								checked={bookmark.checked}
 							/>
-						</label>
-						</span>
 					</li>
 				))}
 			</ul>
+			</div>
 		</StyledList>
 	</StyledGrid>
 	);
