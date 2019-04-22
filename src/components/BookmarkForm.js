@@ -10,19 +10,22 @@ export const StyledForm = styled.form`
 	font-weight: bold;
 	padding-left: 10px;
 	text-align: center;
+	label {
+		font-size: 1.5rem;
+	}
 	input {
-	font-size: 1.5rem;
-	color: white;
-	border: 2 px solid ${props => props.theme.colors.primary};
-	border-radius: 5px;
-	display: grid;
-	background: ${props => props.theme.colors.secondary};
-	grid-template-columns: 1fr;
-	width: 100%;
-	padding: 5px;
-	cursor: text;
-	margin-bottom: 10px;
-	margin-top: 10px;
+		font-size: 1.5rem;
+		color: white;
+		border: 2 px solid ${props => props.theme.colors.primary};
+		border-radius: 5px;
+		display: grid;
+		background: ${props => props.theme.colors.secondary};
+		grid-template-columns: 1fr;
+		width: 100%;
+		padding: 5px;
+		cursor: text;
+		margin-bottom: 10px;
+		margin-top: 10px;
 	}
 	input::placeholder {
   	color: white;
@@ -80,9 +83,9 @@ export const StyledForm = styled.form`
 		display: grid;
 		font-size: 1.5rem;
 		justify-content: space-evenly;
-		margin-top: 10px;
-		margin-bottom: 10px;
+		margin: 10px auto;
 		height: 75%;
+		width: 75%;
 		padding: 5px 5px 5px 5px;
 } 
 	button:hover, button:focus {
@@ -156,7 +159,7 @@ export default function BookmarkForm() {
 	}, [currentBookmark.id]);
 
 	const title = !!currentBookmark && currentBookmark.title ? 'Edit Bookmark' : 'Create Bookmark';
-	const ConditionalButton = currentBookmark.title ? 'Edit Bookmark' : 'Create Bookmark';
+	const ConditionalButton = currentBookmark.title ? 'Update Bookmark' : 'Create Bookmark';
 
 	const handleSubmit = async event => {
 		event.preventDefault();
