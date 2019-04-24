@@ -39,7 +39,7 @@ export const StyledForm = styled.form`
 		display: grid;
 		grid-template-columns: 1fr;
 		width: 100%;
-		font-size: 1.25rem;
+		font-size: 1.5rem;
 		font-family: ${props => props.theme.fonts.secondary};
 		letter-spacing: 1px;
 		color: white;
@@ -68,7 +68,17 @@ export const StyledForm = styled.form`
 		padding: 2px 5px 2px 5px;
 		margin-top: 10px;
 }
+	fieldset div {
+		display: grid;
+		grid-gap: 10px;
+		grid-auto-rows: auto;
+		line-height: 1rem;
+	}
+	fieldset label {
+		font-size: 1.25rem;
+}
 	fieldset input {
+		grid-row: 1;
 		cursor: pointer;
 		outline: none;
 		transition: 0.2s all linear;
@@ -114,7 +124,7 @@ export default function BookmarkForm() {
 		} else {
 			setBookmarkTitle('');
 		}
-	}, [currentBookmark.id]);
+	}, [currentBookmark.id, currentBookmark.title]);
 
 	useEffect(() => {
 		if (currentBookmark.url) {
@@ -122,7 +132,7 @@ export default function BookmarkForm() {
 		} else {
 			setBookmarkUrl('');
 		}
-	}, [currentBookmark.id]);
+	}, [currentBookmark.id, currentBookmark.url]);
 
 	useEffect(() => {
 		if (currentBookmark.description) {
@@ -130,7 +140,7 @@ export default function BookmarkForm() {
 		} else {
 			setBookmarkDescription('');
 		}
-	}, [currentBookmark.id]);
+	}, [currentBookmark.id, currentBookmark.description]);
 
 	useEffect(() => {
 		if (currentBookmark.rating && currentBookmark.toggledRadioButton === true ) {
@@ -140,7 +150,7 @@ export default function BookmarkForm() {
 		} else {
 			setBookmarkRating('');
 		}
-	}, [currentBookmark.id]);
+	}, [currentBookmark.id, currentBookmark.rating, currentBookmark.toggledRadioButton]);
 
 	useEffect(() => {
 		if (currentBookmark.toggledRadioButton) {
@@ -148,7 +158,7 @@ export default function BookmarkForm() {
 		} else {
 			setToggleRadioButton(false);
 		}
-	}, [currentBookmark.id]);
+	}, [currentBookmark.id, currentBookmark.toggledRadioButton]);
 
 	useEffect(() => {
 		if (currentBookmark.checked) {
@@ -156,7 +166,7 @@ export default function BookmarkForm() {
 		} else {
 			setBookmarkChecked(false);
 		}
-	}, [currentBookmark.id]);
+	}, [currentBookmark.id, currentBookmark.checked]);
 
 	const title = !!currentBookmark && currentBookmark.title ? 'Edit Bookmark' : 'Create Bookmark';
 	const ConditionalButton = currentBookmark.title ? 'Update Bookmark' : 'Create Bookmark';
@@ -251,6 +261,7 @@ export default function BookmarkForm() {
 		<div>
 			<fieldset>
 				<legend>Bookmark Rating</legend>
+				<div className="ratings">
 				<input name="bookmarkRating" type="radio" aria-label={bookmarkRating}
 				       onChange={event => setBookmarkRating(event.target.value)}
 					     onClick={() => setToggleRadioButton(toggleRadioButton === false)}
@@ -287,6 +298,7 @@ export default function BookmarkForm() {
 				       checked={bookmarkRating === "5 stars" && !toggleRadioButton}
 				/>
 				<label htmlFor="bookmarkRating-5">5 stars</label>
+				</div>
 			</fieldset>
 		</div>
 		<button type="submit">

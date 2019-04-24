@@ -1,4 +1,5 @@
 import React, { useContext , useReducer, useState } from 'react';
+import Collapsible from 'react-collapsible';
 import styled from '@emotion/styled';
 import axios from 'axios';
 
@@ -15,16 +16,16 @@ const StyledGrid = styled.div`
 	line-height: 1.75;
 	margin-top: -25px;
 	.filters {
-		margin-top: -255px;
-		height: 90%;
+		margin-top: -175px;
+		height: 100%;
 	}
 	.list {
-		margin-top: -360px;
+		margin-top: -250px;
 		margin-right: 30px;
 	}
 	button {
 		grid-row: 2;
-		height: 12%;
+		height: 15%;
 		width: 30%;
 		background: ${props => props.theme.colors.secondary};
 		font-size: 1.5rem;
@@ -32,6 +33,7 @@ const StyledGrid = styled.div`
 		border: 0;
 		border-radius: 5px;
 		cursor: pointer;
+		padding: auto;
 	}
 	button:hover, button:focus {
 		box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
@@ -64,7 +66,7 @@ const StyledGrid = styled.div`
 	select {
 		grid-row: 2;
 		width: 30%;
-		height: 12%;
+		height: 15%;
 		font-size: 1.5rem;
 		color: white;
 		background: ${props => props.theme.colors.secondary};
@@ -106,6 +108,7 @@ const StyledGrid = styled.div`
   	border-radius: 50px;
   	margin-bottom: auto;
   	box-shadow: inset 0 1px 1px white, 0 1px 3px rgba(0,0,0,0.5);
+  	cursor: pointer;
   }
   &:checked + label:after {
     opacity: 1;
@@ -131,6 +134,7 @@ export default function BookmarksList() {
 	const { state, dispatch } = useContext(BookmarksContext);
 	const [filter, dispatchFilter] = useReducer(filterReducer, 'ALL');
 	const [rating, setRating] = useState('');
+
 	const title = state.bookmarks.length > 0
 	? 'My Bookmarks' : 'You have not created any bookmarks yet ...';
 
@@ -167,7 +171,7 @@ export default function BookmarksList() {
 			<div className="filters">
 				<span>
 			<button type="button" onClick={handleShowAll}>
-				Show All Bookmarks
+				Show All
 			</button>
 				</span>
 				<span>
@@ -205,24 +209,23 @@ export default function BookmarksList() {
 								})
 							}}
 						>
-							{bookmark.title}
-						</span>
-						{/*<span>*/}
-						{/*	{bookmark.url}*/}
-						{/*</span>*/}
-						{/*<span>*/}
-						{/*	{bookmark.description}*/}
-						{/*</span>*/}
-						<span>
-						<button
-							className="bookmark-list-btn"
-							type="button"
-							onClick={() => dispatch({type: 'SET_CURRENT_BOOKMARK', payload: bookmark})}
-						>
+							<Collapsible trigger={bookmark.title}
+							             triggerTagName="button"
+							             transitionTime={300}
+							             easing={'cubic-bezier(0.175, 0.885, 0.32, 2.275)'}>
+								<p>Url: {bookmark.url}</p>
+								<p>Rating: {bookmark.rating}</p>
+								<p>Description: {bookmark.description}</p>
+								<span>
+									<button
+										className="bookmark-list-btn"
+										type="button"
+										onClick={() => dispatch({type: 'SET_CURRENT_BOOKMARK', payload: bookmark})}
+									>
 							Edit
 						</button>
-						</span>
-						<span>
+								</span>
+								<span>
 						<button
 							className="bookmark-list-btn"
 							type="button"
@@ -239,29 +242,29 @@ export default function BookmarksList() {
 							Delete
 						</button>
 						</span>
-						{/*<span>*/}
-						{/*	Rating: {bookmark.rating}*/}
-						{/*</span>*/}
+							</Collapsible>
+						</span>
 						<span>
-						<label htmlFor="checkbox-favorite">Add to Favorites
+						<label htmlFor="checkbox-favorite">
+							Add to Favorites
 						</label>
 						</span>
-							<input
-								name="checkbox-favorite"
-								aria-label="checkbox-favorite"
-								type="checkbox"
-								onChange={async () => {
-									const res = await axios.patch(
-										`https://hooks-api.maxjeffwell.now.sh/bookmarks/${bookmark.id}`, {
-											checked: !bookmark.checked
-										});
-									dispatch({
-										type: 'ADD_BOOKMARK_TO_FAVORITES',
-										payload: res.data
-									})
-								}}
-								checked={bookmark.checked}
-							/>
+						<input
+							name="checkbox-favorite"
+							aria-label="checkbox-favorite"
+							type="checkbox"
+							onChange={async () => {
+								const res = await axios.patch(
+									`https://hooks-api.maxjeffwell.now.sh/bookmarks/${bookmark.id}`, {
+										checked: !bookmark.checked
+									});
+								dispatch({
+									type: 'ADD_BOOKMARK_TO_FAVORITES',
+									payload: res.data
+								})
+							}}
+							checked={bookmark.checked}
+						/>
 					</li>
 				))}
 			</ul>
