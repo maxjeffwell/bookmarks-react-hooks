@@ -82,14 +82,14 @@ export default function App() {
 
 	return (
 		<BrowserRouter>
-		<BookmarksContext.Provider value={{ state, dispatch }}>
-			<Header />
-			<Switch>
-				<Route exact path='/' component={Landing} />
-				<Route exact path='/bookmarks' component={BookmarksList} />
-			</Switch>
-			<Footer />
-		</BookmarksContext.Provider>
+			<BookmarksContext.Provider value={{ state, dispatch }}>
+				<Header />
+				<Switch>
+					<Route exact path='/' component={Landing} />
+					<Route exact path='/bookmarks' component={BookmarksList} />
+				</Switch>
+				<Footer />
+			</BookmarksContext.Provider>
 		</BrowserRouter>
 	);
 }

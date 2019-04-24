@@ -17,8 +17,8 @@ const theme = {
 };
 
 ReactDOM.render(
-	<ThemeProvider theme={theme}>
-		<App />
-	</ThemeProvider>,
+		<ThemeProvider theme={theme}>
+			<App />
+		</ThemeProvider>,
 	document.getElementById('root'));
 
