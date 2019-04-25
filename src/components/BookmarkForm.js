@@ -31,10 +31,10 @@ export const StyledForm = styled.form`
   	color: white;
   	opacity: 0.4;
   	font-size: 1.5rem;
-}
+	}
 	input:focus {
 		outline: none;
-}
+	}
 	textarea {
 		width: 100%;
 		font-size: 1.5rem;
@@ -49,13 +49,14 @@ export const StyledForm = styled.form`
   	box-shadow: 1px 1px 1px #999;
   	margin-bottom: 10px;
   	margin-top: 10px;
-}	
+  	resize: none;
+	}	
 	textarea::placeholder {
   	color: white;
   	opacity: 0.4;
   	font-size: 1.5rem;
   	white-space: nowrap;
-}
+	}
 	fieldset legend {
 		font-weight: normal;
 		background: ${props => props.theme.colors.secondary};
@@ -65,7 +66,7 @@ export const StyledForm = styled.form`
 		box-shadow: 1px 1px 1px #999;
 		padding: 2px 5px 2px 5px;
 		margin-top: 10px;
-}
+	}
 	fieldset div {
 		display: grid;
 		grid-gap: 10px;
@@ -73,7 +74,7 @@ export const StyledForm = styled.form`
 	}
 	fieldset label {
 		font-size: 1.25rem;
-}
+	}
 	fieldset input {
 		grid-row: 1 / 2;
 		cursor: pointer;
@@ -82,24 +83,24 @@ export const StyledForm = styled.form`
 		border: 2px solid ${props => props.theme.colors.secondary};
 		border-radius: 50%;
 		margin-bottom: -2px;
-}
+	}
 	fieldset input:checked {
   	border: 2px solid black;
-}
+	}
 	button {
 		font-size: 1.5rem;
 		height: 75%;
 		width: 50%;
 		padding: 5px 5px 5px 5px;
-} 
+	} 
 	button:hover, button:focus {
 		box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
-}
+	}
 	button:active {
   	background: ${props => props.theme.colors.secondary};
   	color: white;
   	outline: 1px solid black;
-}
+	}
 `;
 
 export default function BookmarkForm() {

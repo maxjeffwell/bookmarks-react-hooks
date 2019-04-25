@@ -3,7 +3,9 @@ import styled from '@emotion/styled';
 
 const StyledTitleContainer = styled.div`
 	display: grid;
-	grid-column: 1;
+	grid-template-columns: 1fr;
+	grid-template-rows: 1 / 2;
+	grid-column: 1 / 2 ;
 `;
 
 const StyledTitle = styled.h1`
@@ -12,7 +14,7 @@ const StyledTitle = styled.h1`
 	font-weight: bold;
 	writing-mode: vertical-lr;
 	text-orientation: sideways;
-	font-size: 6.9rem;
+	font-size: 7rem;
 	margin-top: 10px;
 	margin-bottom: 10px;
 `;

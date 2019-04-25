@@ -15,25 +15,19 @@ const StyledGrid = styled.div`
 	text-align: center;
 	line-height: 1.75;
 	margin-top: -75px;
+	.list-title {
+		grid-column: 1 / 3;
+		grid-row: 1 /2 ;
+	}
 	.filters {
-		grid-row: 2 / 3;
 		grid-column: 1 / 3;
-		margin-top: -295px;
-	}
-	.list {
-		grid-row: 2 / 3;
-		grid-column: 1 / 3;
-		margin-top: -105px;
-		height: auto;
-		margin-bottom: auto;
-		margin-right: 30px;
-	}
-	.collapsible {
-		
+		grid-row: 1 / 2;
+		grid-auto-flow: row;
+		margin-top: 125px;
 	}
 	button {
-		height: 5%;
-		width: 30%;
+		height: auto;
+		width: auto;
 		background: ${props => props.theme.colors.secondary};
 		font-size: 1.5rem;
 		color: white;
@@ -51,9 +45,12 @@ const StyledGrid = styled.div`
   	outline: 1px solid black;
 	}
 	.bookmark-list-btn {
-		width: 15%;
+		width: auto;
 		height: 50%;
 	}
+	 .btn-filter {
+  	width: 25%;
+  }
 	span + span {
     margin-left: 10px;
 	}
@@ -74,7 +71,7 @@ const StyledGrid = styled.div`
 	}
 	select {
 		width: 30%;
-		height: 5%;
+		height: auto;
 		font-size: 1.5rem;
 		color: white;
 		background: ${props => props.theme.colors.secondary};
@@ -94,15 +91,15 @@ const StyledGrid = styled.div`
 		text-align: center;
 	}
 	ul {
-		margin: -90px auto;
-		list-style-type: none;
+		margin: auto;
+		grid-column: 1 / 3;
 	}
 	li {
 		font-size: 1.5rem;
-		border: 1px solid black;
 		line-height: .5;
 		padding: 10px;
 		width: 100%;
+		list-style-type: none;
 	}
 	li > button, label {
 		font-size: 1rem;
@@ -172,20 +169,22 @@ export default function BookmarksList() {
 			<BookmarkForm/>
 		</StyledForm>
 		<StyledList>
+			<div className="list-title">
 			<h3>{title}</h3>
+			</div>
 			<div className="filters">
 				<span>
-			<button type="button" onClick={handleShowAll}>
+			<button className="btn-filter" type="button" onClick={handleShowAll}>
 				Show All
 			</button>
 				</span>
 				<span>
-			<button type="button" onClick={handleShowFavorites}>
+			<button className="btn-filter" type="button" onClick={handleShowFavorites}>
 				Show Favorites
 			</button>
 				</span>
 				<span>
-			<select onChange={handleShowByRating}>
+			<select className="btn filter" onChange={handleShowByRating}>
 				<option value="" hidden>Sort by Rating</option>
 				<option value="5 stars">5 stars</option>
 				<option value="4 stars">4 stars</option>
@@ -196,11 +195,10 @@ export default function BookmarksList() {
 			</select>
 				</span>
 			</div>
-			<div className="list">
+			{/*<ul className="list">*/}
 			<ul>
 				{filteredBookmarks.map(bookmark => (
-					<li key={bookmark.id}
-					>
+					<li key={bookmark.id}>
 						<span
 							onClick={async () => {
 								const res = await axios.patch(
@@ -218,7 +216,8 @@ export default function BookmarksList() {
 							<Collapsible trigger={bookmark.title}
 							             triggerTagName="button"
 							             transitionTime={300}
-							             easing={'cubic-bezier(0.175, 0.885, 0.32, 2.275)'}
+							             easing="cubic-bezier(0.175, 0.885, 0.32, 2.275)"
+							             classParentString="list-item"
 							             >
 								<p><span>Url:</span>
 									<span>
@@ -257,7 +256,7 @@ export default function BookmarksList() {
 							</div>
 						</span>
 						<span>
-						<label htmlFor="checkbox-favorite">
+						<label className="list" htmlFor="checkbox-favorite">
 							Add to Favorites
 						</label>
 						</span>
@@ -280,7 +279,6 @@ export default function BookmarksList() {
 					</li>
 				))}
 			</ul>
-			</div>
 		</StyledList>
 	</StyledGrid>
 	);
