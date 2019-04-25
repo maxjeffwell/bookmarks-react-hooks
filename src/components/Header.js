@@ -22,6 +22,7 @@ const StyledHeader = styled.header`
 
 const StyledLink = styled(Link)`
 	grid-column: 2 / 3;
+	white-space: nowrap;
 	text-align: right;
 	color: white;
 	text-decoration: none;

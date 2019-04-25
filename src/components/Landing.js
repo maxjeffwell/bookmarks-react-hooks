@@ -5,13 +5,14 @@ import Sidebar from './Sidebar';
 
 const StyledLanding = styled.div`
 	display: grid;
-	grid-template-rows: auto auto auto;
+	grid-template-rows: 1fr;
 	grid-template-columns: 1fr 2fr;
+	grid-gap: 10px;
 `;
 
 const StyledText = styled.div`
-	grid-column: 2;
-	grid-row: 1 / 3;
+	grid-column: 2 / 3;
+	grid-row: 1 / 2;
 	& p {
 	font-family: ${props => props.theme.fonts.tertiary};
 	color: ${props => props.theme.colors.primary};

@@ -17,7 +17,7 @@ const StyledGrid = styled.div`
 	margin-top: -75px;
 	.list-title {
 		grid-column: 1 / 3;
-		grid-row: 1 /2 ;
+		grid-row: 1 / 2 ;
 	}
 	.filters {
 		grid-column: 1 / 3;
@@ -29,6 +29,16 @@ const StyledGrid = styled.div`
 		padding-bottom: 5px;
 		font-size: 1rem;
 	}
+	.list-item__contentInner a, p {
+		text-decoration: none;
+		line-height: 1;
+	}
+		a:hover {
+			text-decoration: underline;
+	}
+		a:visited {
+			color: rebeccapurple;
+		}
 	.list-item__contentOuter {
 		padding-top: 5px;
 	}
@@ -37,14 +47,13 @@ const StyledGrid = styled.div`
 	}
 	button {
 		height: auto;
-		width: auto;
 		background: ${props => props.theme.colors.secondary};
 		font-size: 1.5rem;
 		color: white;
 		border: 0;
 		border-radius: 5px;
 		cursor: pointer;
-		padding: auto;
+		white-space: nowrap;
 	}
 	button:hover, button:focus {
 		box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
@@ -59,7 +68,7 @@ const StyledGrid = styled.div`
 		height: 50%;
 	}
 	 .btn-filter {
-  	width: 25%;
+  	width: fit-content;
   }
 	span + span {
     margin-left: 10px;
@@ -80,15 +89,15 @@ const StyledGrid = styled.div`
 		white-space: nowrap;
 	}
 	select {
-		width: 30%;
 		height: auto;
+		width: fit-content;
 		font-size: 1.5rem;
 		color: white;
 		background: ${props => props.theme.colors.secondary};
 		text-align: center;
 		border: 0;
 		border-radius: 5px;
-		padding: auto;
+		padding: .55px 6px .54px 6px;
 	}
 	select:hover {
 		cursor: pointer;
@@ -104,6 +113,7 @@ const StyledGrid = styled.div`
 		margin: 10px auto;
 		grid-column: 1 / 3;
 		grid-row: 2 / 3;
+		padding: 0;
 	}
 	li {
 		font-size: 1.5rem;
@@ -112,21 +122,34 @@ const StyledGrid = styled.div`
 		width: auto;
 		list-style-type: none;
 		border: 2px solid black;
+		border-radius: 5px;
 		margin-bottom: 10px;
-		margin-right: 125px;
 	}
 	li > button, label {
 		font-size: 1rem;
 		margin: 2px auto;
 	}
 	input[type=checkbox] {
-  	background: linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+		vertical-align: middle;
+		width: 1rem;
+		height: 1rem;
+		border: 1px solid #ccc;
+		padding: .2rem .5rem;
+  	background: white;
   	border-radius: 50px;
   	margin-bottom: auto;
   	box-shadow: inset 0 1px 1px white, 0 1px 3px rgba(0,0,0,0.5);
   	cursor: pointer;
+  	appearance: none;
+  	-webkit-appearance: none;
+		-moz-appearance: none;
   }
-  &:checked + label:after {
+  input[type="checkbox"]:focus {
+  	outline: none;
+  }
+  input[type="checkbox"]:checked {
+  	background: ${props => props.theme.colors.primary};
+  	border: ${props => props.theme.colors.secondary};
     opacity: 1;
   }
   &:hover::after {
@@ -228,7 +251,7 @@ export default function BookmarksList() {
 							<div className="list-item">
 							<Collapsible trigger={bookmark.title}
 							             triggerTagName="button"
-							             transitionTime={300}
+							             transitionTime={400}
 							             easing="cubic-bezier(0.175, 0.885, 0.32, 2.275)"
 							             classParentString="list-item"
 							             >
