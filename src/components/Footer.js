@@ -14,6 +14,7 @@ const StyledFooter = styled.footer`
 	color: white;
 	padding: 10px;: 
 	width: 100%;
+	height: auto;
 	position: relative;
 `;
 

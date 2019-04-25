@@ -13,8 +13,8 @@ const StyledTitle = styled.h1`
 	writing-mode: vertical-lr;
 	text-orientation: sideways;
 	font-size: 6.9rem;
-	margin-top: 5px;
-	margin-bottom: 5px;
+	margin-top: 10px;
+	margin-bottom: 10px;
 `;
 
 const Sidebar = () => (
