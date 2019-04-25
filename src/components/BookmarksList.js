@@ -25,6 +25,16 @@ const StyledGrid = styled.div`
 		grid-auto-flow: row;
 		margin-top: 125px;
 	}
+	.list-item__contentInner {
+		padding-bottom: 5px;
+		font-size: 1rem;
+	}
+	.list-item__contentOuter {
+		padding-top: 5px;
+	}
+	span {
+		margin-bottom: 5px;
+	}
 	button {
 		height: auto;
 		width: auto;
@@ -63,7 +73,7 @@ const StyledGrid = styled.div`
 	label {
 		font-weight: bold;
 		font-size: 2rem;
-		margin: 5px auto 0;
+		margin: 5px auto;
 		padding: 5px 5px 5px 5px;
 		box-shadow: inset 0 -4px 0px rgba(0,0,0,0.5), 0 1px 0 rgba(255,255,255,1);
 		background: linear-gradient(top, #222 0%, #45484d 100%);
@@ -91,15 +101,19 @@ const StyledGrid = styled.div`
 		text-align: center;
 	}
 	ul {
-		margin: auto;
+		margin: 10px auto;
 		grid-column: 1 / 3;
+		grid-row: 2 / 3;
 	}
 	li {
 		font-size: 1.5rem;
 		line-height: .5;
 		padding: 10px;
-		width: 100%;
+		width: auto;
 		list-style-type: none;
+		border: 2px solid black;
+		margin-bottom: 10px;
+		margin-right: 125px;
 	}
 	li > button, label {
 		font-size: 1rem;
@@ -195,7 +209,6 @@ export default function BookmarksList() {
 			</select>
 				</span>
 			</div>
-			{/*<ul className="list">*/}
 			<ul>
 				{filteredBookmarks.map(bookmark => (
 					<li key={bookmark.id}>
