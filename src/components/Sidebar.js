@@ -16,8 +16,8 @@ const StyledTitle = styled.h1`
 	font-weight: bold;
 	writing-mode: vertical-lr;
 	text-orientation: sideways;
-	font-size: 5rem;
-	margin: 25px auto;
+	font-size: 6rem;
+	margin: 3rem auto 6rem;
 `;
 
 const Sidebar = () => (

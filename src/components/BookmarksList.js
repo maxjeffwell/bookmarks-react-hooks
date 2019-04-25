@@ -10,8 +10,8 @@ import BookmarkForm from './BookmarkForm';
 const StyledGrid = styled.div`
 	display: grid;
 	grid-template-columns: 1fr 2fr;
-	grid-template-rows: 50px auto auto;
-	grid-gap: 25px;
+	grid-template-rows: 50px auto auto 50px;
+	grid-gap: 10px;
 	text-align: center;
 	line-height: 1.75;
 	margin-top: -75px;
@@ -24,6 +24,13 @@ const StyledGrid = styled.div`
 		grid-row: 1 / 2;
 		grid-auto-flow: row;
 		margin-top: 125px;
+	}
+	.clearfooter {
+		height: 50px;
+		clear: both;
+		grid-column: 1 / 3;
+		grid-row: 4 / 5;
+		
 	}
 	.list-item__contentInner {
 		padding-bottom: 5px;
@@ -110,10 +117,10 @@ const StyledGrid = styled.div`
 		text-align: center;
 	}
 	ul {
-		margin: 10px auto;
+		margin: 0 auto;
 		grid-column: 1 / 3;
 		grid-row: 2 / 3;
-		padding: 0;
+		padding-top: 1rem;
 	}
 	li {
 		font-size: 1.5rem;
@@ -316,6 +323,7 @@ export default function BookmarksList() {
 				))}
 			</ul>
 		</StyledList>
+			<div className="clearfooter" />
 	</StyledGrid>
 	);
 }

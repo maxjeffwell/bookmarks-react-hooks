@@ -8,18 +8,22 @@ const StyledLanding = styled.div`
 	grid-template-rows: 1fr;
 	grid-template-columns: 1fr 2fr;
 	grid-gap: 10px;
+	div.clearfooter {
+  	height: 100px;
+  	clear: both;
+  }
 `;
 
 const StyledText = styled.div`
 	grid-column: 2 / 3;
 	grid-row: 1 / 2;
 	& p {
-	font-family: ${props => props.theme.fonts.tertiary};
-	color: ${props => props.theme.colors.primary};
-	font-style: italic;
-	line-height: 1.5;
-	margin-top: 50px;
-	margin-right: 10px;
+		font-family: ${props => props.theme.fonts.tertiary};
+		color: ${props => props.theme.colors.primary};
+		font-style: italic;
+		line-height: 1.5;
+		margin-top: 5rem;
+		margin-right: 2.5rem;
 	}
 `;
 
@@ -37,6 +41,7 @@ const Landing = () => (
 
 				<p>Bookmarked uses ZEIT's Now platform as a serverless host for data persistence.</p>
 			</StyledText>
+		<div className="clearfooter" />
 	</StyledLanding>
 );
 

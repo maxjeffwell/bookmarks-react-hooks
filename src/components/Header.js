@@ -15,7 +15,7 @@ const StyledHeader = styled.header`
 	font-family: ${props => props.theme.fonts.primary};
 	font-size: 1.5rem;
 	color: white;
-	padding: 5px 0 0 10px;
+	padding: 10px 10px 0 10px;
 	position: relative;
 	width: 100%;
 `;
