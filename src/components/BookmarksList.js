@@ -234,7 +234,7 @@ export default function BookmarksList() {
 							             >
 								<p><span>Url:</span>
 									<span>
-									<a href={bookmark.url}>{bookmark.url}</a>
+									<a href={bookmark.url} target="_blank" rel="noopener noreferrer">{bookmark.url}</a>
 									</span>
 									</p>
 								<p>Rating: {bookmark.rating}</p>
