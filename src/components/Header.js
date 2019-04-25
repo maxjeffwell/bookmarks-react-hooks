@@ -5,8 +5,10 @@ import styled from '@emotion/styled';
 
 const StyledHeader = styled.header`
 	display: grid;
-	grid-template-columns: 1fr auto;
-	grid-row: 1 / 3;
+	grid-template-rows: 1fr;
+	grid-template-columns: 2fr 1fr;
+	grid-row: 1 / 2;
+	grid-column: 1 / 2;
 	grid-auto-flow: column;
 	background: black;
 	border-bottom: 5px solid ${props => props.theme.colors.secondary};
@@ -14,9 +16,13 @@ const StyledHeader = styled.header`
 	font-size: 1.5rem;
 	color: white;
 	padding: 5px 0 0 10px;
+	position: relative;
+	width: 100%;
 `;
 
 const StyledLink = styled(Link)`
+	grid-column: 2 / 3;
+	text-align: right;
 	color: white;
 	text-decoration: none;
 	padding-right: 10px;

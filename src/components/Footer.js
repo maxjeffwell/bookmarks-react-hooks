@@ -3,7 +3,10 @@ import styled from '@emotion/styled';
 
 const StyledFooter = styled.footer`
 	display: grid;
-	grid-row: 3;
+	grid-template-rows: 1fr;
+	grid-template-columns: 1fr;
+	grid-row: 1 / 2;
+	grid-column: 1 / 2;
 	font-family: ${props => props.theme.fonts.primary};
 	text-align: center;
 	background: black;
@@ -11,6 +14,7 @@ const StyledFooter = styled.footer`
 	color: white;
 	padding: 10px;: 
 	width: 100%;
+	position: relative;
 `;
 
 const Footer = () => (

@@ -10,22 +10,29 @@ import BookmarkForm from './BookmarkForm';
 const StyledGrid = styled.div`
 	display: grid;
 	grid-template-columns: 1fr 2fr;
-	grid-template-rows: auto auto auto;
+	grid-template-rows: 50px auto auto;
 	grid-gap: 25px;
 	text-align: center;
 	line-height: 1.75;
-	margin-top: -25px;
+	margin-top: -75px;
 	.filters {
-		margin-top: -175px;
-		height: 100%;
+		grid-row: 2 / 3;
+		grid-column: 1 / 3;
+		margin-top: -295px;
 	}
 	.list {
-		margin-top: -250px;
+		grid-row: 2 / 3;
+		grid-column: 1 / 3;
+		margin-top: -105px;
+		height: auto;
+		margin-bottom: auto;
 		margin-right: 30px;
 	}
+	.collapsible {
+		
+	}
 	button {
-		grid-row: 2;
-		height: 15%;
+		height: 5%;
 		width: 30%;
 		background: ${props => props.theme.colors.secondary};
 		font-size: 1.5rem;
@@ -53,6 +60,8 @@ const StyledGrid = styled.div`
 	h3 {
 		font-size: 2rem;
 		margin-bottom: 5px;
+		grid-row: 1;
+		grid-column: 1 / 3;
 	}
 	label {
 		font-weight: bold;
@@ -64,9 +73,8 @@ const StyledGrid = styled.div`
 		white-space: nowrap;
 	}
 	select {
-		grid-row: 2;
 		width: 30%;
-		height: 15%;
+		height: 5%;
 		font-size: 1.5rem;
 		color: white;
 		background: ${props => props.theme.colors.secondary};
@@ -86,7 +94,6 @@ const StyledGrid = styled.div`
 		text-align: center;
 	}
 	ul {
-		grid-row: 3;
 		margin: -90px auto;
 		list-style-type: none;
 	}
@@ -96,11 +103,9 @@ const StyledGrid = styled.div`
 		line-height: .5;
 		padding: 10px;
 		width: 100%;
-		white-space: nowrap;
 	}
 	li > button, label {
 		font-size: 1rem;
-		display: inline;
 		margin: 2px auto;
 	}
 	input[type=checkbox] {
@@ -119,13 +124,13 @@ const StyledGrid = styled.div`
 `;
 
 const StyledForm = styled.div`
-	grid-column: 1;
+	grid-column: 1 / 2;
 	grid-row: 2 / 3;
 `;
 
 const StyledList= styled.div`
 	display: grid;
-	grid-column: 2;
+	grid-column: 2 / 3;
 	grid-row: 2 / 3;
 	font-family: ${props => props.theme.fonts.secondary};
 `;
@@ -209,11 +214,17 @@ export default function BookmarksList() {
 								})
 							}}
 						>
+							<div className="list-item">
 							<Collapsible trigger={bookmark.title}
 							             triggerTagName="button"
 							             transitionTime={300}
-							             easing={'cubic-bezier(0.175, 0.885, 0.32, 2.275)'}>
-								<p>Url: {bookmark.url}</p>
+							             easing={'cubic-bezier(0.175, 0.885, 0.32, 2.275)'}
+							             >
+								<p><span>Url:</span>
+									<span>
+									<a href={bookmark.url}>{bookmark.url}</a>
+									</span>
+									</p>
 								<p>Rating: {bookmark.rating}</p>
 								<p>Description: {bookmark.description}</p>
 								<span>
@@ -243,6 +254,7 @@ export default function BookmarksList() {
 						</button>
 						</span>
 							</Collapsible>
+							</div>
 						</span>
 						<span>
 						<label htmlFor="checkbox-favorite">

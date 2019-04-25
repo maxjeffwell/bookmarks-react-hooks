@@ -36,8 +36,6 @@ export const StyledForm = styled.form`
 		outline: none;
 }
 	textarea {
-		display: grid;
-		grid-template-columns: 1fr;
 		width: 100%;
 		font-size: 1.5rem;
 		font-family: ${props => props.theme.fonts.secondary};
@@ -71,14 +69,13 @@ export const StyledForm = styled.form`
 	fieldset div {
 		display: grid;
 		grid-gap: 10px;
-		grid-auto-rows: auto;
 		line-height: 1rem;
 	}
 	fieldset label {
 		font-size: 1.25rem;
 }
 	fieldset input {
-		grid-row: 1;
+		grid-row: 1 / 2;
 		cursor: pointer;
 		outline: none;
 		transition: 0.2s all linear;
@@ -90,12 +87,9 @@ export const StyledForm = styled.form`
   	border: 2px solid black;
 }
 	button {
-		display: grid;
 		font-size: 1.5rem;
-		justify-content: space-evenly;
-		margin: 10px auto;
 		height: 75%;
-		width: 75%;
+		width: 50%;
 		padding: 5px 5px 5px 5px;
 } 
 	button:hover, button:focus {
@@ -301,12 +295,18 @@ export default function BookmarkForm() {
 				</div>
 			</fieldset>
 		</div>
+		<div>
+			<p>
 		<button type="submit">
 			{ConditionalButton}
 		</button>
+			</p>
+			<p>
 		<button type="reset">
 			Clear Form Fields
 		</button>
+			</p>
+		</div>
 		</StyledForm>
 	);
 }
