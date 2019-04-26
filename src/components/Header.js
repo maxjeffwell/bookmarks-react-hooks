@@ -20,8 +20,7 @@ const StyledHeader = styled.header`
 	padding: 10px 10px 10px 10px;
 	position: relative;
 	width: 100%;
-	height: 100%
-	margin: 10px auto;
+	height: 100%;
 	@media (max-width: ${style.breakpoint.tablet}) {
 		display: inline-block;
 		padding-left: 10px;
