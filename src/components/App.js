@@ -53,6 +53,7 @@ injectGlobal`
 		font-size: 1.5rem;
 		line-height: 2;
 		height: 100%;
+		width: 100%;
 	}
 `;
 

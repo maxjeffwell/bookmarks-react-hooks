@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from '@emotion/styled';
 
+import * as style from './Breakpoints';
+
 const StyledTitleContainer = styled.div`
 	display: grid;
 	grid-template-columns: 1fr;
@@ -16,8 +18,18 @@ const StyledTitle = styled.h1`
 	font-weight: bold;
 	writing-mode: vertical-lr;
 	text-orientation: sideways;
-	font-size: 6rem;
-	margin: 3rem auto 6rem;
+	line-height: 4;
+	font-size: 8rem;
+	@media (max-width: ${style.breakpoint.mobileM}) {
+			margin-top: .5rem;
+			margin-bottom: 3rem;
+			margin-left: -2rem;
+	}
+	// @media (min-width: ${style.breakpoint.laptop}) {
+	// 		margin-left: 5rem;
+	// 		margin-top: 25px;
+	// 		font-size: 5rem;
+	// }
 `;
 
 const Sidebar = () => (

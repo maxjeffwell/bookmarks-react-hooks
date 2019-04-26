@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from '@emotion/styled';
 
+import * as style from './Breakpoints';
+
 const FooterContainer = styled.div`
 	display: grid;
 	position: relative;
@@ -9,6 +11,12 @@ const FooterContainer = styled.div`
 	width: 100%;
 	min-height: 100%;
 	margin-bottom: -100px;
+	@media (max-width: ${style.breakpoint.tablet}) {
+		display: inline-block;
+		margin-top: -50px;
+		margin-bottom: 0;
+		height: auto;
+	}
 `;
 
 const StyledFooter = styled.footer`
@@ -16,7 +24,6 @@ const StyledFooter = styled.footer`
 	grid-column: 1 / 2;
 	font-family: ${props => props.theme.fonts.primary};
 	text-align: center;
-	justify-content: space-around;
 	background: black;
 	border-top: 5px solid ${props => props.theme.colors.secondary};
 	color: white;
@@ -24,6 +31,13 @@ const StyledFooter = styled.footer`
 	width: 100%;
 	height: 100px;
 	position: relative;
+	@media (max-width: ${style.breakpoint.mobileM}) {
+		height: auto;
+		padding: 25px;
+	}
+	@media (max-width: ${style.breakpoint.mobileS}) {
+		font-size: 1rem;
+	}
 `;
 
 const Footer = () => (

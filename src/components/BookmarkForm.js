@@ -4,12 +4,24 @@ import axios from 'axios';
 import uuidv4 from 'uuid/v4';
 
 import BookmarksContext from '../context';
+import * as style from './Breakpoints';
 
 export const StyledForm = styled.form`
 	font-family: ${props => props.theme.fonts.secondary};
 	font-weight: bold;
+	padding-right: 10px;
 	padding-left: 10px;
 	text-align: center;
+	margin: 10px auto;
+	@media (max-width: ${style.breakpoint.mobileS}) {
+		font-size: 1rem;
+	}
+	@media (max-width: ${style.breakpoint.tablet}) {
+		padding-right: 10px;
+		padding-left: 10px;
+		width: 100%;
+		margin: auto;
+	}
 	label {
 		font-size: 1.5rem;
 	}
@@ -47,8 +59,7 @@ export const StyledForm = styled.form`
 		line-height: 1.5;
 		border: 2px solid ${props => props.theme.colors.primary};
   	box-shadow: 1px 1px 1px #999;
-  	margin-bottom: 10px;
-  	margin-top: 10px;
+  	margin: 10px auto;
   	resize: none;
 	}	
 	textarea::placeholder {
@@ -57,6 +68,9 @@ export const StyledForm = styled.form`
   	font-size: 1.5rem;
   	white-space: nowrap;
 	}
+	fieldset {
+		margin: auto;
+	}
 	fieldset legend {
 		font-weight: normal;
 		background: ${props => props.theme.colors.secondary};
@@ -64,17 +78,22 @@ export const StyledForm = styled.form`
 		border: 2px solid ${props => props.theme.colors.secondary};
 		border-radius: 5px;
 		box-shadow: 1px 1px 1px #999;
-		padding: 2px 5px 2px 5px;
-		margin-top: 10px;
+		padding: 5px 5px 5px 5px;
+		margin: 10px auto;
+		width: auto;
 	}
-	fieldset div {
+	fieldset > * {
 		display: grid;
 		grid-gap: 10px;
 		line-height: 1rem;
+		margin: auto;
 	}
 	fieldset label {
 		font-size: 1.25rem;
-	}
+		@media (max-width: ${style.breakpoint.mobileM}) {
+			font-size: .75rem;
+			}
+		}
 	fieldset input {
 		grid-row: 1 / 2;
 		cursor: pointer;
@@ -83,15 +102,27 @@ export const StyledForm = styled.form`
 		border: 2px solid ${props => props.theme.colors.secondary};
 		border-radius: 50%;
 		margin-bottom: -2px;
+		float: left;
 	}
 	fieldset input:checked {
   	border: 2px solid black;
+	}
+	@media (max-width: ${style.breakpoint.tablet}) {
+		div.form-btns p { 
+			margin-bottom: 0;
+		}
+		& p:nth-child(2) {
+			margin-top: 5px;
+		}
 	}
 	button {
 		font-size: 1.5rem;
 		height: 75%;
 		width: 50%;
 		padding: 5px 5px 5px 5px;
+		@media (max-width: ${style.breakpoint.tablet}) {
+			width: auto;
+		}
 	} 
 	button:hover, button:focus {
 		box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
@@ -296,7 +327,7 @@ export default function BookmarkForm() {
 				</div>
 			</fieldset>
 		</div>
-		<div>
+		<div className="form-btns">
 			<p>
 		<button type="submit">
 			{ConditionalButton}

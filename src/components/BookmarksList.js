@@ -6,6 +6,7 @@ import axios from 'axios';
 import BookmarksContext from '../context';
 import filterReducer from '../reducers/filterReducer';
 import BookmarkForm from './BookmarkForm';
+import * as style from './Breakpoints';
 
 const StyledGrid = styled.div`
 	display: grid;
@@ -13,24 +14,58 @@ const StyledGrid = styled.div`
 	grid-template-rows: 50px auto auto 50px;
 	grid-gap: 10px;
 	text-align: center;
-	line-height: 1.75;
+	line-height: 1.5;
 	margin-top: -75px;
+	@media (max-width: ${style.breakpoint.tablet}) {
+		display: inline-block;
+		margin-top: 0;
+		width: 100%;
+	}
+	.divider {
+		@media (max-width: ${style.breakpoint.tablet}) {
+			display: block;
+			border-color: ${props => props.theme.colors.secondary};
+			border-width: 1px;
+			opacity: 0.5%;
+			width: 95%;
+			margin: 50px 5px 25px 5px;
+			border-style: inset;
+			transform: rotate(10deg);
+		}
+	}
 	.list-title {
 		grid-column: 1 / 3;
 		grid-row: 1 / 2 ;
+		@media (max-width: ${style.breakpoint.tablet}) {
+			display: inline-block;
+			text-align: center;
+			margin: 20px auto;
+	
+		}
 	}
 	.filters {
 		grid-column: 1 / 3;
 		grid-row: 1 / 2;
 		grid-auto-flow: row;
 		margin-top: 125px;
+		@media (max-width: ${style.breakpoint.tablet}) {
+			display: inline-block;
+			margin: 5px;
+			width: 100%;
+		}
 	}
+	.filters span {
+			@media (max-width: ${style.breakpoint.tablet}) {
+				width: auto;
+				display: inline-block;
+				margin: 0 auto 5px auto;
+			}
+		}
 	.clearfooter {
 		height: 50px;
 		clear: both;
 		grid-column: 1 / 3;
 		grid-row: 4 / 5;
-		
 	}
 	.list-item__contentInner {
 		padding-bottom: 5px;
@@ -51,6 +86,9 @@ const StyledGrid = styled.div`
 	}
 	span {
 		margin-bottom: 5px;
+		@media (max-width: ${style.breakpoint.tablet}) {
+				width: 100%;
+		}
 	}
 	button {
 		height: auto;
@@ -61,6 +99,11 @@ const StyledGrid = styled.div`
 		border-radius: 5px;
 		cursor: pointer;
 		white-space: nowrap;
+		@media (max-width: ${style.breakpoint.tablet}) {
+			padding-top: 2px;
+			padding-bottom: 2px;
+			cursor: pointer;
+		}
 	}
 	button:hover, button:focus {
 		box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
@@ -71,20 +114,30 @@ const StyledGrid = styled.div`
   	outline: 1px solid black;
 	}
 	.bookmark-list-btn {
-		width: auto;
+		margin-right: 5px;
 		height: 50%;
+		@media (max-width: ${style.breakpoint.tablet}) {
+			font-size: 1.25rem;
+		}
 	}
 	 .btn-filter {
-  	width: fit-content;
+  		width: auto%;
+  			@media (max-width: ${style.breakpoint.tablet}) {
+					margin-right: 5px;
+			}
   }
 	span + span {
     margin-left: 10px;
 	}
 	h3 {
 		font-size: 2rem;
-		margin-bottom: 5px;
-		grid-row: 1;
-		grid-column: 1 / 3;
+		margin: 25px auto;
+	 :first-of-type {
+		@media (max-width: ${style.breakpoint.tablet}) {
+			margin-top: 10px;
+			margin-bottom: 5px;
+			}
+		}
 	}
 	label {
 		font-weight: bold;
@@ -101,10 +154,12 @@ const StyledGrid = styled.div`
 		font-size: 1.5rem;
 		color: white;
 		background: ${props => props.theme.colors.secondary};
-		text-align: center;
 		border: 0;
 		border-radius: 5px;
 		padding: .55px 6px .54px 6px;
+		@media (max-width: ${style.breakpoint.tablet}) {
+			padding: auto;
+		}
 	}
 	select:hover {
 		cursor: pointer;
@@ -120,8 +175,7 @@ const StyledGrid = styled.div`
 		margin: 0 auto;
 		grid-column: 1 / 3;
 		grid-row: 2 / 3;
-		padding-top: 1rem;
-	}
+		padding: 10px 40px 0;
 	li {
 		font-size: 1.5rem;
 		line-height: .5;
@@ -167,6 +221,9 @@ const StyledGrid = styled.div`
 const StyledForm = styled.div`
 	grid-column: 1 / 2;
 	grid-row: 2 / 3;
+	@media (max-width: ${style.breakpoint.tablet}) {
+		margin: 0 auto;
+	}
 `;
 
 const StyledList= styled.div`
@@ -174,6 +231,10 @@ const StyledList= styled.div`
 	grid-column: 2 / 3;
 	grid-row: 2 / 3;
 	font-family: ${props => props.theme.fonts.secondary};
+	@media (max-width: ${style.breakpoint.tablet}) {
+		display: block;
+		margin: 0 auto;
+	}
 `;
 
 export default function BookmarksList() {
@@ -210,8 +271,9 @@ export default function BookmarksList() {
 	return (
 		<StyledGrid>
 		<StyledForm>
-			<BookmarkForm/>
+			<BookmarkForm />
 		</StyledForm>
+			<hr className="divider" />
 		<StyledList>
 			<div className="list-title">
 			<h3>{title}</h3>
