@@ -12,10 +12,8 @@ const FooterContainer = styled.div`
 	min-height: 100%;
 	margin-bottom: -100px;
 	@media (max-width: ${style.breakpoint.tablet}) {
-		display: inline-block;
-		margin-top: -50px;
-		margin-bottom: 0;
-		height: auto;
+		margin-bottom: -2rem;
+		height: 100%;
 	}
 `;
 
@@ -31,12 +29,19 @@ const StyledFooter = styled.footer`
 	width: 100%;
 	height: 100px;
 	position: relative;
+	@media (max-width: ${style.breakpoint.tablet}) {
+		font-size: 1.75rem;
+	}
 	@media (max-width: ${style.breakpoint.mobileM}) {
-		height: auto;
-		padding: 25px;
+		display: inline-block;
+		height: 100%;
+		font-size: 1.5rem;
+		padding: 1rem;
+		margin-top: 1rem;
 	}
 	@media (max-width: ${style.breakpoint.mobileS}) {
-		font-size: 1rem;
+		display: inline-block;
+		width: 100%;
 	}
 `;
 

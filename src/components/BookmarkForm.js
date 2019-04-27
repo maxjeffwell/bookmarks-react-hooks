@@ -111,7 +111,7 @@ export const StyledForm = styled.form`
 		div.form-btns p { 
 			margin-bottom: 0;
 		}
-		& p:nth-child(2) {
+		& p:nth-of-type(2) {
 			margin-top: 5px;
 		}
 	}

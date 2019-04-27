@@ -20,14 +20,25 @@ const StyledHeader = styled.header`
 	padding: 10px 10px 10px 10px;
 	position: relative;
 	width: 100%;
-	height: 100%;
+	height: auto;
 	@media (max-width: ${style.breakpoint.tablet}) {
 		display: inline-block;
-		padding-left: 10px;
-		width: 100%;
+		padding-bottom: 0;
+	}
+	@media (max-width: ${style.breakpoint.mobileL}) {
+		display: inline-block;
+		font-size: 1.75rem;
+		padding-bottom: 0;
+	}
+	@media (max-width: ${style.breakpoint.mobileM}) {
+		display: inline-block;
+		font-size: 1.5rem;
+		padding-bottom: 0;
 	}
 	@media (max-width: ${style.breakpoint.mobileS}) {
-		font-size: 1rem;
+		display: inline-block;
+		font-size: 1.5rem;
+		padding: 20px 20px 0 20px;
 	}
 `;
 
@@ -38,12 +49,16 @@ const StyledLink = styled(Link)`
 	color: white;
 	text-decoration: none;
 	padding-right: 10px;
-	&:hover {
+	:hover {
 		text-decoration: underline;
 	}
 	@media (max-width: ${style.breakpoint.tablet}) {
 		float: right;
 		margin: auto;
+	}
+	@media (max-width: ${style.breakpoint.mobileM}) {
+		padding-right: 0;
+		margin: 0 auto;
 	}
 `;
 

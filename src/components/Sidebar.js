@@ -7,7 +7,6 @@ const StyledTitleContainer = styled.div`
 	display: grid;
 	grid-template-columns: 1fr;
 	grid-template-rows: 1fr;
-	height: auto;
 `;
 
 const StyledTitle = styled.h1`
@@ -20,16 +19,24 @@ const StyledTitle = styled.h1`
 	text-orientation: sideways;
 	line-height: 4;
 	font-size: 8rem;
-	@media (max-width: ${style.breakpoint.mobileM}) {
-			margin-top: .5rem;
-			margin-bottom: 3rem;
-			margin-left: -2rem;
+	@media (max-width: ${style.breakpoint.tablet}) {
+		margin-right: -12rem;
+		margin-left: -2rem;
+		font-size: 6rem;
 	}
-	// @media (min-width: ${style.breakpoint.laptop}) {
-	// 		margin-left: 5rem;
-	// 		margin-top: 25px;
-	// 		font-size: 5rem;
-	// }
+		@media (max-width: ${style.breakpoint.mobileL}) {
+		margin-right: -6rem;
+		margin-left: -7rem;
+		margin-top: 10rem;
+	}
+	@media (max-width: ${style.breakpoint.mobileM}) {
+		margin-right: -6rem;
+		margin-left: -7rem;
+		margin-top: 4rem;
+	}
+	@media (max-width: ${style.breakpoint.mobileS}) {
+		margin-top: 12rem;
+	}
 `;
 
 const Sidebar = () => (
