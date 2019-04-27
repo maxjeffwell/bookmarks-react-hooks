@@ -17,7 +17,7 @@ const StyledLanding = styled.div`
 
 const StyledText = styled.div`
 	grid-column: 2 / 3;
-	grid-row: 1 / 2;
+	grid-row: 1 / 3;
 	p {
 		font-family: ${props => props.theme.fonts.tertiary};
 		color: ${props => props.theme.colors.primary};
@@ -27,6 +27,9 @@ const StyledText = styled.div`
 		margin-top: 5rem;
 		margin-right: 3rem;
 		margin-left: 5rem;
+		@media (max-width: ${style.breakpoint.laptop}) {
+				display: grid;
+	 }
 	}
 	@media (max-width: ${style.breakpoint.tablet}) {
 		p:first-of-type {

@@ -226,7 +226,7 @@ const StyledForm = styled.div`
 	grid-column: 1 / 2;
 	grid-row: 2 / 3;
 	@media (max-width: ${style.breakpoint.tablet}) {
-		display: inline-grid;
+		display: inline-block;
 		margin: 0 auto;
 	}
 `;
