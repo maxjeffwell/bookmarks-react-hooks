@@ -66,9 +66,6 @@ export const StyledForm = styled.form`
   	font-size: 1.5rem;
   	white-space: nowrap;
 	}
-	//fieldset {
-	//	margin: auto;
-	//}
 	fieldset legend {
 		font-weight: normal;
 		background: ${props => props.theme.colors.secondary};
