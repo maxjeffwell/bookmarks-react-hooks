@@ -12,7 +12,6 @@ export const StyledForm = styled.form`
 	padding-right: 10px;
 	padding-left: 10px;
 	text-align: center;
-	margin: 10px auto;
 	@media (max-width: ${style.breakpoint.mobileS}) {
 		font-size: 1rem;
 	}
@@ -20,7 +19,6 @@ export const StyledForm = styled.form`
 		padding-right: 10px;
 		padding-left: 10px;
 		width: 100%;
-		margin: auto;
 	}
 	label {
 		font-size: 1.5rem;
@@ -59,7 +57,7 @@ export const StyledForm = styled.form`
 		line-height: 1.5;
 		border: 2px solid ${props => props.theme.colors.primary};
   	box-shadow: 1px 1px 1px #999;
-  	margin: 10px auto;
+  	margin-top: 10px;
   	resize: none;
 	}	
 	textarea::placeholder {
@@ -68,9 +66,9 @@ export const StyledForm = styled.form`
   	font-size: 1.5rem;
   	white-space: nowrap;
 	}
-	fieldset {
-		margin: auto;
-	}
+	//fieldset {
+	//	margin: auto;
+	//}
 	fieldset legend {
 		font-weight: normal;
 		background: ${props => props.theme.colors.secondary};

@@ -11,11 +11,11 @@ import * as style from './Breakpoints';
 const StyledGrid = styled.div`
 	display: grid;
 	grid-template-columns: 1fr 2fr;
-	grid-template-rows: 50px auto auto 50px;
+	grid-template-rows:  auto 1fr auto;
 	grid-gap: 10px;
 	text-align: center;
 	line-height: 1.5;
-	margin-top: -75px;
+	width: 100%;
 	@media (max-width: ${style.breakpoint.tablet}) {
 		display: inline-block;
 		margin-top: 0;
@@ -28,7 +28,7 @@ const StyledGrid = styled.div`
 			border-width: 1px;
 			opacity: 0.4%;
 			width: 95%;
-			margin: 50px 5px 25px 5px;
+			margin: 50px auto 25px auto;
 			border-style: inset;
 			transform: rotate(5deg);
 		}
@@ -55,12 +55,12 @@ const StyledGrid = styled.div`
 		}
 	}
 	.filters span {
-			@media (max-width: ${style.breakpoint.tablet}) {
-				width: auto;
-				display: inline-block;
-				margin: 0 auto 5px auto;
-			}
+		@media (max-width: ${style.breakpoint.tablet}) {
+			width: auto;
+			display: inline-block;
+			margin: 0 auto 5px auto;
 		}
+	}
 	.clearfooter {
 		height: 50px;
 		clear: both;
@@ -77,11 +77,15 @@ const StyledGrid = styled.div`
 	}
 		a:hover {
 			text-decoration: underline;
-	}
+		}
 		a:visited {
 			color: rebeccapurple;
 		}
-	.list-item__contentOuter {
+	.list-item__contentOuter {	
+	@media (max-width: ${style.breakpoint.mobileS}) {
+		display: inline-block;
+		width: 100%;
+	}
 		padding-top: 5px;
 	}
 	span {
@@ -172,10 +176,10 @@ const StyledGrid = styled.div`
 		text-align: center;
 	}
 	ul {
-		margin: 0 auto;
 		grid-column: 1 / 3;
 		grid-row: 2 / 3;
 		padding: 10px 40px 0;
+		margin: 0 auto;
 		@media (max-width: ${style.breakpoint.tablet}) {
 			padding-top: 20px;
 		}
@@ -227,7 +231,7 @@ const StyledForm = styled.div`
 	grid-row: 2 / 3;
 	@media (max-width: ${style.breakpoint.tablet}) {
 		display: inline-block;
-		margin: 0 auto;
+		min-width: 100%;
 	}
 `;
 
@@ -238,7 +242,7 @@ const StyledList= styled.div`
 	font-family: ${props => props.theme.fonts.secondary};
 	@media (max-width: ${style.breakpoint.tablet}) {
 		display: inline-block;
-		margin: 0 auto;
+		min-width: 100%;
 	}
 `;
 

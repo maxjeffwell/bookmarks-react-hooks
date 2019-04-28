@@ -6,7 +6,7 @@ import Sidebar from './Sidebar';
 
 const StyledLanding = styled.div`
 	display: grid;
-	grid-template-rows: 1fr;
+	grid-template-rows: auto auto auto;
 	grid-template-columns: 1fr 2fr;
 	grid-gap: 25px;
 	div.clearfooter {
@@ -28,8 +28,23 @@ const StyledText = styled.div`
 		margin-right: 3rem;
 		margin-left: 5rem;
 		@media (max-width: ${style.breakpoint.laptop}) {
-				display: grid;
+			display: inline-grid;
 	 }
+	 	@media (max-width: ${style.breakpoint.laptop}) and (min-width: ${style.breakpoint.tablet}) {
+			display: grid;
+			p:first-of-type {
+				grid-row: 1 / 3;
+				grid-column: 2 / 3;
+			}
+			nth-of-type(2) {
+    		grid-row: 2 / 3;
+    		grid-column: 1 / 3;
+    	}
+    	nth-0f-type(3) {
+    		grid-row: 3 / 4;
+    		grid-column: 1 / 3;
+    	}
+		}
 	}
 	@media (max-width: ${style.breakpoint.tablet}) {
 		p:first-of-type {
@@ -51,7 +66,6 @@ const StyledText = styled.div`
 		p:nth-of-type(2) {
     	margin-top: 2rem;
     	margin-right: 1rem;
-    	padding-left: .5rem;
     }
     p:nth-of-type(3) {
     	margin-right: 1rem;
@@ -60,13 +74,13 @@ const StyledText = styled.div`
 	}
   @media (max-width: ${style.breakpoint.mobileM}) {
 		p {
-			margin-left: -1rem;
 			font-size: 1.75rem;
 		}
 		p:first-of-type {
-			margin: .5rem 0 0 -3rem;
+			margin: 2rem 0 0 0;
 			padding-right: .5rem;
 			padding-bottom: .5rem;
+			padding-left: -15rem;
 		}
 		p:nth-of-type(2), p:nth-of-type(3) {
     	margin-top: 2rem;
