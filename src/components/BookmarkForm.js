@@ -12,13 +12,11 @@ export const StyledForm = styled.form`
 	padding-right: 10px;
 	padding-left: 10px;
 	text-align: center;
+	@media (max-width: ${style.breakpoint.tablet}) {
+		width: 100%;
+	}
 	@media (max-width: ${style.breakpoint.mobileS}) {
 		font-size: 1rem;
-	}
-	@media (max-width: ${style.breakpoint.tablet}) {
-		padding-right: 10px;
-		padding-left: 10px;
-		width: 100%;
 	}
 	label {
 		font-size: 1.5rem;

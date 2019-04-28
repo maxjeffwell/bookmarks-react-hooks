@@ -8,8 +8,6 @@ import BookmarksContext from '../context';
 import bookmarksReducer from '../reducers/bookmarksReducer';
 
 import Landing from './Landing';
-import Header from './Header';
-import Footer from './Footer';
 import BookmarksList from './BookmarksList';
 
 WebFont.load({
@@ -85,12 +83,10 @@ export default function App() {
 	return (
 		<BrowserRouter>
 			<BookmarksContext.Provider value={{ state, dispatch }}>
-				<Header />
 				<Switch>
 					<Route exact path='/' component={Landing} />
 					<Route exact path='/bookmarks' component={BookmarksList} />
 				</Switch>
-				<Footer />
 			</BookmarksContext.Provider>
 		</BrowserRouter>
 	);

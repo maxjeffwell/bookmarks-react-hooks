@@ -3,18 +3,6 @@ import styled from '@emotion/styled';
 
 import * as style from './Breakpoints';
 
-const FooterContainer = styled.div`
-	display: grid;
-	position: relative;
-	grid-template-columns: 1fr;
-	grid-template-rows: 1fr;
-	min-width: 100%;
-	min-height: 100%;
-	@media (max-width: ${style.breakpoint.tablet}) {
-		display: flex;
-	}
-`;
-
 const StyledFooter = styled.footer`
 	font-family: ${props => props.theme.fonts.primary};
 	font-size: 2rem;
@@ -24,27 +12,20 @@ const StyledFooter = styled.footer`
 	border-radius: 2px;
 	color: white;
 	padding: 1rem 1rem 1rem 1rem;
-	min-width: 100%;
-	height: 100px;
 	position: relative;
-	grid-column: 1 / 3;
-	@media (max-width: ${style.breakpoint.tablet}) {
-		flex-direction: row;
-		justify-content: center;
-	}
-	@media (max-width: ${style.breakpoint.mobileL}) {
+	grid-column: 1 / 4;
+	grid-row: 6 / -1;
+	@media (max-width: ${style.breakpoint.mobileM}) {
 		font-size: 1.5rem;
-		padding: 1rem;
-		margin-top: 1rem;
-	}
+		grid-row: 6 / -1;
+		grid-column: 1 / -1;
+}
 `;
 
 const Footer = () => (
-	<FooterContainer className="footer-container">
 		<StyledFooter>
-			Copyright &copy; Bookmarked 2019
+			<p>Copyright &copy; Bookmarked 2019</p>
 		</StyledFooter>
-	</FooterContainer>
 );
 
 export default Footer;

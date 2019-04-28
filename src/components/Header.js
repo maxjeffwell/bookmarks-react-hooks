@@ -5,22 +5,9 @@ import styled from '@emotion/styled';
 
 import * as style from './Breakpoints';
 
-const HeaderContainer = styled.div`
-	display: grid;
-	position: relative;
-	grid-template-columns: 1fr 1fr;
-	grid-template-rows: 1fr;
-	grid-gap: 25px;
-	min-width: 100%;
-	@media (max-width: ${style.breakpoint.tablet}) {
-		display: flex;
-	}
-`;
-
 const StyledHeader = styled.header`
 	grid-row: 1 / 2;
-	grid-column: 1 / 3;
-	grid-auto-flow: column;
+	grid-column: 1 / -1;
 	background: black;
 	border-bottom: 5px solid ${props => props.theme.colors.secondary};
 	border-radius: 2px;
@@ -29,21 +16,9 @@ const StyledHeader = styled.header`
 	color: white;
 	padding: 10px 10px 10px 20px;
 	position: relative;
-	width: 100%;
-	height: auto;
-	@media (max-width: ${style.breakpoint.tablet}) {
-		flex-direction: row;
-		min-width: 100%;
-		padding-bottom: 0;
-	}
-	@media (max-width: ${style.breakpoint.mobileL}) {
-		font-size: 1.75rem;
-	}
+	text-align: left;
 	@media (max-width: ${style.breakpoint.mobileM}) {
 		font-size: 1.5rem;
-	}
-	@media (max-width: ${style.breakpoint.mobileS}) {
-		font-size: 1.25rem;
 	}
 `;
 
@@ -58,9 +33,6 @@ const StyledLink = styled(Link)`
 	:hover {
 		text-decoration: underline;
 	}
-	@media (max-width: ${style.breakpoint.tablet}) {
-		float: right;
-	}
 `;
 
 const Header = () => {
@@ -74,12 +46,10 @@ const Header = () => {
 	const ConditionalBookmarkedHeader = () => location.pathname !== '/' ? bookmarked : empty;
 
 	return (
-		<HeaderContainer>
 			<StyledHeader>
-				<ConditionalBookmarkedHeader />
-				<ConditionalHomeLink />
+				<span><ConditionalBookmarkedHeader /></span>
+				<span><ConditionalHomeLink /></span>
 			</StyledHeader>
-		</HeaderContainer>
 	);
 };
 

@@ -5,6 +5,9 @@ import axios from 'axios';
 
 import BookmarksContext from '../context';
 import filterReducer from '../reducers/filterReducer';
+
+import Header from './Header';
+import Footer from './Footer';
 import BookmarkForm from './BookmarkForm';
 import * as style from './Breakpoints';
 
@@ -12,14 +15,13 @@ const StyledGrid = styled.div`
 	display: grid;
 	grid-template-columns: 1fr 2fr;
 	grid-template-rows:  auto 1fr auto;
-	grid-gap: 10px;
+	grid-gap: 2rem;
 	text-align: center;
 	line-height: 1.5;
 	width: 100%;
 	@media (max-width: ${style.breakpoint.tablet}) {
 		display: inline-block;
 		margin-top: 0;
-		width: 100%;
 	}
 	.divider {
 		@media (max-width: ${style.breakpoint.tablet}) {
@@ -61,12 +63,6 @@ const StyledGrid = styled.div`
 			margin: 0 auto 5px auto;
 		}
 	}
-	.clearfooter {
-		height: 50px;
-		clear: both;
-		grid-column: 1 / 3;
-		grid-row: 4 / 5;
-	}
 	.list-item__contentInner {
 		padding-bottom: 5px;
 		font-size: 1rem;
@@ -77,9 +73,6 @@ const StyledGrid = styled.div`
 	}
 		a:hover {
 			text-decoration: underline;
-		}
-		a:visited {
-			color: rebeccapurple;
 		}
 	.list-item__contentOuter {	
 	@media (max-width: ${style.breakpoint.mobileS}) {
@@ -179,7 +172,7 @@ const StyledGrid = styled.div`
 		grid-column: 1 / 3;
 		grid-row: 2 / 3;
 		padding: 10px 40px 0;
-		margin: 0 auto;
+		margin: 0 auto 2rem;
 		@media (max-width: ${style.breakpoint.tablet}) {
 			padding-top: 20px;
 		}
@@ -279,6 +272,7 @@ export default function BookmarksList() {
 
 	return (
 		<StyledGrid>
+			<Header />
 		<StyledForm>
 			<BookmarkForm />
 		</StyledForm>
@@ -394,7 +388,7 @@ export default function BookmarksList() {
 				))}
 			</ul>
 		</StyledList>
-			<div className="clearfooter" />
+		<Footer />
 	</StyledGrid>
 	);
 }
