@@ -19,6 +19,8 @@ const StyledGrid = styled.div`
 	text-align: center;
 	line-height: 1.5;
 	width: 100%;
+	overflow-x: hidden;
+	overflow-y: hidden;
 	@media (max-width: ${style.breakpoint.tablet}) {
 		display: inline-block;
 		margin-top: 0;
