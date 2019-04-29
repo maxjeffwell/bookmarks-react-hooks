@@ -7,7 +7,7 @@ import * as style from './Breakpoints';
 
 const StyledHeader = styled.header`
 	grid-row: 1 / 2;
-	grid-column: 1 / -1;
+	grid-column: 1 / 4;
 	background: black;
 	border-bottom: 5px solid ${props => props.theme.colors.secondary};
 	border-radius: 2px;

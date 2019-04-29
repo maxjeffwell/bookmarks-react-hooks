@@ -18,7 +18,7 @@ const StyledFooter = styled.footer`
 	@media (max-width: ${style.breakpoint.mobileM}) {
 		font-size: 1.5rem;
 		grid-row: 6 / -1;
-		grid-column: 1 / -1;
+		grid-column: 1 / 4;
 }
 `;
 

@@ -10,7 +10,7 @@ import * as style from './Breakpoints';
 const StyledLanding = styled.div`
 	display: grid;
 	grid-template-columns: .25fr 1fr .25fr;
-	grid-template-rows: auto .5fr .1fr .25fr auto;
+	grid-template-rows: auto .25fr .75fr 1fr auto;
 	grid-gap: 4rem;
 	@media (max-width: ${style.breakpoint.mobileM}) {
 		grid-template-columns: .25fr 4fr;

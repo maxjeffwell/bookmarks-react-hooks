@@ -5,15 +5,15 @@ import * as style from './Breakpoints';
 
 const StyledTitle = styled.h1`
 	grid-column: 1 / 2;
-	grid-row: 2 / 3;
+	grid-row: 2 / 4;
 	color: ${props => props.theme.colors.primary};
 	font-family: ${props => props.theme.fonts.tertiary};
 	font-weight: bold;
 	writing-mode: vertical-lr;
 	text-orientation: sideways;
-	font-size: 4rem;
+	font-size: 6rem;
 	line-height: 2;
-	margin-top: 1rem;
+	margin-top: 1.5rem;
 	// @media (max-width: ${style.breakpoint.laptop}), (max-width: ${style.breakpoint.laptopL}), (max-width: ${style.breakpoint.desktop}) {
 	// }
 	// @media (max-width: ${style.breakpoint.mobileL}) {
