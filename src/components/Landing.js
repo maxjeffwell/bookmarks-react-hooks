@@ -14,22 +14,12 @@ const StyledLanding = styled.div`
 	grid-gap: 4rem;
 	@media (max-width: ${style.breakpoint.mobileM}) {
 		grid-template-columns: .25fr 4fr;
-		grid-template-rows: auto .5fr .25fr .25fr auto; 
+		grid-template-rows: auto .5fr .5fr .75fr auto; 
 		grid-gap: 2rem;
 	}
 `;
 
 const StyledText = styled.p`
-	// @media (max-width: ${style.breakpoint.laptop}) and (min-width: ${style.breakpoint.tablet}) {
-	//}
-	// @media (max-width: ${style.breakpoint.tablet}) {
-	//}
-	// @media (max-width: ${style.breakpoint.mobileL}) {
-	// 
-	// @media (max-width: ${style.breakpoint.mobileM}) {
-	// 	}
-	// @media (max-width: ${style.breakpoint.mobileS}) {
-	//}
 		font-family: ${props => props.theme.fonts.tertiary};
 		color: ${props => props.theme.colors.primary};
 		font-style: italic;
@@ -55,8 +45,8 @@ const StyledText = styled.p`
 			font-size: 1.25rem;
 			grid-row: 3 / 4;
 			grid-column: 1 / 3;
-			padding-left: 1rem;
-			padding-right: 0;
+			padding-left: 5rem;
+			padding-right: 7rem;
 			margin-top:0;
 		}
 	}
@@ -68,8 +58,7 @@ const StyledText = styled.p`
 			font-size: 1.25rem;
 			grid-row: 4 / 5;
 			grid-column: 1 / 3;
-			padding-left: 4rem;
-			padding-right: 0;
+			padding-left: 10rem;
 			margin-top: 0;
 		}	
 	}
