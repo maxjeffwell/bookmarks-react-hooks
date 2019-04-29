@@ -14,7 +14,7 @@ const StyledLanding = styled.div`
 	grid-gap: 4rem;
 	@media (max-width: ${style.breakpoint.mobileM}) {
 		grid-template-columns: .25fr 4fr;
-		grid-template-rows: auto .5fr .25fr .75fr auto; 
+		grid-template-rows: auto .5fr .25fr .25fr auto; 
 		grid-gap: 2rem;
 	}
 `;
@@ -40,7 +40,7 @@ const StyledText = styled.p`
 		grid-row: 2 / 3;
 		margin-top: 4rem;
 		@media (max-width: ${style.breakpoint.mobileM}) {
-			font-size: 1rem;
+			font-size: 1.25rem;
 			grid-row: 2 / 3;
 			grid-column: 2 / 3;
 			margin-top: 4rem;
@@ -52,10 +52,12 @@ const StyledText = styled.p`
 		grid-row: 3 / 4;
 		padding-right: 2rem;
 		@media (max-width: ${style.breakpoint.mobileM}) {
-			font-size: 1rem;
+			font-size: 1.25rem;
 			grid-row: 3 / 4;
 			grid-column: 1 / 3;
-			padding-left: 2rem;
+			padding-left: 1rem;
+			padding-right: 0;
+			margin-top:0;
 		}
 	}
 	:nth-of-type(3) {
@@ -63,10 +65,12 @@ const StyledText = styled.p`
 		grid-row: 4 / 5;
 		padding-right: 2rem;
 		@media (max-width: ${style.breakpoint.mobileM}) {
-			font-size: 1rem;
+			font-size: 1.25rem;
 			grid-row: 4 / 5;
 			grid-column: 1 / 3;
-			padding-left: 2rem;
+			padding-left: 4rem;
+			padding-right: 0;
+			margin-top: 0;
 		}	
 	}
 `;

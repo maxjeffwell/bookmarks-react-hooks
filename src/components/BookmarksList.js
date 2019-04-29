@@ -225,6 +225,9 @@ const StyledForm = styled.div`
 	@media (max-width: ${style.breakpoint.tablet}) {
 		display: inline-block;
 		min-width: 100%;
+		margin: auto;
+		padding-left: 10px;
+		padding-right: 10px;
 	}
 `;
 
