@@ -18,7 +18,7 @@
 
 ## Screenshots
 
-[![Bookmarked Landing Page Desktop View]()]()
+[![Bookmarked Landing Page Desktop View](https://drive.google.com/file/d/14UitQVYS6rBGEd1Dzyqq7NW3gkHRlQHU/view?usp=sharing)]()
 
 [![Bookmarked Main Page Desktop View]()]()
 
