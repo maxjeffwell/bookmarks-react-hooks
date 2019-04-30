@@ -5,25 +5,19 @@
 ## Build Status
 
 ![React](https://img.shields.io/badge/react-16.8.0%2B-blue.svg)
-
 [![npm version](https://img.shields.io/badge/npm%20package-6.4.1-orange.svg)](https://badge.fury.io/js/npm)
-
 ![Dependencies](https://img.shields.io/badge/dependencies-up%20to%20date-brightgreen.svg)
-
 [![Build Status](https://travis-ci.org/maxjeffwell/bookmarks-react-hooks.svg?branch=master)](https://travis-ci.org/maxjeffwell/bookmarks-react-hooks)
-
 [![Live Demo](https://img.shields.io/badge/demo-online-green.svg)](https://jmaxwell-bookmark-manager.herokuapp.com/)
 
 ## [Live App](https://jmaxwell-bookmark-manager.herokuapp.com/)
 
 ## Screenshots
-[![Bookmarked Desktop View Landing Page](https://i.gyazo.com/0ea76820d3f9508c2ef34b36d19cde0c.png)](https://gyazo.com/0ea76820d3f9508c2ef34b36d19cde0c)
+[![Bookmarked Tablet View Landing Page](https://i.gyazo.com/ac2ceec5e9d38efa13958aa30fb080ac.png)](https://gyazo.com/ac2ceec5e9d38efa13958aa30fb080ac)
 
 [![Bookmarked Desktop View Main Page Bookmarks_Expanded](https://i.gyazo.com/50446739abbc9e8c13aced3ca6479b13.png)](https://gyazo.com/50446739abbc9e8c13aced3ca6479b13)
 
 [![Bookmarked Desktop View Main Page Bookmarks_Partially_Expanded](https://i.gyazo.com/010ea3b169a221ffd95464039c3fe6d0.png)](https://gyazo.com/010ea3b169a221ffd95464039c3fe6d0)
-
-[![Bookmarked Tablet View Landing Page](https://i.gyazo.com/ac2ceec5e9d38efa13958aa30fb080ac.png)](https://gyazo.com/ac2ceec5e9d38efa13958aa30fb080ac)
 
 [![Bookmarked Tablet View Main Page](https://i.gyazo.com/c34cca0df86b59c7c16b38e4441c5001.png)](https://gyazo.com/c34cca0df86b59c7c16b38e4441c5001)
 
