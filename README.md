@@ -1,16 +1,15 @@
 # Bookmarked
 
->**Bookmarked** 
+> ![React](https://img.shields.io/badge/React-badge.svg?style=for-the-badge&logo=react&labelColor=EDEDED&logoColor=393939&color=393939)
+> ![Zeit](https://img.shields.io/badge/Zeit-badge.svg?style=for-the-badge&logo=zeit&labelColor=EDEDED&logoColor=393939&color=393939)
+> ![CSS3](https://img.shields.io/badge/CSS3-badge.svg?style=for-the-badge&logo=css3&labelColor=EDEDED&logoColor=393939&color=393939)
 
 ## Build Status
 
-![React](https://img.shields.io/badge/react-16.8.0%2B-blue.svg)
-[![npm version](https://img.shields.io/badge/npm%20package-6.4.1-orange.svg)](https://badge.fury.io/js/npm)
-![Dependencies](https://img.shields.io/badge/dependencies-up%20to%20date-brightgreen.svg)
-[![Build Status](https://travis-ci.org/maxjeffwell/bookmarks-react-hooks.svg?branch=master)](https://travis-ci.org/maxjeffwell/bookmarks-react-hooks)
-[![Live Demo](https://img.shields.io/badge/demo-online-green.svg)](https://jmaxwell-bookmark-manager.herokuapp.com/)
-
-## [Live App](https://jmaxwell-bookmark-manager.herokuapp.com/)
+[![npm version](https://img.shields.io/badge/npm%20package-6.4.1-orange.svg?style=flat-square&logoColor=393939&color=393939)](https://badge.fury.io/js/npm)
+![Dependencies](https://img.shields.io/badge/dependencies-up%20to%20date-393939.svg?style=flat-square)
+![Build Status](https://img.shields.io/travis/maxjeffwell/bookmarks-react-hooks/master.svg?style=flat-square&logoColor=393939&color=393939)
+[![Live Demo](https://img.shields.io/badge/demo-black.svg?style=flat-square&logo=heroku)](https://jmaxwell-bookmark-manager.herokuapp.com/)
 
 ## Screenshots
 [![Bookmarked Tablet View Landing Page](https://i.gyazo.com/ac2ceec5e9d38efa13958aa30fb080ac.png)](https://gyazo.com/ac2ceec5e9d38efa13958aa30fb080ac)
@@ -34,6 +33,6 @@
 by Jeff Maxwell maxjeffwell@gmail.com |
 [https://github.com/maxjeffwell](https://github.com/maxjeffwell)
 
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-393939.svg?style=flat-square&labelColor=393939&logoColor=393939&color=393939)](https://www.gnu.org/licenses/gpl-3.0)
 Distributed under the GNU GPLv3 License.
     See ``LICENSE`` for more information.
