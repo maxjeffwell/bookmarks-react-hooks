@@ -29,11 +29,13 @@
 
 ## Technology Stack
 
+## Next Steps
+* Create a custom modal hook to power a delete bookmark confirmation modal component
+
 ## Meta
 
 by Jeff Maxwell maxjeffwell@gmail.com |
 [https://github.com/maxjeffwell](https://github.com/maxjeffwell)
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-Distributed under the GNU GPLv3 License.
-    See ``LICENSE`` for more information.
+Distributed under the GNU GPLv3 License. See ``LICENSE`` for more information.
