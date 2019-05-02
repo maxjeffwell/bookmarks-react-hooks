@@ -1,8 +1,8 @@
 ## Bookmarked
 
->![Zeit](https://img.shields.io/badge/Zeit-badge.svg?style=for-the-badge&logo=zeit&labelColor=EDEDED&logoColor=393939&color=393939)
->>![React](https://img.shields.io/badge/React-badge.svg?style=for-the-badge&logo=react&labelColor=EDEDED&logoColor=393939&color=393939)
->>>![CSS3](https://img.shields.io/badge/CSS3-badge.svg?style=for-the-badge&logo=css3&labelColor=EDEDED&logoColor=393939&color=393939)
+>![Zeit](https://img.shields.io/badge/Zeit-badge.svg?style=for-the-badge&logo=zeit&labelColor=cb3738&logoColor=EDEDED&color=393939)
+>>![React](https://img.shields.io/badge/React-badge.svg?style=for-the-badge&logo=react&labelColor=cb3738&logoColor=EDEDED&color=393939)
+>>>![CSS3](https://img.shields.io/badge/CSS3-badge.svg?style=for-the-badge&logo=css3&labelColor=cb3738&logoColor=EDEDED&color=393939)
 >>
 >
 
