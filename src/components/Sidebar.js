@@ -13,7 +13,10 @@ const StyledTitle = styled.h1`
 	text-orientation: sideways;
 	font-size: 6rem;
 	line-height: 2;
-	margin-top: 1.5rem;
+	//margin-top: 1.5rem;
+	border: 5px solid #FF4834;
+	padding-top: 1rem;
+	padding-bottom: 1rem;
 	// @media (max-width: ${style.breakpoint.laptop}), (max-width: ${style.breakpoint.laptopL}), (max-width: ${style.breakpoint.desktop}) {
 	// }
 	// @media (max-width: ${style.breakpoint.mobileL}) {
