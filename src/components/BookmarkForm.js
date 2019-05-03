@@ -9,9 +9,10 @@ import * as style from './Breakpoints';
 export const StyledForm = styled.form`
 	font-family: ${props => props.theme.fonts.secondary};
 	font-weight: bold;
-	padding-right: 10px;
-	padding-left: 10px;
-	text-align: center;
+	padding-right: 1rem;
+	padding-left: 1rem;
+	display: grid;
+	place-items: center center;
 	@media (max-width: ${style.breakpoint.tablet}) {
 		width: 100%;
 	}
@@ -29,11 +30,11 @@ export const StyledForm = styled.form`
 		display: grid;
 		background: ${props => props.theme.colors.secondary};
 		grid-template-columns: 1fr;
-		width: 100%;
 		padding: 5px;
 		cursor: text;
-		margin-bottom: 10px;
-		margin-top: 10px;
+		margin-bottom: 1rem;
+		margin-top: 1rem;
+		width: 100%;
 	}
 	input::placeholder {
   	color: white;
@@ -44,7 +45,7 @@ export const StyledForm = styled.form`
 		outline: none;
 	}
 	textarea {
-		width: 100%;
+		display: grid;
 		font-size: 1.5rem;
 		font-family: ${props => props.theme.fonts.secondary};
 		letter-spacing: 1px;
@@ -55,7 +56,8 @@ export const StyledForm = styled.form`
 		line-height: 1.5;
 		border: 2px solid ${props => props.theme.colors.primary};
   	box-shadow: 1px 1px 1px #999;
-  	margin-top: 10px;
+  	margin-top: 1rem;
+  	margin-bottom: 1rem;
   	resize: none;
 	}	
 	textarea::placeholder {
@@ -72,7 +74,6 @@ export const StyledForm = styled.form`
 		border-radius: 5px;
 		box-shadow: 1px 1px 1px #999;
 		padding: 5px 5px 5px 5px;
-		margin: 10px auto;
 		width: auto;
 	}
 	fieldset > * {
@@ -111,7 +112,7 @@ export const StyledForm = styled.form`
 	button {
 		font-size: 1.5rem;
 		height: 75%;
-		width: 50%;
+		width: 100%;
 		padding: 5px 5px 5px 5px;
 		@media (max-width: ${style.breakpoint.tablet}) {
 			width: auto;

@@ -13,9 +13,9 @@ import * as style from './Breakpoints';
 
 const StyledGrid = styled.div`
 	display: grid;
-	grid-template-columns: 1fr 2fr;
+	grid-template-columns: 1fr 1fr;
 	grid-template-rows:  auto 1fr auto;
-	grid-gap: 2rem;
+	grid-gap: 1rem;
 	text-align: center;
 	line-height: 1.5;
 	width: 100%;
@@ -26,6 +26,9 @@ const StyledGrid = styled.div`
 		margin-top: 0;
 	}
 	.divider {
+		@media (min-width: 768px) {
+			visibility: hidden;
+		}
 		@media (max-width: ${style.breakpoint.tablet}) {
 			display: block;
 			border-color: ${props => props.theme.colors.secondary};

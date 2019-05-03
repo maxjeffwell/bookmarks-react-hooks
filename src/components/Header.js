@@ -7,14 +7,15 @@ import * as style from './Breakpoints';
 
 const StyledHeader = styled.header`
 	grid-row: 1 / 2;
-	grid-column: 1 / 4;
+	grid-column: 1 / 7;
 	background: black;
 	border-bottom: 5px solid ${props => props.theme.colors.secondary};
 	border-radius: 2px;
 	font-family: ${props => props.theme.fonts.primary};
 	font-size: 2rem;
 	color: white;
-	padding: 10px 10px 10px 20px;
+	padding-left: 10px;
+	padding-top: 20px;
 	position: relative;
 	text-align: left;
 	@media (max-width: ${style.breakpoint.mobileM}) {

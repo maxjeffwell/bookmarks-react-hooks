@@ -11,13 +11,11 @@ const StyledFooter = styled.footer`
 	border-top: 5px solid ${props => props.theme.colors.secondary};
 	border-radius: 2px;
 	color: white;
-	padding: 1rem 1rem 1rem 1rem;
 	position: relative;
-	grid-column: 1 / 4;
-	grid-row: 6 / -1;
+	grid-column: 1 / 7;
+	grid-row: 5 / 6 ;
 	@media (max-width: ${style.breakpoint.mobileM}) {
-		font-size: 1.5rem;
-		grid-row: 6 / -1;
+		grid-row: 5 / -1;
 		grid-column: 1 / 4;
 }
 `;

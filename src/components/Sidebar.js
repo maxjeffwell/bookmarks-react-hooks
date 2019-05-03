@@ -4,23 +4,17 @@ import styled from '@emotion/styled';
 import * as style from './Breakpoints';
 
 const StyledTitle = styled.h1`
-	grid-column: 1 / 2;
-	grid-row: 2 / 4;
+	grid-column: 3 / 4;
+	grid-row: 2 / 5;
 	color: ${props => props.theme.colors.primary};
-	font-family: ${props => props.theme.fonts.tertiary};
-	font-weight: bold;
+	font-family: ${props => props.theme.fonts.quaternary};
 	writing-mode: vertical-lr;
 	text-orientation: sideways;
 	font-size: 6rem;
 	line-height: 2;
-	//margin-top: 1.5rem;
-	border: 5px solid #FF4834;
-	padding-top: 1rem;
-	padding-bottom: 1rem;
-	// @media (max-width: ${style.breakpoint.laptop}), (max-width: ${style.breakpoint.laptopL}), (max-width: ${style.breakpoint.desktop}) {
-	// }
-	// @media (max-width: ${style.breakpoint.mobileL}) {
-	//}
+	border: 5px solid ${props => props.theme.colors.tertiary};
+	border-radius: 2px;
+	padding-top: 4rem;
 	@media (max-width: ${style.breakpoint.tablet}) {
 		grid-row: 2 / 4;
 		grid-column: 1 / 2;
@@ -33,8 +27,6 @@ const StyledTitle = styled.h1`
 		grid-column: 1 / 2;
 		margin-top: 1rem;
 	}
-	// @media (max-width: ${style.breakpoint.mobileS}) {
-	// }
 `;
 
 const Sidebar = () => (

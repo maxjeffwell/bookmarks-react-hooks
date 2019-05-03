@@ -12,7 +12,12 @@ import BookmarksList from './BookmarksList';
 
 WebFont.load({
 	custom: {
-		families: ['ITCAvantGardeStd-Demi', 'GillSansStd-Shadowed', 'WarnockPro-SemiboldIt']
+		families: ['ITCAvantGardeStd-Demi',
+			'GillSansStd-Shadowed',
+			'WarnockPro-SemiboldIt',
+			'HelveticaNeueLTStd-BdOu',
+			'GaramondPremrPro-MedDisp'
+		]
 	},
 	timeout: 2000
 });
@@ -33,6 +38,18 @@ injectGlobal`
 	@font-face {
 		font-family: WarnockPro-SemiboldIt;
 		src: url('../../public/fonts/WarnockPro-SemiboldIt.otf') format('opentype');
+		font-weight: normal;
+		font-style: normal;
+	}
+	@font-face {
+		font-family: HelveticaNeueLTStd-BdOu;
+		src: url('../../public/fonts/HelveticaNeueLTStd-BdOu.otf') format('opentype');
+		font-weight: bold;
+		font-style: normal;
+	}
+		@font-face {
+		font-family: GaramondPremrPro-MedDisp;
+		src: url('../../public/fonts/HelveticaNeueLTStd-BdOu.otf') format('opentype');
 		font-weight: normal;
 		font-style: normal;
 	}
