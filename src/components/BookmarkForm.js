@@ -32,12 +32,7 @@ export const StyledForm = styled.form`
 		grid-template-columns: 1fr;
 		padding: 5px;
 		cursor: text;
-		margin-bottom: 1rem;  
-		// input[type=checkbox]:checked {
-  	// background: ${props => props.theme.colors.primary};
-  	// border: ${props => props.theme.colors.secondary};
-   //  opacity: 1;
-   // }
+		margin-bottom: 1rem;
 		margin-top: 1rem;
 		width: 100%;
 	}
@@ -50,7 +45,6 @@ export const StyledForm = styled.form`
 		width: 1rem;
 		height: 1rem;
 		border: 1px solid ${props => props.theme.colors.secondary};
-		box-shadow: inset 0 1px 1px white, 0 1px 3px rgba(0,0,0,0.5);
 		border-radius: 50px;
 	}
 	input[type=radio]:-moz-ui-invalid:not(output) {

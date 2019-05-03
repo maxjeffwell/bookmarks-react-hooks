@@ -196,7 +196,6 @@ const StyledGrid = styled.div`
   	background:  ${props => props.theme.colors.white};
   	border-radius: 50px;
   	margin-bottom: auto;
-  	box-shadow: inset 0 1px 1px white, 0 1px 3px rgba(0,0,0,0.5);
   	cursor: pointer;
   	appearance: none;
   	-webkit-appearance: none;
