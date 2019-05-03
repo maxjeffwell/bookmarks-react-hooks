@@ -191,9 +191,9 @@ const StyledGrid = styled.div`
 		vertical-align: middle;
 		width: 1rem;
 		height: 1rem;
-		border: 1px solid #ccc;
+		border: 1px solid ${props => props.theme.colors.secondary};
 		padding: .2rem .5rem;
-  	background: white;
+  	background:  ${props => props.theme.colors.white};
   	border-radius: 50px;
   	margin-bottom: auto;
   	box-shadow: inset 0 1px 1px white, 0 1px 3px rgba(0,0,0,0.5);
@@ -201,13 +201,13 @@ const StyledGrid = styled.div`
   	appearance: none;
   	-webkit-appearance: none;
 		-moz-appearance: none;
-  }
-  input[type="checkbox"]:focus {
+  } 
+  input[type=checkbox]:focus {
   	outline: none;
   }
-  input[type="checkbox"]:checked {
+  input[type=checkbox]:checked {
   	background: ${props => props.theme.colors.primary};
-  	border: ${props => props.theme.colors.secondary};
+  	border: 1px solid ${props => props.theme.colors.secondary};
     opacity: 1;
   }
   input:hover::after {

@@ -24,7 +24,7 @@ export const StyledForm = styled.form`
 	}
 	input {
 		font-size: 1.5rem;
-		color: white;
+		color: ${props => props.theme.colors.white};
 		border: 2 px solid ${props => props.theme.colors.primary};
 		border-radius: 5px;
 		display: grid;
@@ -32,27 +32,40 @@ export const StyledForm = styled.form`
 		grid-template-columns: 1fr;
 		padding: 5px;
 		cursor: text;
-		margin-bottom: 1rem;  input[type="checkbox"]:checked {
-  	background: ${props => props.theme.colors.primary};
-  	border: ${props => props.theme.colors.secondary};
-    opacity: 1;
-  }
+		margin-bottom: 1rem;  
+		// input[type=checkbox]:checked {
+  	// background: ${props => props.theme.colors.primary};
+  	// border: ${props => props.theme.colors.secondary};
+   //  opacity: 1;
+   // }
 		margin-top: 1rem;
 		width: 100%;
 	}
-	input[type="radio"]:checked {
-		-webkit-appearance: none !important;
-    -moz-appearance:    none !important;
-    appearance:         none !important;
-  	background: ${props => props.theme.colors.primary};
-  	border: ${props => props.theme.colors.secondary};
-    opacity: 0;
+	input[type=radio] {
+		appearance: none;
+		-moz-appearance: button;
+		-webkit-appearance: none;
+		justify-self: center;
+		background-color: ${props => props.theme.colors.white};
+		width: 1rem;
+		height: 1rem;
+		border: 1px solid ${props => props.theme.colors.secondary};
+		box-shadow: inset 0 1px 1px white, 0 1px 3px rgba(0,0,0,0.5);
+		border-radius: 50px;
+	}
+	input[type=radio]:-moz-ui-invalid:not(output) {
+    box-shadow: none;
   }
-   input[type="radio"]:focus {
+	input[type=radio]:focus {
   	outline: none;
   }
+	input[type=radio]:checked {
+  	background: ${props => props.theme.colors.primary};
+  	border: 1px solid ${props => props.theme.colors.secondary};
+  	opacity: 1;
+  }
 	input::placeholder {
-  	color: white;
+  	color: ${props => props.theme.colors.white};
   	opacity: 0.4;
   	font-size: 1.5rem;
 	}
