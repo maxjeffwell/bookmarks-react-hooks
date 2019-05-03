@@ -8,12 +8,12 @@ import * as style from './Breakpoints';
 const StyledHeader = styled.header`
 	grid-row: 1 / 2;
 	grid-column: 1 / 7;
-	background: black;
+	background: ${props => props.theme.colors.black};
 	border-bottom: 5px solid ${props => props.theme.colors.secondary};
 	border-radius: 2px;
 	font-family: ${props => props.theme.fonts.primary};
+	color: ${props => props.theme.colors.white};
 	font-size: 2rem;
-	color: white;
 	padding-left: 10px;
 	padding-top: 20px;
 	position: relative;
@@ -27,10 +27,11 @@ const StyledLink = styled(Link)`
 	grid-column: 2 / 3;
 	white-space: nowrap;
 	text-align: right;
-	color: white;
+	color: ${props => props.theme.colors.white};
 	text-decoration: none;
 	padding-right: 10px;
 	float: right;
+	-webkit-appearance: none;
 	:hover {
 		text-decoration: underline;
 	}

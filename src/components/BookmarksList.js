@@ -14,31 +14,19 @@ import * as style from './Breakpoints';
 const StyledGrid = styled.div`
 	display: grid;
 	grid-template-columns: 1fr 1fr;
-	grid-template-rows:  auto 1fr auto;
+	grid-template-rows: auto 1fr auto;
 	grid-gap: 1rem;
 	text-align: center;
 	line-height: 1.5;
 	width: 100%;
 	overflow-x: hidden;
 	overflow-y: hidden;
+	background-color: #005995;
 	@media (max-width: ${style.breakpoint.tablet}) {
 		display: inline-block;
 		margin-top: 0;
-	}
-	.divider {
-		@media (min-width: 768px) {
-			visibility: hidden;
-		}
-		@media (max-width: ${style.breakpoint.tablet}) {
-			display: block;
-			border-color: ${props => props.theme.colors.secondary};
-			border-width: 1px;
-			opacity: 0.4%;
-			width: 95%;
-			margin: 50px auto 25px auto;
-			border-style: inset;
-			transform: rotate(5deg);
-		}
+		overflow-x: hidden;
+		overflow-y: hidden;
 	}
 	.list-title {
 		grid-column: 1 / 3;
@@ -47,7 +35,6 @@ const StyledGrid = styled.div`
 			display: inline-block;
 			text-align: center;
 			margin: 20px auto;
-	
 		}
 	}
 	.filters {
@@ -69,8 +56,12 @@ const StyledGrid = styled.div`
 		}
 	}
 	.list-item__contentInner {
-		padding-bottom: 5px;
+		padding-bottom: .5rem;
+		padding-top: .5rem;
 		font-size: 1rem;
+		background-color: #f5f5f5;
+		border-radius: 5px;
+		margin: .5rem auto;
 	}
 	.list-item__contentInner a, p {
 		text-decoration: none;
@@ -146,7 +137,7 @@ const StyledGrid = styled.div`
 		font-size: 2rem;
 		margin: 5px auto;
 		padding: 5px 5px 5px 5px;
-		box-shadow: inset 0 -4px 0px rgba(0,0,0,0.5), 0 1px 0 rgba(255,255,255,1);
+		box-shadow: inset 0 -4px 0px rgba(0,0,0,0.5), 0 0px 0 rgba(255,255,255,1);
 		background: linear-gradient(top, #222 0%, #45484d 100%);
 		white-space: nowrap;
 	}
@@ -219,7 +210,7 @@ const StyledGrid = styled.div`
   	border: ${props => props.theme.colors.secondary};
     opacity: 1;
   }
-  &:hover::after {
+  input:hover::after {
     opacity: 0.3;
   }
 `;
@@ -227,6 +218,7 @@ const StyledGrid = styled.div`
 const StyledForm = styled.div`
 	grid-column: 1 / 2;
 	grid-row: 2 / 3;
+	background-color: #fbf579;
 	@media (max-width: ${style.breakpoint.tablet}) {
 		display: inline-block;
 		min-width: 100%;
@@ -241,6 +233,7 @@ const StyledList= styled.div`
 	grid-column: 2 / 3;
 	grid-row: 2 / 3;
 	font-family: ${props => props.theme.fonts.secondary};
+	background-color: #fa625f;
 	@media (max-width: ${style.breakpoint.tablet}) {
 		display: inline-block;
 		min-width: 100%;
@@ -284,7 +277,6 @@ export default function BookmarksList() {
 		<StyledForm>
 			<BookmarkForm />
 		</StyledForm>
-			<hr className="divider" />
 		<StyledList>
 			<div className="list-title">
 			<h3>{title}</h3>

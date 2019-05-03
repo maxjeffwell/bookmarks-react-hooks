@@ -12,7 +12,8 @@ import BookmarksList from './BookmarksList';
 
 WebFont.load({
 	custom: {
-		families: ['ITCAvantGardeStd-Demi',
+		families: [
+			'ITCAvantGardeStd-Demi',
 			'GillSansStd-Shadowed',
 			'WarnockPro-SemiboldIt',
 			'HelveticaNeueLTStd-BdOu',
@@ -49,8 +50,8 @@ injectGlobal`
 	}
 		@font-face {
 		font-family: GaramondPremrPro-MedDisp;
-		src: url('../../public/fonts/HelveticaNeueLTStd-BdOu.otf') format('opentype');
-		font-weight: normal;
+		src: url('../../public/fonts/HelveticaNeueLTStd-BdCn.otf') format('opentype');
+		font-weight: bold;
 		font-style: normal;
 	}
 	html {
@@ -69,6 +70,7 @@ injectGlobal`
 		line-height: 2;
 		height: 100%;
 		width: 100%;
+		background-color: #ecf0f1;
 	}
 `;
 

@@ -32,10 +32,25 @@ export const StyledForm = styled.form`
 		grid-template-columns: 1fr;
 		padding: 5px;
 		cursor: text;
-		margin-bottom: 1rem;
+		margin-bottom: 1rem;  input[type="checkbox"]:checked {
+  	background: ${props => props.theme.colors.primary};
+  	border: ${props => props.theme.colors.secondary};
+    opacity: 1;
+  }
 		margin-top: 1rem;
 		width: 100%;
 	}
+	input[type="radio"]:checked {
+		-webkit-appearance: none !important;
+    -moz-appearance:    none !important;
+    appearance:         none !important;
+  	background: ${props => props.theme.colors.primary};
+  	border: ${props => props.theme.colors.secondary};
+    opacity: 0;
+  }
+   input[type="radio"]:focus {
+  	outline: none;
+  }
 	input::placeholder {
   	color: white;
   	opacity: 0.4;

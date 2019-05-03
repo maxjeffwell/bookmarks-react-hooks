@@ -8,13 +8,15 @@ const theme = {
 	colors: {
 		primary: '#393939',
 		secondary: '#343436',
-		tertiary: '#FF4834'
+		tertiary: '#FF4834',
+		black: '#000000',
+		white: '#ffffff'
 	},
 	fonts: {
 		primary: 'ITCAvantGardeStd-Demi, monospace',
 		secondary: 'GillSansStd-Shadowed, sans-serif',
 		tertiary: 'WarnockPro-SemiboldIt, serif',
-		quaternary: 'HelveticaNeueLTStd-BdOu, sans-serif',
+		quaternary: 'HelveticaNeueLTStd-BdCn, sans-serif',
 		quinary: 'GaramondPremrPro-MedDisp, serif'
 	},
 };

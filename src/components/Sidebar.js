@@ -5,16 +5,19 @@ import * as style from './Breakpoints';
 
 const StyledTitle = styled.h1`
 	grid-column: 3 / 4;
-	grid-row: 2 / 5;
+	grid-row: 1 / 6;
 	color: ${props => props.theme.colors.primary};
 	font-family: ${props => props.theme.fonts.quaternary};
 	writing-mode: vertical-lr;
 	text-orientation: sideways;
-	font-size: 6rem;
+	font-size: 8rem;
 	line-height: 2;
-	border: 5px solid ${props => props.theme.colors.tertiary};
+	//border: 5px solid ${props => props.theme.colors.tertiary};
+	//border: 10px solid #FC4A1A; 
+	border: 10px solid #fa625f;
+	background-color: #fa625f;
 	border-radius: 2px;
-	padding-top: 4rem;
+	padding-top: 15rem;
 	@media (max-width: ${style.breakpoint.tablet}) {
 		grid-row: 2 / 4;
 		grid-column: 1 / 2;

@@ -7,13 +7,20 @@ const StyledFooter = styled.footer`
 	font-family: ${props => props.theme.fonts.primary};
 	font-size: 2rem;
 	text-align: center;
-	background: black;
+	background: ${props => props.theme.colors.black};
 	border-top: 5px solid ${props => props.theme.colors.secondary};
 	border-radius: 2px;
-	color: white;
 	position: relative;
 	grid-column: 1 / 7;
-	grid-row: 5 / 6 ;
+	grid-row: 5 / -1 ;
+	p {
+		color: #ffffff;
+	}
+		@media (max-width: ${style.breakpoint.tablet}) {
+		display: inline-block;
+		height: 100%;
+		width: 100%;
+}
 	@media (max-width: ${style.breakpoint.mobileM}) {
 		grid-row: 5 / -1;
 		grid-column: 1 / 4;
