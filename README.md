@@ -34,6 +34,11 @@
 
 ## Technology Stack
 
+* React Hooks
+* CSS Grid
+* React Emotion
+* JSON Server
+
 ## Next Steps
 
 * Create a custom modal hook to power a delete bookmark confirmation modal component

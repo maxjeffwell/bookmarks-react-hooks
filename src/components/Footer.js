@@ -12,7 +12,7 @@ const StyledFooter = styled.footer`
 	border-radius: 2px;
 	position: relative;
 	grid-column: 1 / 7;
-	grid-row: 5 / -1 ;
+	grid-row: 5 / -1;
 	p {
 		color: #ffffff;
 	}

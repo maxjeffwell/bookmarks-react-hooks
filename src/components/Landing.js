@@ -31,7 +31,7 @@ const StyledText = styled.p`
 	:first-of-type {
 		grid-column: 2 / 3;
 		grid-row: 1 / 3;
-		padding: 5rem 1rem 2rem 1rem;
+		padding: 5rem 2rem 2rem 2rem;
 		border-radius: 5px;
 		background-color: #005995;
 		@media (max-width: ${style.breakpoint.mobileM}) {

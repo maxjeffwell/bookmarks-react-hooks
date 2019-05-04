@@ -145,8 +145,8 @@ export const StyledForm = styled.form`
 	}
 	button:active {
   	background: ${props => props.theme.colors.secondary};
-  	color: white;
-  	outline: 1px solid black;
+  	color: ${props => props.theme.colors.white};
+  	outline: 1px solid ${props => props.theme.colors.primary};
 	}
 `;
 

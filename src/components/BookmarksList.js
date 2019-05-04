@@ -13,14 +13,13 @@ import * as style from './Breakpoints';
 
 const StyledGrid = styled.div`
 	display: grid;
-	grid-template-columns: 1fr 1fr;
+	grid-template-columns: .25fr 1fr 1fr .25fr;
 	grid-template-rows: auto 1fr auto;
-	grid-gap: 1rem;
+	grid-column-gap: 2rem;
+	grid-row-gap: 2rem;
 	text-align: center;
 	line-height: 1.5;
 	width: 100%;
-	overflow-x: hidden;
-	overflow-y: hidden;
 	background-color: #005995;
 	@media (max-width: ${style.breakpoint.tablet}) {
 		display: inline-block;
@@ -56,8 +55,7 @@ const StyledGrid = styled.div`
 		}
 	}
 	.list-item__contentInner {
-		padding-bottom: .5rem;
-		padding-top: .5rem;
+		padding: .5rem;
 		font-size: 1rem;
 		background-color: #f5f5f5;
 		border-radius: 5px;
@@ -215,7 +213,7 @@ const StyledGrid = styled.div`
 `;
 
 const StyledForm = styled.div`
-	grid-column: 1 / 2;
+	grid-column: 2 / 3;
 	grid-row: 2 / 3;
 	background-color: #fbf579;
 	@media (max-width: ${style.breakpoint.tablet}) {
@@ -229,7 +227,7 @@ const StyledForm = styled.div`
 
 const StyledList= styled.div`
 	display: grid;
-	grid-column: 2 / 3;
+	grid-column: 3 / 4;
 	grid-row: 2 / 3;
 	font-family: ${props => props.theme.fonts.secondary};
 	background-color: #fa625f;
