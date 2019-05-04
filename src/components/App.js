@@ -32,13 +32,7 @@ injectGlobal`
 	}
 	@font-face {
 		font-family: GillSansStd-Shadowed;
-		src: url('../../public/fonts/GillSansStd-Shadowed.otf') format('opentype');
-		font-weight: normal;
-		font-style: normal;
-	}
-	@font-face {
-		font-family: WarnockPro-SemiboldIt;
-		src: url('../../public/fonts/WarnockPro-SemiboldIt.otf') format('opentype');
+		src: url('../../public/fonts/HelveticaNeueLTStd-Roman.otf') format('opentype');
 		font-weight: normal;
 		font-style: normal;
 	}

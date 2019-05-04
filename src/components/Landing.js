@@ -21,7 +21,7 @@ const StyledLanding = styled.div`
 `;
 
 const StyledText = styled.p`
-		font-family: ${props => props.theme.fonts.quaternary};
+		font-family: ${props => props.theme.fonts.quinary};
 		color: #f5f5f5;
 		font-style: normal;
 		background-color: #262626;

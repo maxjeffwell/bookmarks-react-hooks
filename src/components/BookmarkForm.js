@@ -23,6 +23,7 @@ export const StyledForm = styled.form`
 		font-size: 1.5rem;
 	}
 	input {
+		font-family: ${props => props.theme.fonts.quinary};
 		font-size: 1.5rem;
 		color: ${props => props.theme.colors.white};
 		border: 2 px solid ${props => props.theme.colors.primary};
@@ -59,6 +60,7 @@ export const StyledForm = styled.form`
   	opacity: 1;
   }
 	input::placeholder {
+		font-family: ${props => props.theme.fonts.quinary};
   	color: ${props => props.theme.colors.white};
   	opacity: 0.4;
   	font-size: 1.5rem;
@@ -69,7 +71,7 @@ export const StyledForm = styled.form`
 	textarea {
 		display: grid;
 		font-size: 1.5rem;
-		font-family: ${props => props.theme.fonts.secondary};
+		font-family: ${props => props.theme.fonts.quinary};
 		letter-spacing: 1px;
 		color: white;
 		background: ${props => props.theme.colors.secondary};

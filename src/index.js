@@ -14,8 +14,7 @@ const theme = {
 	},
 	fonts: {
 		primary: 'ITCAvantGardeStd-Demi, monospace',
-		secondary: 'GillSansStd-Shadowed, sans-serif',
-		tertiary: 'WarnockPro-SemiboldIt, serif',
+		secondary: 'HelveticaNeueLTStd-Roman, sans-serif',
 		quaternary: 'HelveticaNeueLTStd-BdCn, sans-serif',
 		quinary: 'GaramondPremrPro-MedDisp, serif'
 	},

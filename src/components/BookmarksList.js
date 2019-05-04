@@ -55,6 +55,7 @@ const StyledGrid = styled.div`
 		}
 	}
 	.list-item__contentInner {
+		font-family: ${props => props.theme.fonts.quinary};
 		padding: .5rem;
 		font-size: 1rem;
 		background-color: #f5f5f5;
