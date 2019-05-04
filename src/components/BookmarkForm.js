@@ -48,6 +48,9 @@ export const StyledForm = styled.form`
 		border: 1px solid ${props => props.theme.colors.secondary};
 		border-radius: 50px;
 	}
+	input:-moz-ui-invalid:not(output) {
+    box-shadow: none;
+  }
 	input[type=radio]:-moz-ui-invalid:not(output) {
     box-shadow: none;
   }

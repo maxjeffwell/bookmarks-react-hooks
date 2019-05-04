@@ -14,9 +14,8 @@ WebFont.load({
 	custom: {
 		families: [
 			'ITCAvantGardeStd-Demi',
-			'GillSansStd-Shadowed',
-			'WarnockPro-SemiboldIt',
 			'HelveticaNeueLTStd-BdOu',
+			'HelveticaNeueLTStd-Roman',
 			'GaramondPremrPro-MedDisp'
 		]
 	},
@@ -31,7 +30,7 @@ injectGlobal`
 		font-style: normal;
 	}
 	@font-face {
-		font-family: GillSansStd-Shadowed;
+		font-family: HelveticaNeueLTStd-Roman;
 		src: url('../../public/fonts/HelveticaNeueLTStd-Roman.otf') format('opentype');
 		font-weight: normal;
 		font-style: normal;
@@ -44,7 +43,7 @@ injectGlobal`
 	}
 		@font-face {
 		font-family: GaramondPremrPro-MedDisp;
-		src: url('../../public/fonts/HelveticaNeueLTStd-BdCn.otf') format('opentype');
+		src: url('../../public/fonts/GaramondPremrPro-MedDisp.otf') format('opentype');
 		font-weight: bold;
 		font-style: normal;
 	}

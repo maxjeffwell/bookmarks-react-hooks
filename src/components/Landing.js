@@ -6,12 +6,13 @@ import Footer from './Footer';
 import Sidebar from './Sidebar';
 
 import * as style from './Breakpoints';
+import bookmark from '../icons/bookmark.png';
 
 const StyledLanding = styled.div`
 	display: grid;
 	grid-template-columns: .25fr 1fr 1fr 1fr .75fr;
 	grid-template-rows: .1fr 1fr 1fr .25fr;
-	grid-gap: 1rem;
+	grid-gap: 2rem;
 	background-color: #fbf579;
 	@media (max-width: ${style.breakpoint.mobileM}) {
 		grid-template-columns: .25fr 4fr;
@@ -55,8 +56,15 @@ const StyledText = styled.p`
 			padding-right: 7rem;
 			margin-top:0;
 		}
-	}
 `;
+const StyledImage = styled.img`
+	grid-column: 5 / 6;
+	grid-row: 1 / 3;
+	height: 500px;
+	width: 400px;
+		
+`;
+
 
 const Landing = () => (
 	<StyledLanding>
@@ -66,6 +74,8 @@ const Landing = () => (
 					interacting with an external API.
 			</StyledText>
 			<Sidebar />
+			<StyledImage src={bookmark} alt="bookmark-icon">
+			</StyledImage>
 			<StyledText>
 					To get started storing and syncing your bookmarks across sessions, please click the "My Bookmarks" link, which can be found in the
 					navigation bar above. You will then be directed to where you can create, edit, and delete your bookmarks. Your saved bookmarks will consist

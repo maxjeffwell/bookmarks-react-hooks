@@ -60,7 +60,7 @@ const StyledGrid = styled.div`
 		font-size: 1rem;
 		background-color: #f5f5f5;
 		border-radius: 5px;
-		margin: .5rem auto;
+		margin: 1rem 1rem 1rem 1rem;
 	}
 	.list-item__contentInner a, p {
 		text-decoration: none;
@@ -134,7 +134,6 @@ const StyledGrid = styled.div`
 	label {
 		font-weight: bold;
 		font-size: 2rem;
-		margin: 5px auto;
 		padding: 5px 5px 5px 5px;
 		box-shadow: inset 0 -4px 0px rgba(0,0,0,0.5), 0 0px 0 rgba(255,255,255,1);
 		background: linear-gradient(top, #222 0%, #45484d 100%);
