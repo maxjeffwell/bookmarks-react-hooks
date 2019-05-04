@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 import useReactRouter from 'use-react-router';
 import styled from '@emotion/styled';
 
-import * as style from './Breakpoints';
-
 const StyledHeader = styled.header`
 	grid-row: 1 / 2;
 	grid-column: 1 / 7;
@@ -18,9 +16,6 @@ const StyledHeader = styled.header`
 	padding-top: 20px;
 	position: relative;
 	text-align: left;
-	@media (max-width: ${style.breakpoint.mobileM}) {
-		font-size: 1.5rem;
-	}
 `;
 
 const StyledLink = styled(Link)`

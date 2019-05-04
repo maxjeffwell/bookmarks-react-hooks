@@ -12,21 +12,20 @@ const StyledTitle = styled.h1`
 	text-orientation: sideways;
 	font-size: 8rem;
 	line-height: 2;
-	//border: 5px solid ${props => props.theme.colors.tertiary};
-	//border: 10px solid #FC4A1A; 
 	border: 10px solid #fa625f;
 	background-color: #fa625f;
 	border-radius: 2px;
 	padding-top: 15rem;
 	@media (max-width: ${style.breakpoint.tablet}) {
-		grid-row: 2 / 4;
-		grid-column: 1 / 2;
-		font-size: 6rem;
+		grid-row: 1 / 0;
+		grid-column: 0;
+		padding-top: 25rem;
+		font-size: 4rem;
 		margin-top: 4rem;
 	}
 	@media (max-width: ${style.breakpoint.mobileM}) {
 		font-size: 4rem;
-		grid-row: 2 / 3;
+		grid-row: 1 / 2;
 		grid-column: 1 / 2;
 		margin-top: 1rem;
 	}

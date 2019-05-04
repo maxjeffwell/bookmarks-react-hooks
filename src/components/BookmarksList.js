@@ -108,6 +108,7 @@ const StyledGrid = styled.div`
 	.bookmark-list-btn {
 		margin-right: 5px;
 		height: 50%;
+		font-size: 1rem;
 		@media (max-width: ${style.breakpoint.tablet}) {
 			font-size: 1.25rem;
 		}

@@ -16,14 +16,10 @@ const StyledFooter = styled.footer`
 	p {
 		color: #ffffff;
 	}
-		@media (max-width: ${style.breakpoint.tablet}) {
+	@media (max-width: ${style.breakpoint.tablet}) {
 		display: inline-block;
-		height: 100%;
 		width: 100%;
-}
-	@media (max-width: ${style.breakpoint.mobileM}) {
-		grid-row: 5 / -1;
-		grid-column: 1 / 4;
+		height: 100%;
 }
 `;
 
