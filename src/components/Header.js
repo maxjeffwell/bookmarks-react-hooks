@@ -38,8 +38,6 @@ const StyledLink = styled(Link)`
 	}
 	@media (max-width: ${style.breakpoint.tablet}) {
 		display: inline-block;
-		position: relative;
-		float: none;
 	}
 `;
 
