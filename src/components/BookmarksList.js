@@ -298,7 +298,6 @@ export default function BookmarksList() {
 				<option value="3 stars">3 stars</option>
 				<option value="2 stars">2 stars</option>
 				<option value="1 star">1 star</option>
-				<option value="">Not Rated</option>
 			</select>
 				</span>
 			</div>
