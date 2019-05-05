@@ -4,14 +4,12 @@
 ![CSS3](https://img.shields.io/badge/CSS3-badge.svg?style=for-the-badge&logo=css3&labelColor=fa625f&logoColor=EDEDED&color=393939) &nbsp;
 ![Zeit](https://img.shields.io/badge/Zeit-badge.svg?style=for-the-badge&logo=zeit&labelColor=fa625f&logoColor=EDEDED&color=393939)
 
-
-
 ## Build Status
 
->[![npm version](https://img.shields.io/badge/npm%20package-6.4.1-ededed.svg?logo=npm&style=style-for-the-badge&labelColor=fa625f&logoColor=EDEDED&color=393939)](https://badge.fury.io/js/npm)
->>[![Dependencies](https://img.shields.io/badge/dependencies-up%20to%20date-393939.svg?style=style-for-the-badge&logo=appveyor&labelColor=fa625f&logoColor=EDEDED&color=393939)](https://github.com/maxjeffwell/bookmarks-react-hooks)
->>>[![Build Status](https://img.shields.io/badge/travis-ci-badge.svg?style=style-for-the-badge&logo=travis-ci&labelColor=fa625f&logoColor=EDEDED&color=393939)](https://travis-ci.org/maxjeffwell/bookmarks-react-hooks)
+>[![Dependencies](https://img.shields.io/badge/dependencies-up%20to%20date-393939.svg?style=style-for-the-badge&logo=appveyor&labelColor=fa625f&logoColor=EDEDED&color=393939)](https://github.com/maxjeffwell/bookmarks-react-hooks)
+>>[![npm version](https://img.shields.io/badge/npm%20package-6.4.1-ededed.svg?logo=npm&style=style-for-the-badge&labelColor=fa625f&logoColor=EDEDED&color=393939)](https://badge.fury.io/js/npm)
 >>>>[![Live Demo](https://img.shields.io/badge/demo-online-393939.svg?style=style-for-the-badge&logo=heroku&logoColor=EDEDED&labelColor=fa625f&color=393939)](https://jmaxwell-bookmark-manager.herokuapp.com/)
+>>>>>[![Build Status](https://img.shields.io/badge/travis-ci-badge.svg?style=style-for-the-badge&logo=travis-ci&labelColor=fa625f&logoColor=EDEDED&color=393939)](https://travis-ci.org/maxjeffwell/bookmarks-react-hooks)
 >>>
 >>
 >
