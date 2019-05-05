@@ -56,7 +56,7 @@ const StyledImage = styled.img`
 	grid-column: 4 / 6;
 	grid-row: 1 / 3;
 	height: 600px;
-	width: 200px;
+	width: 500px;
 	@media (max-width: ${style.breakpoint.tablet}) {
 	visibility: hidden;
 	}
