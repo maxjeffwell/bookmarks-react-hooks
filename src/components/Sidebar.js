@@ -17,17 +17,15 @@ const StyledTitle = styled.h1`
 	border-radius: 2px;
 	padding-top: 15rem;
 	@media (max-width: ${style.breakpoint.tablet}) {
-		grid-row: 1 / 0;
-		grid-column: 0;
-		padding-top: 25rem;
+		padding-top: 0;
 		font-size: 4rem;
-		margin-top: 4rem;
+		position: absolute;
+		margin-top: 8rem;
+		margin-left: 10rem;
+		border-radius: 5px;
 	}
 	@media (max-width: ${style.breakpoint.mobileM}) {
-		font-size: 4rem;
-		grid-row: 1 / 2;
-		grid-column: 1 / 2;
-		margin-top: 1rem;
+		
 	}
 `;
 
