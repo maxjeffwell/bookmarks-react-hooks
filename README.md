@@ -1,10 +1,10 @@
 # Bookmarked
 
->![Zeit](https://img.shields.io/badge/Zeit-badge.svg?style=for-the-badge&logo=zeit&labelColor=fa625f&logoColor=EDEDED&color=393939)
->>![React](https://img.shields.io/badge/React-badge.svg?style=for-the-badge&logo=react&labelColor=fa625f&logoColor=EDEDED&color=393939)
->>>![CSS3](https://img.shields.io/badge/CSS3-badge.svg?style=for-the-badge&logo=css3&labelColor=fa625f&logoColor=EDEDED&color=393939)
->>
->
+![React](https://img.shields.io/badge/React-badge.svg?style=for-the-badge&logo=react&labelColor=fa625f&logoColor=EDEDED&color=393939) &nbsp;
+![CSS3](https://img.shields.io/badge/CSS3-badge.svg?style=for-the-badge&logo=css3&labelColor=fa625f&logoColor=EDEDED&color=393939) &nbsp;
+![Zeit](https://img.shields.io/badge/Zeit-badge.svg?style=for-the-badge&logo=zeit&labelColor=fa625f&logoColor=EDEDED&color=393939)
+
+
 
 ## Build Status
 
