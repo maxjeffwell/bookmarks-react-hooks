@@ -35,7 +35,6 @@
 * React Hooks
 * CSS Grid
 * React Emotion
-* JSON Server
 
 ## API
 [Bookmarked API Documentation](https://documenter.getpostman.com/view/4941848/S1Lr5rKn)
