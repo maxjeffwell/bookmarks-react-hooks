@@ -1,8 +1,7 @@
 # Bookmarked
+![React](https://img.shields.io/badge/React-badge.svg?style=for-the-badge&logo=react&labelColor=fa625f&logoColor=EDEDED&color=393939) &nbsp;![CSS3](https://img.shields.io/badge/CSS3-badge.svg?style=for-the-badge&logo=css3&labelColor=fa625f&logoColor=EDEDED&color=393939) &nbsp;![Zeit](https://img.shields.io/badge/Zeit-badge.svg?style=for-the-badge&logo=zeit&labelColor=fa625f&logoColor=EDEDED&color=393939)
 
-![React](https://img.shields.io/badge/React-badge.svg?style=for-the-badge&logo=react&labelColor=fa625f&logoColor=EDEDED&color=393939) &nbsp;
-![CSS3](https://img.shields.io/badge/CSS3-badge.svg?style=for-the-badge&logo=css3&labelColor=fa625f&logoColor=EDEDED&color=393939) &nbsp;
-![Zeit](https://img.shields.io/badge/Zeit-badge.svg?style=for-the-badge&logo=zeit&labelColor=fa625f&logoColor=EDEDED&color=393939)
+>**Bookmarked** is a lightweight bookmark manager that gives users convenient access to create and edit their bookmarks in a single page application. Additional functionality allows users to filter their bookmarks by rating and favorite status. It was built as an exploration of React's Context API and its use in complex state management. Furthermore, useState and useReducer hooks manage local state and state transitions, respectively. Data fetching is achieved by means of a custom React hook and side effects are implemented with the useEffect hook. Consequently, Bookmarked is composed entirely of React function components.
 
 ## Build Status
 
@@ -33,15 +32,17 @@
 ## Technology Stack
 
 * React Hooks
-* CSS Grid
 * React Emotion
+* CSS Grid
 
 ## API
-[Bookmarked API Documentation](https://documenter.getpostman.com/view/4941848/S1Lr5rKn)
+* [Bookmarked API Documentation](https://documenter.getpostman.com/view/4941848/S1Lr5rKn)
+* Bookmarked is wired to an API deployed using Zeit.co's Now serverless deployment tool
 
 ## Next Steps
 
 * Create a custom modal hook to power a delete bookmark confirmation modal component
+* Custom useAPI hook should be replaced with React Suspense for proper data fetching capability
 
 ## Meta
 >by Jeff Maxwell <br>maxjeffwell@gmail.com |
