@@ -37,6 +37,9 @@
 * React Emotion
 * JSON Server
 
+## API
+[Bookmarked API Documentation](https://documenter.getpostman.com/view/4941848/S1Lr5rKn)
+
 ## Next Steps
 
 * Create a custom modal hook to power a delete bookmark confirmation modal component

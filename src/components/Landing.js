@@ -15,9 +15,6 @@ const StyledLanding = styled.div`
 	grid-column-gap: .25rem;
 	background-color: #fbf579;
 	 @media (max-width: ${style.breakpoint.tablet}) {
-	 	//grid-template-columns: 1fr 1fr auto;
-	 	//grid-template-rows: auto 1fr .5fr auto; 
-	 	//grid-gap: .5rem;
 	 	display: inline-block;
 	 }
 `;
