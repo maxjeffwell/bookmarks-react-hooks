@@ -37,7 +37,7 @@
 
 ## API
 * [Bookmarked API Documentation](https://documenter.getpostman.com/view/4941848/S1Lr5rKn)
-* Bookmarked is wired to an API deployed using Zeit.co's Now serverless deployment tool
+* Bookmarked is wired to an API deployed using the ZEIT Now serverless deployment tool
 
 ## Next Steps
 
