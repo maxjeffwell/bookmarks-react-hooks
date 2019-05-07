@@ -8,16 +8,9 @@ const bookmarksReducer = (state, action) => {
 			};
 
 			case 'ADD_BOOKMARK':
-			// if (!action.payload) {
-			// 	return state;
-			// }
-			// if (state.bookmarks.findIndex(
-			// 	b => b.title === action.payload) > -1)
-			// 	return state;
+				const addedBookmark = [...state.bookmarks, action.payload];
 
-			const addedBookmark = [...state.bookmarks, action.payload];
-
-			return {
+				return {
 				...state,
 				bookmarks: addedBookmark
 			};
@@ -40,30 +33,25 @@ const bookmarksReducer = (state, action) => {
 			};
 
 			case 'TOGGLE_BOOKMARK':
-			const toggledBookmarks = state.bookmarks.map(
-				b => b.id === action.payload.id
-			? action.payload
-			: b
-			);
 
-			return {
+				const toggledBookmarks = state.bookmarks.map(
+					b => b.id === action.payload.id ? action.payload : b);
+
+				return {
 				...state,
 				bookmarks: toggledBookmarks
 			};
 
 			case 'UPDATE_BOOKMARK':
-			// if (!action.payload) {
-			// 	return state;
-			// }
-			// if (state.bookmarks.findIndex(
-			// 	b => b.title === action.payload) > -1)
-			// 	return state;
-			const updatedBookmark = {
+
+				const updatedBookmark = {
 				...action.payload
 			};
-			const updatedBookmarkIndex = state.bookmarks.findIndex(
+
+				const updatedBookmarkIndex = state.bookmarks.findIndex(
 				b => b.id === state.currentBookmark.id);
-			const updatedBookmarks = [
+
+				const updatedBookmarks = [
 				...state.bookmarks.slice(0, updatedBookmarkIndex),
 				updatedBookmark,
 				...state.bookmarks.slice(updatedBookmarkIndex + 1)
@@ -76,19 +64,21 @@ const bookmarksReducer = (state, action) => {
 			};
 
 			case 'DELETE_BOOKMARK':
-			const filteredBookmarks = state.bookmarks.filter(
+
+				const filteredBookmarks = state.bookmarks.filter(
 				b => b.id !== action.payload.id);
-			const isDeletedBookmark = state.currentBookmark.id === action.payload.id
+
+				const isDeletedBookmark = state.currentBookmark.id === action.payload.id
 			? {} : state.currentBookmark;
 
-			return {
+				return {
 				...state,
 				currentBookmark: isDeletedBookmark,
 				bookmarks: filteredBookmarks
 			};
 
-			default:
-			return state;
+				default:
+					return state;
 	}
 };
 
