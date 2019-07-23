@@ -44,7 +44,7 @@
     "eslint-plugin-emotion": "^10.0.14",
     "eslint-plugin-react-hooks": "^1.6.1",
     "install": "^0.12.2",
-    "npm": "^6.10.1"
+    "npm": "^6.10.2"
   },
   "heroku-run-build-script": true
 }
