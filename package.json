@@ -8,16 +8,16 @@
     "url": "https://github.com/npm/npm.git"
   },
   "dependencies": {
-    "@emotion/core": "^10.0.14",
-    "@emotion/styled": "^10.0.14",
+    "@emotion/core": "^10.0.15",
+    "@emotion/styled": "^10.0.15",
     "axios": "^0.18.1",
-    "babel-plugin-emotion": "^10.0.14",
+    "babel-plugin-emotion": "^10.0.15",
     "emotion": "^10.0.14",
     "emotion-theming": "^10.0.14",
     "prop-types": "^15.7.2",
-    "react": "^16.8.6",
+    "react": "^16.9.0",
     "react-collapsible": "^2.6.0",
-    "react-dom": "^16.8.6",
+    "react-dom": "^16.9.0",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
     "use-react-router": "^1.0.7",
@@ -42,9 +42,9 @@
   ],
   "devDependencies": {
     "eslint-plugin-emotion": "^10.0.14",
-    "eslint-plugin-react-hooks": "^1.6.1",
+    "eslint-plugin-react-hooks": "^1.7.0",
     "install": "^0.12.2",
-    "npm": "^6.10.2"
+    "npm": "^6.10.3"
   },
   "heroku-run-build-script": true
 }
