@@ -8,10 +8,10 @@
     "url": "https://github.com/npm/npm.git"
   },
   "dependencies": {
-    "@emotion/core": "^10.0.15",
+    "@emotion/core": "^10.0.16",
     "@emotion/styled": "^10.0.15",
     "axios": "^0.18.1",
-    "babel-plugin-emotion": "^10.0.15",
+    "babel-plugin-emotion": "^10.0.16",
     "emotion": "^10.0.14",
     "emotion-theming": "^10.0.14",
     "prop-types": "^15.7.2",
