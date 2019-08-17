@@ -10,7 +10,7 @@
   "dependencies": {
     "@emotion/core": "^10.0.16",
     "@emotion/styled": "^10.0.15",
-    "axios": "^0.18.1",
+    "axios": "^0.19.0",
     "babel-plugin-emotion": "^10.0.16",
     "emotion": "^10.0.14",
     "emotion-theming": "^10.0.14",
@@ -19,7 +19,7 @@
     "react-collapsible": "^2.6.0",
     "react-dom": "^16.9.0",
     "react-router-dom": "^5.0.1",
-    "react-scripts": "3.0.1",
+    "react-scripts": "^3.1.1",
     "use-react-router": "^1.0.7",
     "uuid": "^3.3.2",
     "webfontloader": "^1.6.28"
@@ -43,7 +43,7 @@
   "devDependencies": {
     "eslint-plugin-emotion": "^10.0.14",
     "eslint-plugin-react-hooks": "^1.7.0",
-    "install": "^0.12.2",
+    "install": "^0.13.0",
     "npm": "^6.10.3"
   },
   "heroku-run-build-script": true
