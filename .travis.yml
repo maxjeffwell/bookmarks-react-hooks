@@ -5,7 +5,7 @@ cache:
     - node_modules
 install:
   - npm install
-script: true
+#script: true
 env:
   - CI=true
 deploy:
