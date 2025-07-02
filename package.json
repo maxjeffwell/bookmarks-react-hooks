@@ -10,8 +10,9 @@
   "dependencies": {
     "@emotion/core": "^10.1.1",
     "@emotion/styled": "^10.0.27",
-    "axios": "^0.21.1",
+    "axios": "^1.10.0",
     "babel-plugin-emotion": "^10.2.2",
+    "dompurify": "^3.2.6",
     "emotion": "^10.0.27",
     "emotion-theming": "^10.0.27",
     "prop-types": "^15.7.2",

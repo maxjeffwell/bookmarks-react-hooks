@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import styled from '@emotion/styled';
 import axios from 'axios';
 import uuidv4 from 'uuid/v4';
+import DOMPurify from 'dompurify';
 
 import BookmarksContext from '../context';
 import * as style from './Breakpoints';
@@ -218,38 +219,74 @@ export default function BookmarkForm() {
 	const title = !!currentBookmark && currentBookmark.title ? 'Edit Bookmark' : 'Create Bookmark';
 	const ConditionalButton = currentBookmark.title ? 'Update Bookmark' : 'Create Bookmark';
 
+	const validateUrl = (url) => {
+		try {
+			new URL(url);
+			return url.startsWith('http://') || url.startsWith('https://');
+		} catch {
+			return false;
+		}
+	};
+
 	const handleSubmit = async event => {
 		event.preventDefault();
-		if (currentBookmark.title) {
-			const res = await axios.patch(
-				`https://hooks-api.maxjeffwell.now.sh/bookmarks/${currentBookmark.id}`, {
-					title: bookmarkTitle,
-					url: bookmarkUrl,
-					description: bookmarkDescription,
+		
+		// Input validation and sanitization
+		const sanitizedTitle = DOMPurify.sanitize(bookmarkTitle.trim());
+		const sanitizedUrl = bookmarkUrl.trim();
+		const sanitizedDescription = DOMPurify.sanitize(bookmarkDescription.trim());
+		
+		// Validate required fields
+		if (!sanitizedTitle || sanitizedTitle.length < 1 || sanitizedTitle.length > 100) {
+			alert('Title must be between 1 and 100 characters');
+			return;
+		}
+		
+		if (!validateUrl(sanitizedUrl)) {
+			alert('Please enter a valid HTTP or HTTPS URL');
+			return;
+		}
+		
+		if (sanitizedDescription.length > 500) {
+			alert('Description must be less than 500 characters');
+			return;
+		}
+
+		try {
+			if (currentBookmark.title) {
+				const res = await axios.patch(
+					`https://hooks-api.maxjeffwell.now.sh/bookmarks/${currentBookmark.id}`, {
+						title: sanitizedTitle,
+						url: sanitizedUrl,
+						description: sanitizedDescription,
+						rating: bookmarkRating,
+						toggledRadioButton: toggleRadioButton,
+						checked: bookmarkChecked,
+					}
+				);
+				dispatch({ type: 'UPDATE_BOOKMARK', payload: res.data });
+			} else {
+				const res = await axios.post(`https://hooks-api.maxjeffwell.now.sh/bookmarks`, {
+					id: uuidv4(),
+					title: sanitizedTitle,
+					url: sanitizedUrl,
+					description: sanitizedDescription,
 					rating: bookmarkRating,
 					toggledRadioButton: toggleRadioButton,
 					checked: bookmarkChecked,
-				}
-			);
-			dispatch({ type: 'UPDATE_BOOKMARK', payload: res.data });
-		} else {
-			const res = await axios.post(`https://hooks-api.maxjeffwell.now.sh/bookmarks`, {
-				id: uuidv4(),
-				title: bookmarkTitle,
-				url: bookmarkUrl,
-				description: bookmarkDescription,
-				rating: bookmarkRating,
-				toggledRadioButton: toggleRadioButton,
-				checked: bookmarkChecked,
-			});
-			dispatch({ type: 'ADD_BOOKMARK', payload: res.data });
+				});
+				dispatch({ type: 'ADD_BOOKMARK', payload: res.data });
+			}
+			setBookmarkTitle('');
+			setBookmarkUrl('');
+			setBookmarkDescription('');
+			setBookmarkRating('');
+			setToggleRadioButton(false);
+			setBookmarkChecked(false);
+		} catch (error) {
+			console.error('Failed to save bookmark:', error);
+			alert('Failed to save bookmark. Please try again.');
 		}
-		setBookmarkTitle('');
-		setBookmarkUrl('');
-		setBookmarkDescription('');
-		setBookmarkRating('');
-		setToggleRadioButton(false);
-		setBookmarkChecked(false);
 	};
 
 	const handleReset = () => {
@@ -274,7 +311,7 @@ export default function BookmarkForm() {
 			value={bookmarkTitle}
 			placeholder="Title"
 			minLength="1"
-			maxLength="30"
+			maxLength="100"
 			required
 			/>
 		</div>
@@ -303,6 +340,7 @@ export default function BookmarkForm() {
 					placeholder="Description"
 					rows={5}
 					cols={30}
+					maxLength="500"
 					/>
 		</div>
 		<div>

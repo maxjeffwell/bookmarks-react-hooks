@@ -70,14 +70,20 @@ injectGlobal`
 const useAPI = endpoint => {
 	const [data, setData] = useState([]);
 
+	const getData = React.useCallback(async () => {
+		try {
+			const res = await axios.get(endpoint);
+			setData(res.data)
+		} catch (error) {
+			console.error('Failed to fetch data:', error);
+			setData([]);
+		}
+	}, [endpoint]);
+
 	useEffect(() => {
 		getData();
-	}, []);
+	}, [getData]);
 
-	const getData = async () => {
-		const res = await axios.get(endpoint);
-		setData(res.data)
-	};
 	return data;
 };
 

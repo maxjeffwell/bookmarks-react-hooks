@@ -306,15 +306,20 @@ export default function BookmarksList() {
 					<li key={bookmark.id}>
 						<span
 							onClick={async () => {
-								const res = await axios.patch(
-									`https://hooks-api.maxjeffwell.now.sh/bookmarks/${bookmark.id}`, {
-										toggled: !bookmark.toggled
-									}
-								);
-								dispatch({
-									type: 'TOGGLE_BOOKMARK',
-									payload: res.data
-								})
+								try {
+									const res = await axios.patch(
+										`https://hooks-api.maxjeffwell.now.sh/bookmarks/${bookmark.id}`, {
+											toggled: !bookmark.toggled
+										}
+									);
+									dispatch({
+										type: 'TOGGLE_BOOKMARK',
+										payload: res.data
+									})
+								} catch (error) {
+									console.error('Failed to toggle bookmark:', error);
+									alert('Failed to update bookmark. Please try again.');
+								}
 							}}
 						>
 							<div className="list-item">
@@ -345,13 +350,18 @@ export default function BookmarksList() {
 							className="bookmark-list-btn"
 							type="button"
 							onClick={async () => {
-								await axios.delete(
-									`https://hooks-api.maxjeffwell.now.sh/bookmarks/${bookmark.id}`
-								);
-								dispatch({
-									type: 'DELETE_BOOKMARK',
-									payload: bookmark
-								})
+								try {
+									await axios.delete(
+										`https://hooks-api.maxjeffwell.now.sh/bookmarks/${bookmark.id}`
+									);
+									dispatch({
+										type: 'DELETE_BOOKMARK',
+										payload: bookmark
+									})
+								} catch (error) {
+									console.error('Failed to delete bookmark:', error);
+									alert('Failed to delete bookmark. Please try again.');
+								}
 							}}
 						>
 							Delete
@@ -370,14 +380,19 @@ export default function BookmarksList() {
 							aria-label="checkbox-favorite"
 							type="checkbox"
 							onChange={async () => {
-								const res = await axios.patch(
-									`https://hooks-api.maxjeffwell.now.sh/bookmarks/${bookmark.id}`, {
-										checked: !bookmark.checked
-									});
-								dispatch({
-									type: 'ADD_BOOKMARK_TO_FAVORITES',
-									payload: res.data
-								})
+								try {
+									const res = await axios.patch(
+										`https://hooks-api.maxjeffwell.now.sh/bookmarks/${bookmark.id}`, {
+											checked: !bookmark.checked
+										});
+									dispatch({
+										type: 'ADD_BOOKMARK_TO_FAVORITES',
+										payload: res.data
+									})
+								} catch (error) {
+									console.error('Failed to update favorites:', error);
+									alert('Failed to update favorites. Please try again.');
+								}
 							}}
 							checked={bookmark.checked}
 						/>
