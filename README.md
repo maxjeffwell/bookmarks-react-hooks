@@ -45,10 +45,12 @@
 * Custom useAPI hook should be replaced with React Suspense for proper data fetching capability
 
 ## Meta
->by Jeff Maxwell <br>[maxjeffwell@gmail.com](mailto:maxjeffwell@gmail.com) |
-[https://github.com/maxjeffwell](https://github.com/maxjeffwell) | [https://www.jeffmaxwell.dev](https://www.jeffmaxwell.dev)
-<br>
+>by Jeff Maxwell
+>
+>[maxjeffwell@gmail.com](mailto:maxjeffwell@gmail.com) |
+>[https://github.com/maxjeffwell](https://github.com/maxjeffwell) | [https://www.jeffmaxwell.dev](https://www.jeffmaxwell.dev)
 
 >[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-393939.svg?style=for-the-badge&labelColor=fa625f&logoColor=393939&color=393939)](https://www.gnu.org/licenses/gpl-3.0)
-<br>Distributed under the GNU GPLv3 License.
+
+    Distributed under the GNU GPLv3 License.
     See ``LICENSE`` for more information.

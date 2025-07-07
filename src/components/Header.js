@@ -1,6 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import useReactRouter from 'use-react-router';
+import { Link, useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
 
 import * as style from './Breakpoints';
@@ -44,7 +43,7 @@ const StyledLink = styled(Link)`
 const Header = () => {
 	const home = <StyledLink to='/'>Home</StyledLink>;
 	const bookmarks = <StyledLink to='/bookmarks'>My Bookmarks</StyledLink>;
-	const { location } = useReactRouter();
+	const location = useLocation();
 	const ConditionalHomeLink = () => location.pathname !== '/' ? home : bookmarks;
 
 	const bookmarked = <>Bookmarked</>;

@@ -1,7 +1,7 @@
-import React, { useContext, useReducer, useState, useEffect } from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import React, { useReducer, useState, useEffect } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import axios from 'axios';
-import { injectGlobal } from 'emotion';
+import { Global, css } from '@emotion/react';
 import WebFont from 'webfontloader';
 
 import BookmarksContext from '../context';
@@ -22,7 +22,7 @@ WebFont.load({
 	timeout: 2000
 });
 
-injectGlobal`
+const globalStyles = css`
 	@font-face {
 		font-family: ITCAvantGardeStd-Demi;
 		src: url('../../public/fonts/ITCAvantGardeStd-Demi.otf') format('opentype');
@@ -88,7 +88,10 @@ const useAPI = endpoint => {
 };
 
 export default function App() {
-	const initialState = useContext(BookmarksContext);
+	const initialState = {
+		bookmarks: [],
+		currentBookmark: {},
+	};
 	const [state, dispatch] = useReducer(bookmarksReducer, initialState);
 	const savedBookmarks = useAPI(`https://hooks-api.maxjeffwell.now.sh/bookmarks`);
 
@@ -100,11 +103,12 @@ export default function App() {
 
 	return (
 		<BrowserRouter>
+			<Global styles={globalStyles} />
 			<BookmarksContext.Provider value={{ state, dispatch }}>
-				<Switch>
-					<Route exact path='/' component={Landing} />
-					<Route exact path='/bookmarks' component={BookmarksList} />
-				</Switch>
+				<Routes>
+					<Route path='/' element={<Landing />} />
+					<Route path='/bookmarks' element={<BookmarksList />} />
+				</Routes>
 			</BookmarksContext.Provider>
 		</BrowserRouter>
 	);

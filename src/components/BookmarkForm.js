@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import styled from '@emotion/styled';
 import axios from 'axios';
-import uuidv4 from 'uuid/v4';
+import { v4 as uuidv4 } from 'uuid';
 import DOMPurify from 'dompurify';
 
 import BookmarksContext from '../context';
