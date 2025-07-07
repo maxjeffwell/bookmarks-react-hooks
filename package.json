@@ -40,9 +40,7 @@
   ],
   "devDependencies": {
     "babel-plugin-emotion": "^10.2.2",
-    "eslint-plugin-react-hooks": "^2.5.1",
-    "install": "^0.13.0",
-    "npm": "^6.14.11"
+    "eslint-plugin-react-hooks": "^4.6.2"
   },
   "heroku-run-build-script": true
 }
