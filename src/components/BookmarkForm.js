@@ -255,7 +255,7 @@ export default function BookmarkForm() {
 		try {
 			if (currentBookmark.title) {
 				const res = await axios.patch(
-					`https://hooks-api.maxjeffwell.now.sh/bookmarks/${currentBookmark.id}`, {
+					`http://localhost:3001/bookmarks/${currentBookmark.id}`, {
 						title: sanitizedTitle,
 						url: sanitizedUrl,
 						description: sanitizedDescription,
@@ -266,7 +266,7 @@ export default function BookmarkForm() {
 				);
 				dispatch({ type: 'UPDATE_BOOKMARK', payload: res.data });
 			} else {
-				const res = await axios.post(`https://hooks-api.maxjeffwell.now.sh/bookmarks`, {
+				const res = await axios.post(`http://localhost:3001/bookmarks`, {
 					id: uuidv4(),
 					title: sanitizedTitle,
 					url: sanitizedUrl,

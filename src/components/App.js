@@ -93,7 +93,7 @@ export default function App() {
 		currentBookmark: {},
 	};
 	const [state, dispatch] = useReducer(bookmarksReducer, initialState);
-	const savedBookmarks = useAPI(`https://hooks-api.maxjeffwell.now.sh/bookmarks`);
+	const savedBookmarks = useAPI(`http://localhost:3001/bookmarks`);
 
 	useEffect(() => {
 			dispatch({ type: 'GET_BOOKMARKS', payload: savedBookmarks })
