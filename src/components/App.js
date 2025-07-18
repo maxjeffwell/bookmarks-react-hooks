@@ -6,6 +6,7 @@ import WebFont from 'webfontloader';
 
 import BookmarksContext from '../context';
 import bookmarksReducer from '../reducers/bookmarksReducer';
+import { apiUrl } from '../config';
 
 import Landing from './Landing';
 import BookmarksList from './BookmarksList';
@@ -93,7 +94,7 @@ export default function App() {
 		currentBookmark: {},
 	};
 	const [state, dispatch] = useReducer(bookmarksReducer, initialState);
-	const savedBookmarks = useAPI(`http://localhost:3001/bookmarks`);
+	const savedBookmarks = useAPI(`${apiUrl}/bookmarks`);
 
 	useEffect(() => {
 			dispatch({ type: 'GET_BOOKMARKS', payload: savedBookmarks })

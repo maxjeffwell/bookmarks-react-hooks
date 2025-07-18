@@ -5,6 +5,7 @@ import axios from 'axios';
 
 import BookmarksContext from '../context';
 import filterReducer from '../reducers/filterReducer';
+import { apiUrl } from '../config';
 
 import Header from './Header';
 import Footer from './Footer';
@@ -340,7 +341,7 @@ export default function BookmarksList() {
 							onClick={async () => {
 								try {
 									await axios.delete(
-										`http://localhost:3001/bookmarks/${bookmark.id}`
+										`${apiUrl}/bookmarks/${bookmark.id}`
 									);
 									dispatch({
 										type: 'DELETE_BOOKMARK',
@@ -370,7 +371,7 @@ export default function BookmarksList() {
 							onChange={async () => {
 								try {
 									const res = await axios.patch(
-										`http://localhost:3001/bookmarks/${bookmark.id}`, {
+										`${apiUrl}/bookmarks/${bookmark.id}`, {
 											checked: !bookmark.checked
 										});
 									dispatch({
