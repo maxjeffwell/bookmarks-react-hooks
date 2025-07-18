@@ -1,4 +1,4 @@
-module.exports = async (req, res) => {
+module.exports = (req, res) => {
   // Set CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, OPTIONS');
@@ -10,17 +10,14 @@ module.exports = async (req, res) => {
     return;
   }
 
-  try {
-    res.status(200).json({ 
-      message: 'API is working!',
-      method: req.method,
-      query: req.query,
-      env: {
-        hasDbUrl: !!process.env.DATABASE_URL,
-        nodeEnv: process.env.NODE_ENV
-      }
-    });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
+  res.status(200).json({ 
+    message: 'API is working!',
+    method: req.method,
+    query: req.query,
+    timestamp: new Date().toISOString(),
+    env: {
+      hasDbUrl: !!process.env.DATABASE_URL,
+      nodeEnv: process.env.NODE_ENV
+    }
+  });
 };

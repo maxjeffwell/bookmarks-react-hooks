@@ -1,11 +1,18 @@
 const { neon } = require('@neondatabase/serverless');
 
 // Initialize the database connection
-const sql = neon(process.env.DATABASE_URL);
+let sql;
 
-// Create bookmarks table if it doesn't exist
 const initializeDatabase = async () => {
   try {
+    if (!process.env.DATABASE_URL) {
+      throw new Error('DATABASE_URL environment variable is not set');
+    }
+    
+    if (!sql) {
+      sql = neon(process.env.DATABASE_URL);
+    }
+    
     await sql`
       CREATE TABLE IF NOT EXISTS bookmarks (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
