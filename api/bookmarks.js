@@ -164,18 +164,12 @@ const bookmarksDB = {
   }
 };
 
-// Enable CORS
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'GET, POST, PATCH, DELETE, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type',
-};
-
 module.exports = async (req, res) => {
-  // Set CORS headers
-  Object.keys(corsHeaders).forEach(key => {
-    res.setHeader(key, corsHeaders[key]);
-  });
+  // Set CORS headers first
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.setHeader('Access-Control-Max-Age', '86400');
 
   // Handle preflight requests
   if (req.method === 'OPTIONS') {
