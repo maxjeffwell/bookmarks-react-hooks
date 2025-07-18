@@ -19,4 +19,8 @@ yarn-debug.log*
 yarn-error.log*
 
 \.idea/
+.claude
 .env
+CLAUDE.md
+GEMINI.md
+.vercel

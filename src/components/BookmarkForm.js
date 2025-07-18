@@ -267,7 +267,6 @@ export default function BookmarkForm() {
 				dispatch({ type: 'UPDATE_BOOKMARK', payload: res.data });
 			} else {
 				const res = await axios.post(`http://localhost:3001/bookmarks`, {
-					id: uuidv4(),
 					title: sanitizedTitle,
 					url: sanitizedUrl,
 					description: sanitizedDescription,

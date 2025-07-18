@@ -300,28 +300,16 @@ export default function BookmarksList() {
 				<option value="1 star">1 star</option>
 			</select>
 				</span>
+				<span>
+			<button className="btn-filter" type="button" onClick={() => window.location.reload()}>
+				Refresh
+			</button>
+				</span>
 			</div>
 			<ul>
 				{filteredBookmarks.map(bookmark => (
 					<li key={bookmark.id}>
-						<span
-							onClick={async () => {
-								try {
-									const res = await axios.patch(
-										`https://hooks-api.maxjeffwell.now.sh/bookmarks/${bookmark.id}`, {
-											toggled: !bookmark.toggled
-										}
-									);
-									dispatch({
-										type: 'TOGGLE_BOOKMARK',
-										payload: res.data
-									})
-								} catch (error) {
-									console.error('Failed to toggle bookmark:', error);
-									alert('Failed to update bookmark. Please try again.');
-								}
-							}}
-						>
+						<span>
 							<div className="list-item">
 							<Collapsible trigger={bookmark.title}
 							             triggerTagName="button"
@@ -352,7 +340,7 @@ export default function BookmarksList() {
 							onClick={async () => {
 								try {
 									await axios.delete(
-										`https://hooks-api.maxjeffwell.now.sh/bookmarks/${bookmark.id}`
+										`http://localhost:3001/bookmarks/${bookmark.id}`
 									);
 									dispatch({
 										type: 'DELETE_BOOKMARK',
@@ -382,7 +370,7 @@ export default function BookmarksList() {
 							onChange={async () => {
 								try {
 									const res = await axios.patch(
-										`https://hooks-api.maxjeffwell.now.sh/bookmarks/${bookmark.id}`, {
+										`http://localhost:3001/bookmarks/${bookmark.id}`, {
 											checked: !bookmark.checked
 										});
 									dispatch({
