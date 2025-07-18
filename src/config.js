@@ -11,4 +11,7 @@ const config = {
 const environment = process.env.NODE_ENV || 'development';
 const apiUrl = config[environment].apiUrl;
 
-export { apiUrl };
+// Temporarily use simple endpoint for testing
+const apiEndpoint = environment === 'production' ? 'bookmarks-simple' : 'bookmarks';
+
+export { apiUrl, apiEndpoint };
