@@ -1,2 +1,0 @@
-# Neon Database Configuration
-DATABASE_URL=postgres://neondb_owner:npg_GeqU0vPo3TaF@ep-flat-resonance-addiekdb-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require
