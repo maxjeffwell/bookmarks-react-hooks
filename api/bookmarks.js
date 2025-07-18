@@ -1,4 +1,4 @@
-const { neon } = require('@neondatabase/serverless');
+import { neon } from '@neondatabase/serverless';
 
 // Initialize the database connection
 let sql;
@@ -164,7 +164,7 @@ const bookmarksDB = {
   }
 };
 
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
   // Set CORS headers first
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, OPTIONS');
@@ -232,4 +232,4 @@ module.exports = async (req, res) => {
     console.error('Database initialization error:', error);
     res.status(500).json({ error: 'Database initialization failed' });
   }
-};
+}

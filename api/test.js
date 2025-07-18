@@ -1,4 +1,4 @@
-module.exports = (req, res) => {
+export default function handler(req, res) {
   // Set CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, OPTIONS');
@@ -20,4 +20,4 @@ module.exports = (req, res) => {
       nodeEnv: process.env.NODE_ENV
     }
   });
-};
+}
