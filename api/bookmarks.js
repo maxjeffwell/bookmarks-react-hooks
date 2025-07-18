@@ -181,7 +181,6 @@ module.exports = async (req, res) => {
     await initializeDatabase();
 
     const { method } = req;
-    const { id } = req.query;
 
     switch (method) {
       case 'GET':
@@ -218,55 +217,8 @@ module.exports = async (req, res) => {
         }
         break;
 
-      case 'PATCH':
-        try {
-          if (!id) {
-            return res.status(400).json({ error: 'Bookmark ID is required' });
-          }
-
-          const { title, url, description, rating, toggledRadioButton, checked } = req.body;
-          
-          const updatedBookmark = await bookmarksDB.update(id, {
-            title,
-            url,
-            description,
-            rating,
-            toggledRadioButton,
-            checked
-          });
-          
-          if (!updatedBookmark) {
-            return res.status(404).json({ error: 'Bookmark not found' });
-          }
-
-          res.json(updatedBookmark);
-        } catch (error) {
-          console.error('Error updating bookmark:', error);
-          res.status(500).json({ error: 'Failed to update bookmark' });
-        }
-        break;
-
-      case 'DELETE':
-        try {
-          if (!id) {
-            return res.status(400).json({ error: 'Bookmark ID is required' });
-          }
-
-          const deletedBookmark = await bookmarksDB.delete(id);
-          
-          if (!deletedBookmark) {
-            return res.status(404).json({ error: 'Bookmark not found' });
-          }
-          
-          res.json(deletedBookmark);
-        } catch (error) {
-          console.error('Error deleting bookmark:', error);
-          res.status(500).json({ error: 'Failed to delete bookmark' });
-        }
-        break;
-
       default:
-        res.setHeader('Allow', ['GET', 'POST', 'PATCH', 'DELETE']);
+        res.setHeader('Allow', ['GET', 'POST']);
         res.status(405).end(`Method ${method} Not Allowed`);
     }
   } catch (error) {

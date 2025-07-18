@@ -3,7 +3,7 @@ const { neon } = require('@neondatabase/serverless');
 // Initialize the database connection
 const sql = neon(process.env.DATABASE_URL);
 
-// Database operations
+// Database operations for individual bookmarks
 const bookmarksDB = {
   // Update a bookmark
   async update(id, bookmarkData) {
