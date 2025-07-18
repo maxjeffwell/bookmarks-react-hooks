@@ -18,54 +18,36 @@ export default async function handler(req, res) {
     }
     
     const sql = neon(process.env.DATABASE_URL);
+    const { id } = req.query;
     
-    // Initialize table if needed
-    await sql`
-      CREATE TABLE IF NOT EXISTS bookmarks (
-        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-        title VARCHAR(255) NOT NULL,
-        url TEXT NOT NULL,
-        description TEXT DEFAULT '',
-        rating TEXT DEFAULT '',
-        toggled_radio_button BOOLEAN DEFAULT false,
-        checked BOOLEAN DEFAULT false,
-        created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-        updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-      );
-    `;
+    if (!id) {
+      return res.status(400).json({ error: 'Bookmark ID is required' });
+    }
     
-    if (req.method === 'GET') {
-      // Get all bookmarks from database
-      const result = await sql`SELECT * FROM bookmarks ORDER BY created_at DESC`;
-      const bookmarks = result.map(bookmark => ({
-        id: bookmark.id,
-        title: bookmark.title,
-        url: bookmark.url,
-        description: bookmark.description,
-        rating: bookmark.rating,
-        toggledRadioButton: bookmark.toggled_radio_button,
-        checked: bookmark.checked,
-        createdAt: bookmark.created_at,
-        updatedAt: bookmark.updated_at
-      }));
-      
-      res.status(200).json(bookmarks);
-    } else if (req.method === 'POST') {
+    if (req.method === 'PATCH') {
       const { title, url, description, rating, toggledRadioButton, checked } = req.body;
       
-      if (!title || !url) {
-        return res.status(400).json({ error: 'Title and URL are required' });
-      }
-      
-      // Create new bookmark in database
+      // Update bookmark in database
       const result = await sql`
-        INSERT INTO bookmarks (title, url, description, rating, toggled_radio_button, checked)
-        VALUES (${title}, ${url}, ${description || ''}, ${rating || ''}, ${toggledRadioButton || false}, ${checked || false})
+        UPDATE bookmarks 
+        SET 
+          title = COALESCE(${title}, title),
+          url = COALESCE(${url}, url),
+          description = COALESCE(${description}, description),
+          rating = COALESCE(${rating}, rating),
+          toggled_radio_button = COALESCE(${toggledRadioButton}, toggled_radio_button),
+          checked = COALESCE(${checked}, checked),
+          updated_at = NOW()
+        WHERE id = ${id}
         RETURNING *
       `;
       
+      if (result.length === 0) {
+        return res.status(404).json({ error: 'Bookmark not found' });
+      }
+      
       const bookmark = result[0];
-      const newBookmark = {
+      const updatedBookmark = {
         id: bookmark.id,
         title: bookmark.title,
         url: bookmark.url,
@@ -77,7 +59,33 @@ export default async function handler(req, res) {
         updatedAt: bookmark.updated_at
       };
       
-      res.status(201).json(newBookmark);
+      res.status(200).json(updatedBookmark);
+    } else if (req.method === 'DELETE') {
+      // Delete bookmark from database
+      const result = await sql`
+        DELETE FROM bookmarks 
+        WHERE id = ${id}
+        RETURNING *
+      `;
+      
+      if (result.length === 0) {
+        return res.status(404).json({ error: 'Bookmark not found' });
+      }
+      
+      const bookmark = result[0];
+      const deletedBookmark = {
+        id: bookmark.id,
+        title: bookmark.title,
+        url: bookmark.url,
+        description: bookmark.description,
+        rating: bookmark.rating,
+        toggledRadioButton: bookmark.toggled_radio_button,
+        checked: bookmark.checked,
+        createdAt: bookmark.created_at,
+        updatedAt: bookmark.updated_at
+      };
+      
+      res.status(200).json(deletedBookmark);
     } else {
       res.status(405).json({ error: 'Method not allowed' });
     }

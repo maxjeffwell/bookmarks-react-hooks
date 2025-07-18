@@ -5,7 +5,7 @@ import DOMPurify from 'dompurify';
 
 import BookmarksContext from '../context';
 import * as style from './Breakpoints';
-import { apiUrl } from '../config';
+import { apiUrl, apiEndpoint } from '../config';
 
 export const StyledForm = styled.form`
 	font-family: ${props => props.theme.fonts.secondary};
@@ -255,7 +255,7 @@ export default function BookmarkForm() {
 		try {
 			if (currentBookmark.title) {
 				const res = await axios.patch(
-					`${apiUrl}/bookmarks/${currentBookmark.id}`, {
+					`${apiUrl}/${apiEndpoint}/${currentBookmark.id}`, {
 						title: sanitizedTitle,
 						url: sanitizedUrl,
 						description: sanitizedDescription,
@@ -266,7 +266,7 @@ export default function BookmarkForm() {
 				);
 				dispatch({ type: 'UPDATE_BOOKMARK', payload: res.data });
 			} else {
-				const res = await axios.post(`${apiUrl}/bookmarks`, {
+				const res = await axios.post(`${apiUrl}/${apiEndpoint}`, {
 					title: sanitizedTitle,
 					url: sanitizedUrl,
 					description: sanitizedDescription,
