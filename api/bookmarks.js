@@ -177,6 +177,12 @@ module.exports = async (req, res) => {
   }
 
   try {
+    // Check if DATABASE_URL is available
+    if (!process.env.DATABASE_URL) {
+      console.error('DATABASE_URL environment variable is not set');
+      return res.status(500).json({ error: 'Database not configured' });
+    }
+
     // Initialize database on first request
     await initializeDatabase();
 
