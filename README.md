@@ -130,7 +130,7 @@ The application is configured for deployment on Vercel:
 ## Meta
 >**Author:** Jeff Maxwell
 >
->**Email:** [maxjeffwell@gmail.com](mailto:maxjeffwell@gmail.com) | **GitHub:** [https://github.com/maxjeffwell](@maxjeffwell)(https://github.com/maxjeffwell) | **Portfolio:** [https://www.el-jefe.me](https://www.el-jefe.me) |
+>**Email:** [maxjeffwell@gmail.com](mailto:maxjeffwell@gmail.com) | **GitHub:** [https://github.com/maxjeffwell](@maxjeffwell) | **Portfolio:** [https://www.el-jefe.me](https://www.el-jefe.me) |
 
 >[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-393939.svg?style=for-the-badge&labelColor=fa625f&logoColor=393939&color=393939)](https://www.gnu.org/licenses/gpl-3.0)
 
