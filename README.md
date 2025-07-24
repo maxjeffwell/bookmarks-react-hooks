@@ -1,7 +1,7 @@
 # Bookmarked
-![React](https://img.shields.io/badge/React-badge.svg?style=for-the-badge&logo=react&labelColor=fa625f&logoColor=EDEDED&color=393939) &nbsp;![CSS3](https://img.shields.io/badge/CSS3-badge.svg?style=for-the-badge&logo=css3&labelColor=fa625f&logoColor=EDEDED&color=393939)
+![React](https://img.shields.io/badge/React-badge.svg?style=for-the-badge&logo=react&labelColor=fa625f&logoColor=EDEDED&color=393939) &nbsp;![CSS3](https://img.shields.io/badge/CSS3-badge.svg?style=for-the-badge&logo=css3&labelColor=fa625f&logoColor=EDEDED&color=393939) &nbsp;![PostgreSQL](https://img.shields.io/badge/PostgreSQL-badge.svg?style=for-the-badge&logo=postgresql&labelColor=fa625f&logoColor=EDEDED&color=393939)
 
->**Bookmarked** is a lightweight bookmark manager that gives users convenient access to create and edit their bookmarks in a single page application. Additional functionality allows users to filter their bookmarks by rating and favorite status. It was built as an exploration of React's Context API and its use in complex state management. Furthermore, useState and useReducer hooks manage local state and state transitions, respectively. Data fetching is achieved by means of a custom React hook and side effects are implemented with the useEffect hook. Consequently, Bookmarked is composed entirely of React function components.
+>**Bookmarked** is a full-stack bookmark manager application built with React Hooks and powered by Neon's serverless PostgreSQL database. The application provides a seamless single-page experience for creating, editing, and organizing bookmarks with advanced filtering capabilities. The frontend leverages React's Context API with useReducer for state management, while the backend utilizes Vercel serverless functions connected to a Neon database for persistent, scalable data storage.
 
 ## Build Status
 
@@ -31,18 +31,101 @@
 
 ## Technology Stack
 
-* React Hooks
-* React Emotion
-* CSS Grid
+### Frontend
+* **React 16.14** with Hooks (useState, useEffect, useReducer, useContext)
+* **React Router DOM** for client-side routing
+* **Emotion** for CSS-in-JS styling
+* **CSS Grid** for responsive layouts
+* **Axios** for API communication
 
-## API
-* [Bookmarked API Documentation](https://documenter.getpostman.com/view/4941848/S1Lr5rKn)
-* Bookmarked is wired to an API deployed using the Neon serverless database
+### Backend
+* **Neon Serverless PostgreSQL** - Serverless, auto-scaling PostgreSQL database
+* **Vercel Serverless Functions** - API endpoints deployed as serverless functions
+* **@neondatabase/serverless** - Neon's optimized PostgreSQL driver for serverless environments
+
+## Architecture
+
+### Database Schema
+The application uses a PostgreSQL database hosted on Neon with the following schema:
+
+```sql
+CREATE TABLE bookmarks (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  title VARCHAR(255) NOT NULL,
+  url TEXT NOT NULL,
+  description TEXT,
+  rating TEXT,
+  toggled_radio_button BOOLEAN DEFAULT FALSE,
+  checked BOOLEAN DEFAULT FALSE,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+### API Endpoints
+The backend provides RESTful API endpoints through Vercel serverless functions:
+
+* `GET /api/bookmarks-simple` - Retrieve all bookmarks
+* `POST /api/bookmarks-simple` - Create a new bookmark
+* `PATCH /api/bookmarks-simple/[id]` - Update a bookmark
+* `DELETE /api/bookmarks-simple/[id]` - Delete a bookmark
+
+### Key Features of Neon Integration
+* **Serverless Architecture** - No need to manage database servers or connections
+* **Auto-scaling** - Database scales automatically based on demand
+* **Connection Pooling** - Built-in connection management for serverless environments
+* **PostgreSQL Compatibility** - Full PostgreSQL feature set with ACID compliance
+
+## Setup and Configuration
+
+### Prerequisites
+* Node.js 14+
+* A Neon account (sign up at [neon.tech](https://neon.tech))
+* Vercel account for deployment (optional)
+
+### Environment Variables
+Create a `.env` file in the root directory:
+```bash
+DATABASE_URL=your_neon_database_connection_string
+```
+
+### Local Development
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npm start
+
+# Run tests
+npm test
+
+# Build for production
+npm run build
+```
+
+### Database Setup
+The application automatically creates the required database table on first run. No manual setup is needed beyond providing the Neon connection string.
+
+## Deployment
+
+The application is configured for deployment on Vercel:
+1. Connect your GitHub repository to Vercel
+2. Add your `DATABASE_URL` environment variable in Vercel's dashboard
+3. Deploy - Vercel will automatically detect and configure the serverless functions
 
 ## Next Steps
 
-* Create a custom modal hook to power a delete bookmark confirmation modal component
-* Custom useAPI hook should be replaced with React Suspense for proper data fetching capability
+* Add user authentication and authorization with JWT tokens
+* Implement bookmark search functionality with PostgreSQL full-text search
+* Add bookmark import/export features (support for browser bookmarks)
+* Create bookmark collections/folders for better organization
+* Implement sharing functionality for public bookmark lists
+* Add bookmark tagging system with autocomplete
+* Create browser extension for quick bookmark saving
+* Implement dark mode theme support
+* Add bookmark thumbnail/screenshot capture
+* Create mobile app using React Native
 
 ## Meta
 >by Jeff Maxwell
