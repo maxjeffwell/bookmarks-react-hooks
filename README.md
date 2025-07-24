@@ -8,7 +8,7 @@
 >[![Dependencies](https://img.shields.io/badge/dependencies-up%20to%20date-393939.svg?style=style-for-the-badge&logo=appveyor&labelColor=fa625f&logoColor=EDEDED&color=393939)](https://github.com/maxjeffwell/bookmarks-react-hooks)
 >>[![npm version](https://img.shields.io/badge/npm%20package-6.4.1-ededed.svg?logo=npm&style=style-for-the-badge&labelColor=fa625f&logoColor=EDEDED&color=393939)](https://badge.fury.io/js/npm)
 >>
->>>[![Live Demo](https://img.shields.io/badge/demo-online-393939.svg?style=style-for-the-badge&logo=heroku&logoColor=EDEDED&labelColor=fa625f&color=393939)](https://jmaxwell-bookmark-manager.herokuapp.com/)
+>>>[![Live Demo](https://img.shields.io/badge/demo-online-393939.svg?style=style-for-the-badge&logo=vercel&logoColor=EDEDED&labelColor=fa625f&color=393939)](https://bookmarks-react-hooks.vercel.app/)
 >
 >
 >
@@ -128,10 +128,9 @@ The application is configured for deployment on Vercel:
 * Create mobile app using React Native
 
 ## Meta
->by Jeff Maxwell
+>**Author:** Jeff Maxwell
 >
->[maxjeffwell@gmail.com](mailto:maxjeffwell@gmail.com) |
->[https://github.com/maxjeffwell](https://github.com/maxjeffwell) | [https://www.el-jefe.me](https://www.el-jefe.me)
+>**Email:** [maxjeffwell@gmail.com](mailto:maxjeffwell@gmail.com) | **GitHub:** [https://github.com/maxjeffwell](@maxjeffwell)(https://github.com/maxjeffwell) | **Portfolio:** [https://www.el-jefe.me](https://www.el-jefe.me) |
 
 >[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-393939.svg?style=for-the-badge&labelColor=fa625f&logoColor=393939&color=393939)](https://www.gnu.org/licenses/gpl-3.0)
 
