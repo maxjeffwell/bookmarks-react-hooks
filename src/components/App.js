@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import axios from 'axios';
 import { Global, css } from '@emotion/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
+import { Analytics } from '@vercel/analytics/react';
 
 import BookmarksContext from '../context';
 import bookmarksReducer from '../reducers/bookmarksReducer';
@@ -94,6 +95,7 @@ export default function App() {
 					<Route path='/bookmarks' element={<BookmarksList />} />
 				</Routes>
                 <SpeedInsights />
+                <Analytics />
 			</BookmarksContext.Provider>
 		</BrowserRouter>
 	);
