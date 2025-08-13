@@ -20,6 +20,9 @@ const StyledHeader = styled.header`
 	@media (max-width: ${style.breakpoint.tablet}) {
 		display: inline-block;
 		width: 100%;
+		padding-left: 0.5rem;
+		padding-top: 1rem;
+		box-sizing: border-box;
 	}
 `;
 
@@ -37,6 +40,8 @@ const StyledLink = styled(Link)`
 	}
 	@media (max-width: ${style.breakpoint.tablet}) {
 		display: inline-block;
+		padding-right: 0.5rem;
+		box-sizing: border-box;
 	}
 `;
 

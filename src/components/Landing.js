@@ -20,8 +20,6 @@ const StyledLanding = styled.div`
 		grid-template-rows: auto auto auto auto auto;
 		grid-gap: 0.5rem;
 		padding: 0.5rem;
-		width: 100vw;
-		max-width: 100%;
 		overflow-x: hidden;
 		box-sizing: border-box;
 	 }

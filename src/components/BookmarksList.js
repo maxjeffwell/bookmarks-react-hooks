@@ -31,8 +31,6 @@ const StyledGrid = styled.div`
 		padding: 0.5rem;
 		overflow-x: hidden;
 		overflow-y: auto;
-		width: 100vw;
-		max-width: 100%;
 	}
 	.list-title {
 		grid-column: 1 / 3;
@@ -192,12 +190,12 @@ const StyledGrid = styled.div`
 	ul {
 		grid-column: 1 / 3;
 		grid-row: 2 / 3;
-		padding: 10px 40px 0;
+		padding: 10px 20px 0;
 		margin: 0 auto 2rem;
 		@media (max-width: ${style.breakpoint.tablet}) {
 			grid-column: 1;
 			grid-row: 4;
-			padding: 0.5rem 0 0 0;
+			padding: 0.5rem;
 			margin: 0;
 			width: 100%;
 			box-sizing: border-box;

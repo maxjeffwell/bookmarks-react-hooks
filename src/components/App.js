@@ -36,6 +36,7 @@ const globalStyles = css`
 		box-sizing: border-box;
 		font-size: clamp(12px, 2.5vw, 16px);
 		color: #272727;
+		overflow-x: hidden;
 	}
 	*, *:before, *:after {
 		box-sizing: inherit;
@@ -50,6 +51,11 @@ const globalStyles = css`
 		width: 100%;
 		background-color: #ecf0f1;
 		overflow-x: hidden;
+	}
+	#root {
+		overflow-x: hidden;
+		width: 100%;
+		max-width: 100%;
 	}
 `;
 
