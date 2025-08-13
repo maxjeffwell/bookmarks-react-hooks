@@ -16,6 +16,9 @@ export const StyledForm = styled.form`
 	place-items: center center;
 	@media (max-width: ${style.breakpoint.tablet}) {
 		width: 100%;
+		padding-left: 0.5rem;
+		padding-right: 0.5rem;
+		box-sizing: border-box;
 	}
 	@media (max-width: ${style.breakpoint.mobileS}) {
 		font-size: 1rem;

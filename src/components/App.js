@@ -49,6 +49,7 @@ const globalStyles = css`
 		height: 100%;
 		width: 100%;
 		background-color: #ecf0f1;
+		overflow-x: hidden;
 	}
 `;
 

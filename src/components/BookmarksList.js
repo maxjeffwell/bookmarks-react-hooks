@@ -16,8 +16,8 @@ const StyledGrid = styled.div`
 	display: grid;
 	grid-template-columns: .25fr 1fr 1fr .25fr;
 	grid-template-rows: auto 1fr auto;
-	grid-column-gap: 2rem;
-	grid-row-gap: 2rem;
+	grid-column-gap: 1rem;
+	grid-row-gap: 1rem;
 	text-align: center;
 	line-height: 1.5;
 	width: 100%;
@@ -26,11 +26,13 @@ const StyledGrid = styled.div`
 		display: grid;
 		grid-template-columns: 1fr;
 		grid-template-rows: auto auto auto auto;
-		grid-gap: 1rem;
-		margin-top: 0;
-		padding: 1rem;
+		grid-gap: 0.5rem;
+		margin: 0;
+		padding: 0.5rem;
 		overflow-x: hidden;
 		overflow-y: auto;
+		width: 100vw;
+		max-width: 100%;
 	}
 	.list-title {
 		grid-column: 1 / 3;
@@ -70,7 +72,10 @@ const StyledGrid = styled.div`
 		font-size: 1rem;
 		background-color: #f5f5f5;
 		border-radius: 5px;
-		margin: 1rem 1rem 1rem 1rem;
+		margin: 0.5rem;
+		@media (max-width: ${style.breakpoint.tablet}) {
+			margin: 0.25rem;
+		}
 	}
 	.list-item__contentInner a, p {
 		text-decoration: none;
@@ -165,11 +170,13 @@ const StyledGrid = styled.div`
 		border: 0;
 		border-radius: 5px;
 		padding: .55px 6px .54px 6px;
+		text-align: center;
 		@media (max-width: ${style.breakpoint.tablet}) {
 			width: 100%;
 			min-height: 44px;
 			padding: 12px 16px;
 			font-size: 1.2rem;
+			text-align: center;
 		}
 	}
 	select:hover {
@@ -190,8 +197,10 @@ const StyledGrid = styled.div`
 		@media (max-width: ${style.breakpoint.tablet}) {
 			grid-column: 1;
 			grid-row: 4;
-			padding: 1rem 0 0 0;
+			padding: 0.5rem 0 0 0;
 			margin: 0;
+			width: 100%;
+			box-sizing: border-box;
 		}
 	}
 	li {
@@ -203,6 +212,12 @@ const StyledGrid = styled.div`
 		border: 2px solid black;
 		border-radius: 5px;
 		margin-bottom: 10px;
+		@media (max-width: ${style.breakpoint.tablet}) {
+			margin: 0 0 0.5rem 0;
+			padding: 8px;
+			width: 100%;
+			box-sizing: border-box;
+		}
 	}
 	li > button, label {
 		font-size: 1rem;

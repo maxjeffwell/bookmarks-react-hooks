@@ -18,8 +18,12 @@ const StyledLanding = styled.div`
 	 	display: grid;
 		grid-template-columns: 1fr;
 		grid-template-rows: auto auto auto auto auto;
-		grid-gap: 1rem;
-		padding: 1rem;
+		grid-gap: 0.5rem;
+		padding: 0.5rem;
+		width: 100vw;
+		max-width: 100%;
+		overflow-x: hidden;
+		box-sizing: border-box;
 	 }
 `;
 
@@ -40,10 +44,11 @@ const StyledText = styled.p`
 		@media (max-width: ${style.breakpoint.tablet}) {
 			grid-column: 1;
 			grid-row: 2;
-			padding: 2rem;
+			padding: 1rem;
 			width: 100%;
 			font-size: 1.2rem;
 			margin: 0;
+			box-sizing: border-box;
 		}
 	}
 	:nth-of-type(2) {
@@ -55,10 +60,11 @@ const StyledText = styled.p`
 		@media (max-width: ${style.breakpoint.tablet}) {
 			grid-column: 1;
 			grid-row: 4;
-			padding: 2rem;
+			padding: 1rem;
 			width: 100%;
 			font-size: 1.2rem;
 			margin: 0;
+			box-sizing: border-box;
 		}
 `;
 
