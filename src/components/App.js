@@ -2,7 +2,7 @@ import React, { useReducer, useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import axios from 'axios';
 import { Global, css } from '@emotion/react';
-import WebFont from 'webfontloader';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 import BookmarksContext from '../context';
 import bookmarksReducer from '../reducers/bookmarksReducer';
@@ -10,18 +10,6 @@ import { apiUrl, apiEndpoint } from '../config';
 
 import Landing from './Landing';
 import BookmarksList from './BookmarksList';
-
-WebFont.load({
-	custom: {
-		families: [
-			'ITCAvantGardeStd-Demi',
-			'HelveticaNeueLTStd-BdOu',
-			'HelveticaNeueLTStd-Roman',
-			'GaramondPremrPro-MedDisp'
-		]
-	},
-	timeout: 2000
-});
 
 const globalStyles = css`
 	@font-face {
@@ -36,13 +24,8 @@ const globalStyles = css`
 		font-weight: normal;
 		font-style: normal;
 	}
-	@font-face {
-		font-family: HelveticaNeueLTStd-BdOu;
-		src: url('../../public/fonts/HelveticaNeueLTStd-BdOu.otf') format('opentype');
-		font-weight: bold;
-		font-style: normal;
-	}
-		@font-face {
+
+    @font-face {
 		font-family: GaramondPremrPro-MedDisp;
 		src: url('../../public/fonts/GaramondPremrPro-MedDisp.otf') format('opentype');
 		font-weight: bold;
@@ -110,6 +93,7 @@ export default function App() {
 					<Route path='/' element={<Landing />} />
 					<Route path='/bookmarks' element={<BookmarksList />} />
 				</Routes>
+                <SpeedInsights />
 			</BookmarksContext.Provider>
 		</BrowserRouter>
 	);
