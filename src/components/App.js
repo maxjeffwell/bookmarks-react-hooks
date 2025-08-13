@@ -50,7 +50,7 @@ const globalStyles = css`
 	}
 	html {
 		box-sizing: border-box;
-		font-size: 14px;
+		font-size: clamp(12px, 2.5vw, 16px);
 		color: #272727;
 	}
 	*, *:before, *:after {

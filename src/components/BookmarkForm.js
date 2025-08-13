@@ -48,6 +48,12 @@ export const StyledForm = styled.form`
 		height: 1rem;
 		border: 1px solid ${props => props.theme.colors.secondary};
 		border-radius: 50px;
+		@media (max-width: ${style.breakpoint.tablet}) {
+			min-width: 24px;
+			min-height: 24px;
+			width: 24px;
+			height: 24px;
+		}
 	}
 	input:-moz-ui-invalid:not(output) {
     box-shadow: none;
@@ -109,6 +115,10 @@ export const StyledForm = styled.form`
 		grid-gap: 10px;
 		line-height: 1rem;
 		margin: auto;
+		@media (max-width: ${style.breakpoint.tablet}) {
+			grid-gap: 15px;
+			padding: 1rem;
+		}
 	}
 	fieldset label {
 		font-size: 1.25rem;
@@ -143,7 +153,11 @@ export const StyledForm = styled.form`
 		width: 100%;
 		padding: 5px 5px 5px 5px;
 		@media (max-width: ${style.breakpoint.tablet}) {
-			width: auto;
+			min-height: 44px;
+			padding: 12px 24px;
+			font-size: 1.2rem;
+			width: 100%;
+			margin: 0.5rem 0;
 		}
 	} 
 	button:hover, button:focus {

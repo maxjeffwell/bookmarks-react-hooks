@@ -15,7 +15,11 @@ const StyledLanding = styled.div`
 	grid-column-gap: .25rem;
 	background-color: #fbf579;
 	 @media (max-width: ${style.breakpoint.tablet}) {
-	 	display: inline-block;
+	 	display: grid;
+		grid-template-columns: 1fr;
+		grid-template-rows: auto auto auto auto auto;
+		grid-gap: 1rem;
+		padding: 1rem;
 	 }
 `;
 
@@ -34,9 +38,12 @@ const StyledText = styled.p`
 		border-radius: 5px;
 		background-color: #005995;
 		@media (max-width: ${style.breakpoint.tablet}) {
-			padding-top: 1rem;
-			width: 50%;
-			font-size: 1rem;
+			grid-column: 1;
+			grid-row: 2;
+			padding: 2rem;
+			width: 100%;
+			font-size: 1.2rem;
+			margin: 0;
 		}
 	}
 	:nth-of-type(2) {
@@ -46,10 +53,12 @@ const StyledText = styled.p`
 		border-radius: 5px;
 		background-color: #600473;
 		@media (max-width: ${style.breakpoint.tablet}) {
-			padding-top: 1rem;
-			width: 50%;
-			font-size: 1rem;
-			margin-top: 2rem;
+			grid-column: 1;
+			grid-row: 4;
+			padding: 2rem;
+			width: 100%;
+			font-size: 1.2rem;
+			margin: 0;
 		}
 `;
 
@@ -59,7 +68,13 @@ const StyledImage = styled.img`
 	height: 600px;
 	width: 500px;
 	@media (max-width: ${style.breakpoint.tablet}) {
-		display: none;
+		grid-column: 1;
+		grid-row: 3;
+		height: auto;
+		width: 100%;
+		max-width: 300px;
+		margin: 0 auto;
+		justify-self: center;
 	}
 `;
 

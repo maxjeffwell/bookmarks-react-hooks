@@ -23,18 +23,23 @@ const StyledGrid = styled.div`
 	width: 100%;
 	background-color: #005995;
 	@media (max-width: ${style.breakpoint.tablet}) {
-		display: inline-block;
+		display: grid;
+		grid-template-columns: 1fr;
+		grid-template-rows: auto auto auto auto;
+		grid-gap: 1rem;
 		margin-top: 0;
+		padding: 1rem;
 		overflow-x: hidden;
-		overflow-y: hidden;
+		overflow-y: auto;
 	}
 	.list-title {
 		grid-column: 1 / 3;
 		grid-row: 1 / 2 ;
 		@media (max-width: ${style.breakpoint.tablet}) {
-			display: inline-block;
+			grid-column: 1;
+			grid-row: 1;
 			text-align: center;
-			margin: 20px auto;
+			margin: 10px 0;
 		}
 	}
 	.filters {
@@ -43,16 +48,20 @@ const StyledGrid = styled.div`
 		grid-auto-flow: row;
 		margin-top: 125px;
 		@media (max-width: ${style.breakpoint.tablet}) {
-			display: inline-block;
-			margin: 5px;
+			grid-column: 1;
+			grid-row: 2;
+			display: flex;
+			flex-direction: column;
+			gap: 1rem;
+			margin: 1rem 0;
 			width: 100%;
 		}
 	}
 	.filters span {
 		@media (max-width: ${style.breakpoint.tablet}) {
-			width: auto;
-			display: inline-block;
-			margin: 0 auto 5px auto;
+			width: 100%;
+			display: block;
+			margin: 0;
 		}
 	}
 	.list-item__contentInner {
@@ -93,8 +102,10 @@ const StyledGrid = styled.div`
 		cursor: pointer;
 		white-space: nowrap;
 		@media (max-width: ${style.breakpoint.tablet}) {
-			padding-top: 2px;
-			padding-bottom: 2px;
+			min-height: 44px;
+			min-width: 120px;
+			padding: 12px 16px;
+			font-size: 1.2rem;
 			cursor: pointer;
 		}
 	}
@@ -117,11 +128,15 @@ const StyledGrid = styled.div`
 	.btn-filter {
   		width: auto;
   			@media (max-width: ${style.breakpoint.tablet}) {
-					margin-right: 5px;
+					width: 100%;
+					margin: 0;
 			}
   }
 	span + span {
     margin-left: 10px;
+		@media (max-width: ${style.breakpoint.tablet}) {
+			margin-left: 0;
+		}
 	}
 	h3 {
 		font-size: 2rem;
@@ -151,7 +166,10 @@ const StyledGrid = styled.div`
 		border-radius: 5px;
 		padding: .55px 6px .54px 6px;
 		@media (max-width: ${style.breakpoint.tablet}) {
-			padding: auto;
+			width: 100%;
+			min-height: 44px;
+			padding: 12px 16px;
+			font-size: 1.2rem;
 		}
 	}
 	select:hover {
@@ -170,7 +188,10 @@ const StyledGrid = styled.div`
 		padding: 10px 40px 0;
 		margin: 0 auto 2rem;
 		@media (max-width: ${style.breakpoint.tablet}) {
-			padding-top: 20px;
+			grid-column: 1;
+			grid-row: 4;
+			padding: 1rem 0 0 0;
+			margin: 0;
 		}
 	}
 	li {
@@ -200,6 +221,12 @@ const StyledGrid = styled.div`
   	appearance: none;
   	-webkit-appearance: none;
 		-moz-appearance: none;
+		@media (max-width: ${style.breakpoint.tablet}) {
+			min-width: 24px;
+			min-height: 24px;
+			width: 24px;
+			height: 24px;
+		}
   } 
   input[type=checkbox]:focus {
   	outline: none;
@@ -219,11 +246,12 @@ const StyledForm = styled.div`
 	grid-row: 2 / 3;
 	background-color: #fbf579;
 	@media (max-width: ${style.breakpoint.tablet}) {
-		display: inline-block;
-		min-width: 100%;
-		margin: auto;
-		padding-left: 10px;
-		padding-right: 10px;
+		grid-column: 1;
+		grid-row: 3;
+		width: 100%;
+		margin: 0;
+		padding: 1rem;
+		border-radius: 8px;
 	}
 `;
 
@@ -234,8 +262,7 @@ const StyledList= styled.div`
 	font-family: ${props => props.theme.fonts.secondary};
 	background-color: #fa625f;
 	@media (max-width: ${style.breakpoint.tablet}) {
-		display: inline-block;
-		min-width: 100%;
+		display: contents;
 	}
 `;
 

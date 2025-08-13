@@ -17,11 +17,17 @@ const StyledTitle = styled.h1`
 	border-radius: 2px;
 	padding-top: 15rem;
 	@media (max-width: ${style.breakpoint.tablet}) {
-		border-radius: 5px;
-		display: inline-block;
-		font-size: 2rem;
-		padding-top: 5rem;
-		padding-bottom: 5rem;
+		grid-column: 1;
+		grid-row: 1;
+		writing-mode: horizontal-tb;
+		text-orientation: unset;
+		border-radius: 8px;
+		font-size: 2.5rem;
+		padding: 1rem;
+		text-align: center;
+		line-height: 1.2;
+		margin: 0;
+		border: 5px solid #fa625f;
 	}
 `;
 
