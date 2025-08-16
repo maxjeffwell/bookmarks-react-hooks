@@ -1,6 +1,6 @@
 <div align="center">
   <h1>
-    <img src="https://github.com/vercel/vercel/raw/main/packages/cli/assets/vercel-logo-dark.svg" alt="Vercel" width="24" height="24" style="vertical-align: middle; margin-right: 8px;">
+    <img src="https://vercel.com/api/www/avatar/vercel?s=64" alt="Vercel" width="24" height="24" style="vertical-align: middle; margin-right: 8px;">
     Bookmarked
   </h1>
 
