@@ -142,6 +142,24 @@ npm run build
 
 The application automatically creates the required database table on first run. No manual setup is needed beyond providing the Neon connection string.
 
+## 📸 Screenshots
+
+<div align="center">
+
+### Landing Page
+![Landing Page](screenshots/Screen%20Shot%202025-08-16%20at%2006.24.24.png)
+*Welcome screen introducing the Bookmarked application with elegant design and clear call-to-action*
+
+### Create Bookmark Form
+![Create Bookmark](screenshots/Screen%20Shot%202025-08-16%20at%2006.24.59.png)
+*Comprehensive bookmark creation form featuring title, URL, description, and star rating system*
+
+### Bookmarks Management Interface
+![Bookmarks List](screenshots/Screen%20Shot%202025-08-16%20at%2006.25.18.png)
+*Main interface showing bookmark collection with filtering options, favorites toggle, and organized list view*
+
+</div>
+
 ## 🚀 Deployment
 
 <div align="center">
