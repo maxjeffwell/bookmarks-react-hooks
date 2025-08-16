@@ -1,51 +1,71 @@
-# Bookmarked
-![React](https://img.shields.io/badge/React-badge.svg?style=for-the-badge&logo=react&labelColor=fa625f&logoColor=EDEDED&color=393939) &nbsp;![CSS3](https://img.shields.io/badge/CSS3-badge.svg?style=for-the-badge&logo=css3&labelColor=fa625f&logoColor=EDEDED&color=393939) &nbsp;![PostgreSQL](https://img.shields.io/badge/PostgreSQL-badge.svg?style=for-the-badge&logo=postgresql&labelColor=fa625f&logoColor=EDEDED&color=393939)
+<div align="center">
+  <h1>
+    <img src="https://github.com/vercel/vercel/raw/main/packages/cli/assets/vercel-logo-dark.svg" alt="Vercel" width="24" height="24" style="vertical-align: middle; margin-right: 8px;">
+    Bookmarked
+  </h1>
 
->**Bookmarked** is a full-stack bookmark manager application built with React Hooks and powered by Neon's serverless PostgreSQL database. The application provides a seamless single-page experience for creating, editing, and organizing bookmarks with advanced filtering capabilities. The frontend leverages React's Context API with useReducer for state management, while the backend utilizes Vercel serverless functions connected to a Neon database for persistent, scalable data storage.
+  <p><strong>Full-Stack React Hooks Bookmark Manager</strong></p>
 
-## Build Status
+  ![React](https://img.shields.io/badge/React-000000?style=flat&logo=react&logoColor=white)
+  ![Emotion](https://img.shields.io/badge/Emotion-000000?style=flat&logo=emotion&logoColor=white)
+  ![PostgreSQL](https://img.shields.io/badge/Neon-000000?style=flat&logo=postgresql&logoColor=white)
+  ![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat&logo=vercel&logoColor=white)
 
->[![Dependencies](https://img.shields.io/badge/dependencies-up%20to%20date-393939.svg?style=style-for-the-badge&logo=appveyor&labelColor=fa625f&logoColor=EDEDED&color=393939)](https://github.com/maxjeffwell/bookmarks-react-hooks)
->>[![npm version](https://img.shields.io/badge/npm%20package-6.4.1-ededed.svg?logo=npm&style=style-for-the-badge&labelColor=fa625f&logoColor=EDEDED&color=393939)](https://badge.fury.io/js/npm)
->>
->>>[![Live Demo](https://img.shields.io/badge/demo-online-393939.svg?style=style-for-the-badge&logo=vercel&logoColor=EDEDED&labelColor=fa625f&color=393939)](https://bookmarks-react-hooks.vercel.app/)
->
->
->
+  <p>
+    <a href="https://bookmarks-react-hooks.vercel.app/"><strong>Live Demo →</strong></a>
+  </p>
 
-## Screenshots
+  [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/maxjeffwell/bookmarks-react-hooks)
 
-[![Bookmarked Desktop View Landing Page](https://i.gyazo.com/abee754487f39b7b32185a227e1fe4ae.png)](https://gyazo.com/abee754487f39b7b32185a227e1fe4ae)
+</div>
 
-[![Bookmarked Desktop View Main Page Bookmarks_Expanded](https://i.gyazo.com/5fdf1017422df4223688a46c23d2e637.png)](https://gyazo.com/5fdf1017422df4223688a46c23d2e637)
+---
 
-[![Bookmarked Desktop View Main Page Bookmarks_Partially_Expanded](https://i.gyazo.com/bf4fcc11a68c7c50fe4ac83efc38a320.png)](https://gyazo.com/bf4fcc11a68c7c50fe4ac83efc38a320)
+## 🚀 Overview
 
-[![Bookmarked Desktop View Main Page Bookmarks_Unexpanded](https://i.gyazo.com/177e8c0c74485d9b986d4ae49970b604.png)](https://gyazo.com/177e8c0c74485d9b986d4ae49970b604)
+**Bookmarked** is a full-stack bookmark manager application built with React Hooks and powered by Neon's serverless PostgreSQL database. The application provides a seamless single-page experience for creating, editing, and organizing bookmarks with advanced filtering capabilities. The frontend leverages React's Context API with useReducer for state management, while the backend utilizes Vercel serverless functions connected to a Neon database for persistent, scalable data storage.
 
-[![Bookmarked Mobile View Main Page](https://i.gyazo.com/04f8ecfdb1e1fadc76bf3d643f860bb6.png)](https://gyazo.com/04f8ecfdb1e1fadc76bf3d643f860bb6)
+<div align="center">
 
-[![Bookmarked Mobile View Main Page Bookmarks_Partially_Expanded](https://i.gyazo.com/60fa21a906abe23cd12a6a6bbcbb9f4a.png)](https://gyazo.com/60fa21a906abe23cd12a6a6bbcbb9f4a)
+### Build Status
 
-[![Bookmarked Mobile View Main Page Bookmarks_Expanded](https://i.gyazo.com/e3eb48b37f8afeb36c698e1f63c8df5f.png)](https://gyazo.com/e3eb48b37f8afeb36c698e1f63c8df5f)
+![Dependencies](https://img.shields.io/badge/dependencies-up%20to%20date-000000?style=flat&logoColor=white)
+![npm version](https://img.shields.io/badge/npm-v6.4.1-000000?style=flat&logoColor=white)
+![Demo Status](https://img.shields.io/badge/demo-online-000000?style=flat&logoColor=white)
 
-## Technology Stack
+</div>
+
+
+## 🛠️ Technology Stack
+
+<table align="center">
+<tr>
+<td align="center" width="50%">
 
 ### Frontend
-* **React 16.14** with Hooks (useState, useEffect, useReducer, useContext)
-* **React Router DOM** for client-side routing
-* **Emotion** for CSS-in-JS styling
-* **CSS Grid** for responsive layouts
-* **Axios** for API communication
+- **React 18.3** with Hooks (useState, useEffect, useReducer, useContext)
+- **React Router DOM** for client-side routing
+- **Emotion** for CSS-in-JS styling
+- **CSS Grid** for responsive layouts
+- **Axios** for API communication
+
+</td>
+<td align="center" width="50%">
 
 ### Backend
-* **Neon Serverless PostgreSQL** - Serverless, auto-scaling PostgreSQL database
-* **Vercel Serverless Functions** - API endpoints deployed as serverless functions
-* **@neondatabase/serverless** - Neon's optimized PostgreSQL driver for serverless environments
+- **Neon Serverless PostgreSQL** - Serverless, auto-scaling database
+- **Vercel Serverless Functions** - API endpoints as serverless functions
+- **@neondatabase/serverless** - Neon's optimized PostgreSQL driver
+- **Vercel Analytics** - Performance and user insights
 
-## Architecture
+</td>
+</tr>
+</table>
 
-### Database Schema
+## 🏗️ Architecture
+
+### 📊 Database Schema
+
 The application uses a PostgreSQL database hosted on Neon with the following schema:
 
 ```sql
@@ -62,34 +82,48 @@ CREATE TABLE bookmarks (
 );
 ```
 
-### API Endpoints
+### 🔌 API Endpoints
+
 The backend provides RESTful API endpoints through Vercel serverless functions:
 
-* `GET /api/bookmarks-simple` - Retrieve all bookmarks
-* `POST /api/bookmarks-simple` - Create a new bookmark
-* `PATCH /api/bookmarks-simple/[id]` - Update a bookmark
-* `DELETE /api/bookmarks-simple/[id]` - Delete a bookmark
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/api/bookmarks-simple` | Retrieve all bookmarks |
+| `POST` | `/api/bookmarks-simple` | Create a new bookmark |
+| `PATCH` | `/api/bookmarks-simple/[id]` | Update a bookmark |
+| `DELETE` | `/api/bookmarks-simple/[id]` | Delete a bookmark |
 
-### Key Features of Neon Integration
-* **Serverless Architecture** - No need to manage database servers or connections
-* **Auto-scaling** - Database scales automatically based on demand
-* **Connection Pooling** - Built-in connection management for serverless environments
-* **PostgreSQL Compatibility** - Full PostgreSQL feature set with ACID compliance
+### ⚡ Key Features of Neon Integration
 
-## Setup and Configuration
+<div align="center">
 
-### Prerequisites
-* Node.js 14+
-* A Neon account (sign up at [neon.tech](https://neon.tech))
-* Vercel account for deployment (optional)
+| Feature | Benefit |
+|---------|---------|
+| **Serverless Architecture** | No database server management needed |
+| **Auto-scaling** | Database scales automatically with demand |
+| **Connection Pooling** | Built-in connection management |
+| **PostgreSQL Compatibility** | Full PostgreSQL feature set with ACID compliance |
 
-### Environment Variables
+</div>
+
+## 🚀 Setup and Configuration
+
+### 📋 Prerequisites
+
+- Node.js 14+
+- A Neon account (sign up at [neon.tech](https://neon.tech))
+- Vercel account for deployment (optional)
+
+### 🔧 Environment Variables
+
 Create a `.env` file in the root directory:
+
 ```bash
 DATABASE_URL=your_neon_database_connection_string
 ```
 
-### Local Development
+### 💻 Local Development
+
 ```bash
 # Install dependencies
 npm install
@@ -104,35 +138,75 @@ npm test
 npm run build
 ```
 
-### Database Setup
+### 🗄️ Database Setup
+
 The application automatically creates the required database table on first run. No manual setup is needed beyond providing the Neon connection string.
 
-## Deployment
+## 🚀 Deployment
+
+<div align="center">
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/maxjeffwell/bookmarks-react-hooks)
+
+</div>
 
 The application is configured for deployment on Vercel:
-1. Connect your GitHub repository to Vercel
-2. Add your `DATABASE_URL` environment variable in Vercel's dashboard
-3. Deploy - Vercel will automatically detect and configure the serverless functions
 
-## Next Steps
+1. **Connect** your GitHub repository to Vercel
+2. **Add** your `DATABASE_URL` environment variable in Vercel's dashboard  
+3. **Deploy** - Vercel will automatically detect and configure the serverless functions
 
-* Add user authentication and authorization with JWT tokens
-* Implement bookmark search functionality with PostgreSQL full-text search
-* Add bookmark import/export features (support for browser bookmarks)
-* Create bookmark collections/folders for better organization
-* Implement sharing functionality for public bookmark lists
-* Add bookmark tagging system with autocomplete
-* Create browser extension for quick bookmark saving
-* Implement dark mode theme support
-* Add bookmark thumbnail/screenshot capture
-* Create mobile app using React Native
+## 🎯 Next Steps
 
-## Meta
->**Author:** Jeff Maxwell
->
->**Email:** [maxjeffwell@gmail.com](mailto:maxjeffwell@gmail.com) | **GitHub:** [https://github.com/maxjeffwell](@maxjeffwell) | **Portfolio:** [https://www.el-jefe.me](https://www.el-jefe.me) |
+<div align="center">
 
->[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-393939.svg?style=for-the-badge&labelColor=fa625f&logoColor=393939&color=393939)](https://www.gnu.org/licenses/gpl-3.0)
+| Feature | Description |
+|---------|-------------|
+| 🔐 **Authentication** | JWT-based user auth and authorization |
+| 🔍 **Search** | PostgreSQL full-text search functionality |
+| 📥 **Import/Export** | Browser bookmark import/export support |
+| 📁 **Collections** | Bookmark folders and organization |
+| 🤝 **Sharing** | Public bookmark list sharing |
+| 🏷️ **Tagging** | Autocomplete tagging system |
+| 🌐 **Browser Extension** | Quick bookmark saving extension |
+| 🌙 **Dark Mode** | Theme switching support |
+| 📸 **Thumbnails** | Bookmark screenshot capture |
+| 📱 **Mobile App** | React Native mobile application |
 
-    Distributed under the GNU GPLv3 License.
-    See ``LICENSE`` for more information.
+</div>
+
+## 🤝 Contributing
+
+We welcome contributions! Please feel free to submit a Pull Request.
+
+<div align="center">
+
+| Step | Action |
+|------|--------|
+| 1️⃣ | Fork the project |
+| 2️⃣ | Create feature branch (`git checkout -b feature/AmazingFeature`) |
+| 3️⃣ | Commit changes (`git commit -m 'Add AmazingFeature'`) |
+| 4️⃣ | Push to branch (`git push origin feature/AmazingFeature`) |
+| 5️⃣ | Open a Pull Request |
+
+</div>
+
+---
+
+<div align="center">
+
+## 👨‍💻 Author
+
+**Jeff Maxwell**
+
+[![Portfolio](https://img.shields.io/badge/Portfolio-000000?style=flat&logo=vercel&logoColor=white)](https://www.el-jefe.me)
+[![GitHub](https://img.shields.io/badge/GitHub-000000?style=flat&logo=github&logoColor=white)](https://github.com/maxjeffwell)
+[![Email](https://img.shields.io/badge/Email-000000?style=flat&logo=thunderbird&logoColor=white)](mailto:jeff@el-jefe.me)
+
+## 📄 License
+
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-000000?style=flat&logoColor=white)](https://www.gnu.org/licenses/gpl-3.0)
+
+Distributed under the GNU GPLv3 License. See `LICENSE` for more information.
+
+</div>
