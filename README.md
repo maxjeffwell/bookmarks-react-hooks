@@ -146,6 +146,11 @@ The application automatically creates the required database table on first run. 
 
 <div align="center">
 
+### Application Demo
+https://github.com/user-attachments/assets/Video_2025-08-16_01-47-22.mp4
+
+*Complete walkthrough of the Bookmarked application showcasing all key features and functionality*
+
 ### Landing Page
 ![Landing Page](screenshots/Screen%20Shot%202025-08-16%20at%2006.24.24.png)
 *Welcome screen introducing the Bookmarked application with elegant design and clear call-to-action*
