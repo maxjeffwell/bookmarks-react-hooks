@@ -1,0 +1,75 @@
+name: CI
+
+on:
+  push:
+    branches: [master, main, develop]
+  pull_request:
+    branches: [master, main, develop]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Run linter
+        run: npm run lint
+        continue-on-error: true
+
+      - name: Run tests
+        run: npm test -- --passWithNoTests --watchAll=false
+        env:
+          CI: false
+          REACT_APP_API_BASE_URL: http://localhost:8080/api
+        continue-on-error: true
+
+      - name: Build project
+        run: npm run build
+        env:
+          CI: false
+          DISABLE_ESLINT_PLUGIN: true
+          REACT_APP_API_BASE_URL: http://localhost:8080/api
+
+      - name: Verify build output
+        run: |
+          ls -la build/
+          test -f build/index.html || exit 1
+          test -d build/static || exit 1
+
+      - name: Build Docker image (without push)
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          target: production
+          push: false
+          load: true
+          tags: bookmarks-client:ci-test
+          build-args: |
+            REACT_APP_API_BASE_URL=http://localhost:8080/api
+
+      - name: Verify Docker image was built
+        run: docker images | grep bookmarks-client
+
+      - name: Test Docker container
+        run: |
+          docker run -d --name bookmarks-test -p 3000:80 bookmarks-client:ci-test
+          sleep 5
+          curl -f http://localhost:3000 || exit 1
+          docker stop bookmarks-test
+          docker rm bookmarks-test

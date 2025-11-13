@@ -10,6 +10,7 @@
   ![Emotion](https://img.shields.io/badge/Emotion-000000?style=flat&logo=emotion&logoColor=white)
   ![PostgreSQL](https://img.shields.io/badge/Neon-000000?style=flat&logo=postgresql&logoColor=white)
   ![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat&logo=vercel&logoColor=white)
+  ![Docker](https://img.shields.io/badge/Docker-000000?style=flat&logo=docker&logoColor=white)
 
   <p>
     <a href="https://bookmarks-react-hooks.vercel.app/"><strong>Live Demo →</strong></a>
@@ -28,6 +29,9 @@
 <div align="center">
 
 ### Build Status
+
+![CI](https://github.com/maxjeffwell/bookmarks-react-hooks/workflows/CI/badge.svg)
+![Docker Build & Push](https://github.com/maxjeffwell/bookmarks-react-hooks/workflows/Docker%20Build%20%26%20Push/badge.svg)
 
 ![Dependencies](https://img.shields.io/badge/dependencies-up%20to%20date-000000?style=flat&logoColor=white)
 ![npm version](https://img.shields.io/badge/npm-v6.4.1-000000?style=flat&logoColor=white)
