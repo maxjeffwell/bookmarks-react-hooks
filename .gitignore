@@ -24,3 +24,10 @@ yarn-error.log*
 CLAUDE.md
 GEMINI.md
 .vercel
+
+# Docker
+Dockerfile
+docker-compose.yml
+docker-compose.prod.yml
+.dockerignore
+nginx.conf
