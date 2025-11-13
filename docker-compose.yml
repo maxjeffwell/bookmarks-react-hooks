@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  # React Client
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+      args:
+        REACT_APP_API_BASE_URL: ${REACT_APP_API_BASE_URL:-/api}
+    container_name: bookmarks-client
+    environment:
+      - NODE_ENV=${NODE_ENV:-production}
+    ports:
+      - "${CLIENT_PORT:-3000}:80"
+    networks:
+      - bookmarks-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/"]
+      interval: 30s
+      timeout: 3s
+      start_period: 20s
+      retries: 3
+
+  # Express Server (Optional - for local development alternative to Vercel functions)
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+      target: production
+    container_name: bookmarks-server
+    environment:
+      - NODE_ENV=${NODE_ENV:-production}
+      - PORT=${SERVER_PORT:-3001}
+      - DATABASE_URL=${DATABASE_URL}
+    ports:
+      - "${SERVER_PORT:-3001}:3001"
+    networks:
+      - bookmarks-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3001/api/bookmarks-simple"]
+      interval: 30s
+      timeout: 3s
+      start_period: 10s
+      retries: 3
+    profiles:
+      - with-server
+
+networks:
+  bookmarks-network:
+    driver: bridge

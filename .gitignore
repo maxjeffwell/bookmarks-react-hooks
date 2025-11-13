@@ -25,9 +25,4 @@ CLAUDE.md
 GEMINI.md
 .vercel
 
-# Docker
-Dockerfile
-docker-compose.yml
-docker-compose.prod.yml
-.dockerignore
-nginx.conf
+# Docker - keep .env private but commit Docker configs
