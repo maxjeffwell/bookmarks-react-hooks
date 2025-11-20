@@ -26,12 +26,58 @@ const initializeDatabase = async () => {
         updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
       );
     `;
-    
+
     // Migrate existing rating column from INTEGER to TEXT if needed
     try {
       await sql`ALTER TABLE bookmarks ALTER COLUMN rating TYPE TEXT;`;
     } catch (migrationError) {
       // Column might already be TEXT, that's fine
+    }
+
+    // Add full-text search capability
+    try {
+      // Add search_vector column
+      await sql`ALTER TABLE bookmarks ADD COLUMN IF NOT EXISTS search_vector tsvector;`;
+
+      // Create or replace the search vector update function
+      await sql`
+        CREATE OR REPLACE FUNCTION bookmarks_search_vector_update() RETURNS trigger AS $$
+        BEGIN
+          NEW.search_vector :=
+            setweight(to_tsvector('english', COALESCE(NEW.title, '')), 'A') ||
+            setweight(to_tsvector('english', COALESCE(NEW.url, '')), 'B') ||
+            setweight(to_tsvector('english', COALESCE(NEW.description, '')), 'C');
+          RETURN NEW;
+        END;
+        $$ LANGUAGE plpgsql;
+      `;
+
+      // Create trigger for auto-updating search_vector
+      await sql`DROP TRIGGER IF EXISTS bookmarks_search_vector_trigger ON bookmarks;`;
+      await sql`
+        CREATE TRIGGER bookmarks_search_vector_trigger
+          BEFORE INSERT OR UPDATE ON bookmarks
+          FOR EACH ROW
+          EXECUTE FUNCTION bookmarks_search_vector_update();
+      `;
+
+      // Update existing rows to populate search_vector
+      await sql`
+        UPDATE bookmarks SET search_vector =
+          setweight(to_tsvector('english', COALESCE(title, '')), 'A') ||
+          setweight(to_tsvector('english', COALESCE(url, '')), 'B') ||
+          setweight(to_tsvector('english', COALESCE(description, '')), 'C')
+        WHERE search_vector IS NULL;
+      `;
+
+      // Create GIN index for fast full-text search
+      await sql`CREATE INDEX IF NOT EXISTS bookmarks_search_idx ON bookmarks USING GIN(search_vector);`;
+
+      // Create index on URL for duplicate detection
+      await sql`CREATE INDEX IF NOT EXISTS bookmarks_url_idx ON bookmarks(url);`;
+    } catch (searchMigrationError) {
+      console.error('Search migration error (non-fatal):', searchMigrationError);
+      // Non-fatal - app will work without search
     }
   } catch (error) {
     console.error('Error initializing database:', error);

@@ -1,4 +1,4 @@
-import React, { useContext , useReducer, useState, useMemo, useCallback } from 'react';
+import React, { useContext , useReducer, useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import Collapsible from 'react-collapsible';
 import styled from '@emotion/styled';
 import axios from 'axios';
@@ -10,6 +10,7 @@ import { apiUrl, apiEndpoint } from '../config';
 import Header from './Header';
 import Footer from './Footer';
 import BookmarkForm from './BookmarkForm';
+import BookmarkImport from './BookmarkImport';
 import * as style from './Breakpoints';
 
 const StyledGrid = styled.div`
@@ -283,6 +284,11 @@ export default function BookmarksList() {
 	const { state, dispatch, loading, error } = useContext(BookmarksContext);
 	const [filter, dispatchFilter] = useReducer(filterReducer, 'ALL');
 	const [rating, setRating] = useState('');
+	const [searchQuery, setSearchQuery] = useState('');
+	const [searchResults, setSearchResults] = useState(null);
+	const [isSearching, setIsSearching] = useState(false);
+	const [showImport, setShowImport] = useState(false);
+	const searchTimeoutRef = useRef(null);
 
 	const title = state.bookmarks.length > 0
 	? 'My Bookmarks' : 'You have not created any bookmarks yet ...';
@@ -310,8 +316,59 @@ export default function BookmarksList() {
 		}
 	}, [dispatch]);
 
+	// Debounced search handler
+	const handleSearch = useCallback((query) => {
+		setSearchQuery(query);
+
+		// Clear existing timeout
+		if (searchTimeoutRef.current) {
+			clearTimeout(searchTimeoutRef.current);
+		}
+
+		// Clear search if query is empty
+		if (!query || query.trim().length === 0) {
+			setSearchResults(null);
+			setIsSearching(false);
+			return;
+		}
+
+		// Debounce search API call
+		setIsSearching(true);
+		searchTimeoutRef.current = setTimeout(async () => {
+			try {
+				const res = await axios.get(`${apiUrl}/search`, {
+					params: { q: query.trim() }
+				});
+				setSearchResults(res.data.results);
+				setIsSearching(false);
+			} catch (error) {
+				console.error('Search failed:', error);
+				setIsSearching(false);
+				// Fallback to client-side filtering
+				const filtered = state.bookmarks.filter(b =>
+					b.title?.toLowerCase().includes(query.toLowerCase()) ||
+					b.url?.toLowerCase().includes(query.toLowerCase()) ||
+					b.description?.toLowerCase().includes(query.toLowerCase())
+				);
+				setSearchResults(filtered);
+			}
+		}, 300);
+	}, [state.bookmarks]);
+
+	// Clear search timeout on unmount
+	useEffect(() => {
+		return () => {
+			if (searchTimeoutRef.current) {
+				clearTimeout(searchTimeoutRef.current);
+			}
+		};
+	}, []);
+
 	const filteredBookmarks = useMemo(() => {
-		return state.bookmarks.filter(b => {
+		// Use search results if search is active
+		const baseBookmarks = searchResults !== null ? searchResults : state.bookmarks;
+
+		return baseBookmarks.filter(b => {
 			if (filter === 'ALL') {
 				return true;
 			}
@@ -320,7 +377,7 @@ export default function BookmarksList() {
 			}
 			return filter === 'RATING' && b.rating === rating;
 		});
-	}, [state.bookmarks, filter, rating]);
+	}, [state.bookmarks, searchResults, filter, rating]);
 
 	return (
 		<StyledGrid>
@@ -333,6 +390,28 @@ export default function BookmarksList() {
 			<h3>{title}</h3>
 			</div>
 			<div className="filters">
+				<span style={{ width: '100%', marginBottom: '1rem' }}>
+					<input
+						type="text"
+						placeholder="🔍 Search bookmarks..."
+						value={searchQuery}
+						onChange={(e) => handleSearch(e.target.value)}
+						style={{
+							width: '100%',
+							padding: '0.75rem',
+							fontSize: '1.25rem',
+							borderRadius: '5px',
+							border: '2px solid #343436',
+							backgroundColor: isSearching ? '#f0f0f0' : 'white',
+							boxSizing: 'border-box'
+						}}
+					/>
+					{searchQuery && (
+						<span style={{ fontSize: '0.9rem', color: '#666', marginTop: '0.25rem', display: 'block' }}>
+							{isSearching ? 'Searching...' : `Found ${filteredBookmarks.length} result${filteredBookmarks.length !== 1 ? 's' : ''}`}
+						</span>
+					)}
+				</span>
 				<span>
 			<button className="btn-filter" type="button" onClick={handleShowAll}>
 				Show All
@@ -358,7 +437,13 @@ export default function BookmarksList() {
 				Refresh
 			</button>
 				</span>
+				<span>
+			<button className="btn-filter" type="button" onClick={() => setShowImport(!showImport)}>
+				{showImport ? 'Hide Import' : '📥 Import Bookmarks'}
+			</button>
+				</span>
 			</div>
+			{showImport && <BookmarkImport />}
 			<ul>
 				{loading && (
 					<li style={{ textAlign: 'center', fontSize: '1.5rem' }}>
