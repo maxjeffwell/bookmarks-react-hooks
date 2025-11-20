@@ -183,55 +183,26 @@ export default function BookmarkForm() {
 
 	const { state: { currentBookmark = {} }, dispatch } = useContext(BookmarksContext);
 
+	// Consolidated useEffect for syncing currentBookmark to form state
 	useEffect(() => {
-		if (currentBookmark.title) {
-			setBookmarkTitle(currentBookmark.title);
+		if (currentBookmark.id) {
+			// Editing existing bookmark - populate form fields
+			setBookmarkTitle(currentBookmark.title || '');
+			setBookmarkUrl(currentBookmark.url || '');
+			setBookmarkDescription(currentBookmark.description || '');
+			setBookmarkRating(currentBookmark.toggledRadioButton ? currentBookmark.rating || '' : '');
+			setToggleRadioButton(currentBookmark.toggledRadioButton || false);
+			setBookmarkChecked(currentBookmark.checked || false);
 		} else {
+			// Creating new bookmark - reset form fields
 			setBookmarkTitle('');
-		}
-	}, [currentBookmark.id, currentBookmark.title]);
-
-	useEffect(() => {
-		if (currentBookmark.url) {
-			setBookmarkUrl(currentBookmark.url);
-		} else {
 			setBookmarkUrl('');
-		}
-	}, [currentBookmark.id, currentBookmark.url]);
-
-	useEffect(() => {
-		if (currentBookmark.description) {
-			setBookmarkDescription(currentBookmark.description);
-		} else {
 			setBookmarkDescription('');
-		}
-	}, [currentBookmark.id, currentBookmark.description]);
-
-	useEffect(() => {
-		if (currentBookmark.rating && currentBookmark.toggledRadioButton === true ) {
-			setBookmarkRating(currentBookmark.rating);
-		} else if (currentBookmark.toggledRadioButton === false) {
 			setBookmarkRating('');
-		} else {
-			setBookmarkRating('');
-		}
-	}, [currentBookmark.id, currentBookmark.rating, currentBookmark.toggledRadioButton]);
-
-	useEffect(() => {
-		if (currentBookmark.toggledRadioButton) {
-			setToggleRadioButton(currentBookmark.toggledRadioButton);
-		} else {
 			setToggleRadioButton(false);
-		}
-	}, [currentBookmark.id, currentBookmark.toggledRadioButton]);
-
-	useEffect(() => {
-		if (currentBookmark.checked) {
-			setBookmarkChecked(currentBookmark.checked);
-		} else {
 			setBookmarkChecked(false);
 		}
-	}, [currentBookmark.id, currentBookmark.checked]);
+	}, [currentBookmark]);
 
 	const title = !!currentBookmark && currentBookmark.title ? 'Edit Bookmark' : 'Create Bookmark';
 	const ConditionalButton = currentBookmark.title ? 'Update Bookmark' : 'Create Bookmark';

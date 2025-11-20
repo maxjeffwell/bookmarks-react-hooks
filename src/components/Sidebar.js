@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styled from '@emotion/styled';
 
 import * as style from './Breakpoints';
@@ -37,4 +37,4 @@ const Sidebar = () => (
 	</StyledTitle>
 );
 
-export default Sidebar;
+export default memo(Sidebar);

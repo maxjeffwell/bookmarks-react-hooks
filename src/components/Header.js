@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
 
@@ -46,21 +46,21 @@ const StyledLink = styled(Link)`
 `;
 
 const Header = () => {
-	const home = <StyledLink to='/'>Home</StyledLink>;
-	const bookmarks = <StyledLink to='/bookmarks'>My Bookmarks</StyledLink>;
 	const location = useLocation();
-	const ConditionalHomeLink = () => location.pathname !== '/' ? home : bookmarks;
-
-	const bookmarked = <>Bookmarked</>;
-	const empty = <></>;
-	const ConditionalBookmarkedHeader = () => location.pathname !== '/' ? bookmarked : empty;
+	const isBookmarksPage = location.pathname !== '/';
 
 	return (
-			<StyledHeader>
-				<span><ConditionalBookmarkedHeader /></span>
-				<span><ConditionalHomeLink /></span>
-			</StyledHeader>
+		<StyledHeader>
+			<span>{isBookmarksPage && 'Bookmarked'}</span>
+			<span>
+				{isBookmarksPage ? (
+					<StyledLink to='/'>Home</StyledLink>
+				) : (
+					<StyledLink to='/bookmarks'>My Bookmarks</StyledLink>
+				)}
+			</span>
+		</StyledHeader>
 	);
 };
 
-export default Header;
+export default memo(Header);

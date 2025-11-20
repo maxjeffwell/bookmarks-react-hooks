@@ -61,14 +61,21 @@ const globalStyles = css`
 
 const useAPI = endpoint => {
 	const [data, setData] = useState([]);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState(null);
 
 	const getData = React.useCallback(async () => {
 		try {
+			setLoading(true);
+			setError(null);
 			const res = await axios.get(endpoint);
-			setData(res.data)
+			setData(res.data);
 		} catch (error) {
 			console.error('Failed to fetch data:', error);
+			setError(error);
 			setData([]);
+		} finally {
+			setLoading(false);
 		}
 	}, [endpoint]);
 
@@ -76,7 +83,7 @@ const useAPI = endpoint => {
 		getData();
 	}, [getData]);
 
-	return data;
+	return { data, loading, error, refetch: getData };
 };
 
 export default function App() {
@@ -85,18 +92,20 @@ export default function App() {
 		currentBookmark: {},
 	};
 	const [state, dispatch] = useReducer(bookmarksReducer, initialState);
-	const savedBookmarks = useAPI(`${apiUrl}/${apiEndpoint}`);
+	const { data: savedBookmarks, loading, error } = useAPI(`${apiUrl}/${apiEndpoint}`);
 
 	useEffect(() => {
-			dispatch({ type: 'GET_BOOKMARKS', payload: savedBookmarks })
+			if (!loading && !error) {
+				dispatch({ type: 'GET_BOOKMARKS', payload: savedBookmarks });
+			}
 		},
-		[savedBookmarks]
+		[savedBookmarks, loading, error]
 	);
 
 	return (
 		<BrowserRouter>
 			<Global styles={globalStyles} />
-			<BookmarksContext.Provider value={{ state, dispatch }}>
+			<BookmarksContext.Provider value={{ state, dispatch, loading, error }}>
 				<Routes>
 					<Route path='/' element={<Landing />} />
 					<Route path='/bookmarks' element={<BookmarksList />} />

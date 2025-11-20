@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styled from '@emotion/styled';
 
 import * as style from './Breakpoints';
@@ -29,4 +29,4 @@ const Footer = () => (
 		</StyledFooter>
 );
 
-export default Footer;
+export default memo(Footer);

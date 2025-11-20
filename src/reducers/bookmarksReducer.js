@@ -43,25 +43,16 @@ const bookmarksReducer = (state, action) => {
 			};
 
 			case 'UPDATE_BOOKMARK':
+				// Update bookmark by ID from payload (more robust than using currentBookmark)
+				const updatedBookmarks = state.bookmarks.map(
+					b => b.id === action.payload.id ? action.payload : b
+				);
 
-				const updatedBookmark = {
-				...action.payload
-			};
-
-				const updatedBookmarkIndex = state.bookmarks.findIndex(
-				b => b.id === state.currentBookmark.id);
-
-				const updatedBookmarks = [
-				...state.bookmarks.slice(0, updatedBookmarkIndex),
-				updatedBookmark,
-				...state.bookmarks.slice(updatedBookmarkIndex + 1)
-			];
-
-			return {
-				...state,
-				currentBookmark: {},
-				bookmarks: updatedBookmarks
-			};
+				return {
+					...state,
+					currentBookmark: {},
+					bookmarks: updatedBookmarks
+				};
 
 			case 'DELETE_BOOKMARK':
 

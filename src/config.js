@@ -11,7 +11,7 @@ const config = {
 const environment = process.env.NODE_ENV || 'development';
 const apiUrl = config[environment].apiUrl;
 
-// Use simple endpoint for all environments now
-const apiEndpoint = 'bookmarks-simple';
+// Use advanced bookmarks API with full CRUD support
+const apiEndpoint = 'bookmarks';
 
 export { apiUrl, apiEndpoint };

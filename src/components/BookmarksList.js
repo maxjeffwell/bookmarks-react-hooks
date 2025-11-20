@@ -1,4 +1,4 @@
-import React, { useContext , useReducer, useState } from 'react';
+import React, { useContext , useReducer, useState, useMemo, useCallback } from 'react';
 import Collapsible from 'react-collapsible';
 import styled from '@emotion/styled';
 import axios from 'axios';
@@ -280,35 +280,47 @@ const StyledList= styled.div`
 `;
 
 export default function BookmarksList() {
-	const { state, dispatch } = useContext(BookmarksContext);
+	const { state, dispatch, loading, error } = useContext(BookmarksContext);
 	const [filter, dispatchFilter] = useReducer(filterReducer, 'ALL');
 	const [rating, setRating] = useState('');
 
 	const title = state.bookmarks.length > 0
 	? 'My Bookmarks' : 'You have not created any bookmarks yet ...';
 
-	const handleShowFavorites = () => {
+	const handleShowFavorites = useCallback(() => {
 		dispatchFilter({ type: 'SHOW_FAVORITES' });
-	};
+	}, []);
 
-	const handleShowAll = () => {
+	const handleShowAll = useCallback(() => {
 		dispatchFilter({ type: 'SHOW_ALL' });
-	};
+	}, []);
 
-	const handleShowByRating = (event) => {
+	const handleShowByRating = useCallback((event) => {
 		setRating(event.target.value);
 		dispatchFilter({ type: 'SHOW_BY_RATING'});
-	};
+	}, []);
 
-	const filteredBookmarks = state.bookmarks.filter(b => {
-		if (filter === 'ALL') {
-			return true;
+	const handleRefresh = useCallback(async () => {
+		try {
+			const res = await axios.get(`${apiUrl}/${apiEndpoint}`);
+			dispatch({ type: 'GET_BOOKMARKS', payload: res.data });
+		} catch (error) {
+			console.error('Failed to refresh bookmarks:', error);
+			alert('Failed to refresh bookmarks. Please try again.');
 		}
-		if (filter === 'FAVORITES' && b.checked) {
-			return true;
-		}
-		return filter === 'RATING' && b.rating === rating;
-	});
+	}, [dispatch]);
+
+	const filteredBookmarks = useMemo(() => {
+		return state.bookmarks.filter(b => {
+			if (filter === 'ALL') {
+				return true;
+			}
+			if (filter === 'FAVORITES' && b.checked) {
+				return true;
+			}
+			return filter === 'RATING' && b.rating === rating;
+		});
+	}, [state.bookmarks, filter, rating]);
 
 	return (
 		<StyledGrid>
@@ -342,13 +354,23 @@ export default function BookmarksList() {
 			</select>
 				</span>
 				<span>
-			<button className="btn-filter" type="button" onClick={() => window.location.reload()}>
+			<button className="btn-filter" type="button" onClick={handleRefresh}>
 				Refresh
 			</button>
 				</span>
 			</div>
 			<ul>
-				{filteredBookmarks.map(bookmark => (
+				{loading && (
+					<li style={{ textAlign: 'center', fontSize: '1.5rem' }}>
+						Loading bookmarks...
+					</li>
+				)}
+				{error && (
+					<li style={{ textAlign: 'center', fontSize: '1.5rem', color: '#ff4444' }}>
+						Error loading bookmarks: {error.message}
+					</li>
+				)}
+				{!loading && !error && filteredBookmarks.map(bookmark => (
 					<li key={bookmark.id}>
 						<span>
 							<div className="list-item">
