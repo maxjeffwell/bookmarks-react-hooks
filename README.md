@@ -10,6 +10,7 @@
   ![Emotion](https://img.shields.io/badge/Emotion-000000?style=flat&logo=emotion&logoColor=white)
   ![PostgreSQL](https://img.shields.io/badge/Neon-000000?style=flat&logo=postgresql&logoColor=white)
   ![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat&logo=vercel&logoColor=white)
+  ![OpenAI](https://img.shields.io/badge/OpenAI-000000?style=flat&logo=openai&logoColor=white)
   ![Docker](https://img.shields.io/badge/Docker-000000?style=flat&logo=docker&logoColor=white)
 
   <p>
@@ -24,7 +25,7 @@
 
 ## 🚀 Overview
 
-**Bookmarked** is a full-stack bookmark manager application built with React Hooks and powered by Neon's serverless PostgreSQL database. The application provides a seamless single-page experience for creating, editing, and organizing bookmarks with advanced filtering capabilities. The frontend leverages React's Context API with useReducer for state management, while the backend utilizes Vercel serverless functions connected to a Neon database for persistent, scalable data storage.
+**Bookmarked** is a full-stack bookmark manager application built with React Hooks and powered by Neon's serverless PostgreSQL database. The application provides a seamless single-page experience for creating, editing, and organizing bookmarks with advanced filtering capabilities and **AI-powered automatic tagging using OpenAI**. The frontend leverages React's Context API with useReducer for state management, while the backend utilizes Vercel serverless functions connected to a Neon database for persistent, scalable data storage.
 
 <div align="center">
 
@@ -60,6 +61,7 @@
 - **Neon Serverless PostgreSQL** - Serverless, auto-scaling database
 - **Vercel Serverless Functions** - API endpoints as serverless functions
 - **@neondatabase/serverless** - Neon's optimized PostgreSQL driver
+- **LangChain + OpenAI** - AI-powered bookmark tagging
 - **Vercel Analytics** - Performance and user insights
 
 </td>
@@ -73,6 +75,7 @@
 The application uses a PostgreSQL database hosted on Neon with the following schema:
 
 ```sql
+-- Main bookmarks table
 CREATE TABLE bookmarks (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   title VARCHAR(255) NOT NULL,
@@ -84,31 +87,108 @@ CREATE TABLE bookmarks (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+-- AI-generated tags table
+CREATE TABLE tags (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name VARCHAR(100) NOT NULL UNIQUE,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Many-to-many relationship between bookmarks and tags
+CREATE TABLE bookmark_tags (
+  bookmark_id UUID NOT NULL REFERENCES bookmarks(id) ON DELETE CASCADE,
+  tag_id UUID NOT NULL REFERENCES tags(id) ON DELETE CASCADE,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  PRIMARY KEY (bookmark_id, tag_id)
+);
+
+-- AI response cache for cost optimization
+CREATE TABLE ai_tag_cache (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  content_hash VARCHAR(64) NOT NULL UNIQUE,
+  tags TEXT[] NOT NULL,
+  model_version VARCHAR(50) NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  used_count INTEGER DEFAULT 1
+);
 ```
 
 ### 🔌 API Endpoints
 
 The backend provides RESTful API endpoints through Vercel serverless functions:
 
+#### Bookmark Management
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| `GET` | `/api/bookmarks-simple` | Retrieve all bookmarks |
-| `POST` | `/api/bookmarks-simple` | Create a new bookmark |
-| `PATCH` | `/api/bookmarks-simple/[id]` | Update a bookmark |
-| `DELETE` | `/api/bookmarks-simple/[id]` | Delete a bookmark |
+| `GET` | `/api/bookmarks` | Retrieve all bookmarks with full-text search |
+| `POST` | `/api/bookmarks` | Create a new bookmark |
+| `PATCH` | `/api/bookmarks/[id]` | Update a bookmark |
+| `DELETE` | `/api/bookmarks/[id]` | Delete a bookmark |
 
-### ⚡ Key Features of Neon Integration
+#### AI Features
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/api/ai/tags` | Generate AI-powered tags for a bookmark |
+| `GET` | `/api/ai/tags?bookmarkId=[id]` | Retrieve tags for a specific bookmark |
+
+#### Browser Import
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/api/import` | Import bookmarks from browser export files |
+
+### ⚡ Key Features
 
 <div align="center">
 
-| Feature | Benefit |
-|---------|---------|
-| **Serverless Architecture** | No database server management needed |
-| **Auto-scaling** | Database scales automatically with demand |
-| **Connection Pooling** | Built-in connection management |
-| **PostgreSQL Compatibility** | Full PostgreSQL feature set with ACID compliance |
+| Feature | Description |
+|---------|-------------|
+| 🤖 **AI-Powered Tagging** | Automatic bookmark categorization using OpenAI GPT-4o-mini |
+| 🔍 **Full-Text Search** | PostgreSQL-powered search across titles, URLs, and descriptions |
+| 📥 **Browser Import** | Import bookmarks from Chrome, Firefox, Safari, and Edge |
+| ⭐ **Star Ratings** | 5-star rating system for bookmarks |
+| 💾 **Smart Caching** | AI response caching to minimize API costs |
+| 🎨 **Modern UI** | Clean, responsive design with Emotion CSS-in-JS |
+| ⚡ **Serverless Architecture** | Zero server management with Vercel + Neon |
+| 🔄 **Real-Time Updates** | Instant UI updates with optimistic rendering |
 
 </div>
+
+## 🤖 AI-Powered Features
+
+Bookmarked leverages **LangChain** and **OpenAI's GPT-4o-mini** to provide intelligent bookmark management:
+
+### Auto-Tagging System
+- **Smart Analysis**: Analyzes bookmark title, URL, and description to generate relevant tags
+- **Technology Detection**: Automatically identifies programming languages, frameworks, and tools
+- **Content Classification**: Categorizes by content type (tutorial, documentation, article, etc.)
+- **Topic Recognition**: Extracts domain-specific topics and keywords
+- **Cost Optimization**: Built-in caching system reduces API calls and costs
+
+### How It Works
+1. User creates or selects a bookmark
+2. Clicks "Generate Tags" button
+3. AI analyzes the bookmark content using a custom prompt template
+4. Returns 3-5 relevant, lowercase tags
+5. Tags are stored in PostgreSQL and cached for future use
+6. Tags can be regenerated at any time
+
+### Future AI Capabilities
+- **Smart Recommendations**: Suggest related bookmarks based on content similarity
+- **Duplicate Detection**: Identify duplicate or similar bookmarks automatically
+- **Enhanced Search**: AI-powered query expansion and semantic search
+- **Auto-Summarization**: Generate concise summaries of bookmark content
+
+### Technical Implementation
+```javascript
+// AI Service Architecture
+lib/ai/
+├── AIService.js         # Main service facade
+├── langchain-client.js  # LangChain + OpenAI integration
+├── prompts.js          # Prompt templates
+├── cache.js            # PostgreSQL caching layer
+└── migrations.js       # Database schema for AI features
+```
 
 ## 🚀 Setup and Configuration
 
@@ -123,8 +203,23 @@ The backend provides RESTful API endpoints through Vercel serverless functions:
 Create a `.env` file in the root directory:
 
 ```bash
-DATABASE_URL=your_neon_database_connection_string
+# Database Configuration (Required)
+DATABASE_URL=postgresql://user:password@host.neon.tech/database?sslmode=require
+
+# OpenAI Configuration (Required for AI features)
+OPENAI_API_KEY=sk-...
+OPENAI_MODEL=gpt-4o-mini
+OPENAI_TEMPERATURE=0.3
+OPENAI_MAX_TOKENS=500
+
+# AI Feature Flags (Optional)
+AI_FEATURES_ENABLED=true
+AI_CACHE_ENABLED=true
 ```
+
+Get your API keys:
+- **Neon Database**: [console.neon.tech](https://console.neon.tech/)
+- **OpenAI API**: [platform.openai.com/api-keys](https://platform.openai.com/api-keys)
 
 ### 💻 Local Development
 
@@ -180,27 +275,38 @@ https://github.com/user-attachments/assets/Video_2025-08-16_01-47-22.mp4
 The application is configured for deployment on Vercel:
 
 1. **Connect** your GitHub repository to Vercel
-2. **Add** your `DATABASE_URL` environment variable in Vercel's dashboard  
+2. **Add** environment variables in Vercel's dashboard:
+   - `DATABASE_URL` - Your Neon database connection string
+   - `OPENAI_API_KEY` - Your OpenAI API key
+   - `OPENAI_MODEL` - (Optional) Model to use (defaults to gpt-4o-mini)
 3. **Deploy** - Vercel will automatically detect and configure the serverless functions
 
-## 🎯 Next Steps
+For troubleshooting deployment issues, see [DEPLOYMENT-DEBUG.md](DEPLOYMENT-DEBUG.md)
+
+## 🎯 Features & Roadmap
 
 <div align="center">
 
-| Feature | Description |
-|---------|-------------|
-| 🔐 **Authentication** | JWT-based user auth and authorization |
-| 🔍 **Search** | PostgreSQL full-text search functionality |
-| 📥 **Import/Export** | Browser bookmark import/export support |
-| 📁 **Collections** | Bookmark folders and organization |
-| 🤝 **Sharing** | Public bookmark list sharing |
-| 🏷️ **Tagging** | Autocomplete tagging system |
-| 🌐 **Browser Extension** | Quick bookmark saving extension |
-| 🌙 **Dark Mode** | Theme switching support |
-| 📸 **Thumbnails** | Bookmark screenshot capture |
-| 📱 **Mobile App** | React Native mobile application |
+| Status | Feature | Description |
+|--------|---------|-------------|
+| ✅ | **AI-Powered Tagging** | Automatic bookmark categorization using OpenAI |
+| ✅ | **Full-Text Search** | PostgreSQL-powered search functionality |
+| ✅ | **Browser Import** | Import bookmarks from all major browsers |
+| ✅ | **Star Ratings** | 5-star rating system for bookmarks |
+| ✅ | **Favorites** | Mark and filter favorite bookmarks |
+| 🚧 | **Authentication** | JWT-based user auth and authorization |
+| 🚧 | **Collections** | Bookmark folders and organization |
+| 🚧 | **Sharing** | Public bookmark list sharing |
+| 🔜 | **AI Recommendations** | Smart bookmark suggestions based on content |
+| 🔜 | **Duplicate Detection** | AI-powered duplicate bookmark detection |
+| 🔜 | **Browser Extension** | Quick bookmark saving extension |
+| 🔜 | **Dark Mode** | Theme switching support |
+| 🔜 | **Thumbnails** | Bookmark screenshot capture |
+| 🔜 | **Mobile App** | React Native mobile application |
 
 </div>
+
+**Legend:** ✅ Completed | 🚧 In Progress | 🔜 Planned
 
 ## 🤝 Contributing
 
