@@ -1,6 +1,6 @@
 import { neon } from '@neondatabase/serverless';
-const AIService = require('../lib/ai/AIService');
-const { initializeAITables } = require('../lib/ai/migrations');
+import AIService from '../../lib/ai/AIService.js';
+import { initializeAITables } from '../../lib/ai/migrations.js';
 
 // Track if migrations have been run
 let migrationsRun = false;
@@ -22,7 +22,10 @@ export default async function handler(req, res) {
     // Check if DATABASE_URL is available
     if (!process.env.DATABASE_URL) {
       console.error('DATABASE_URL environment variable is not set');
-      return res.status(500).json({ error: 'Database not configured' });
+      return res.status(500).json({
+        error: 'Database not configured',
+        message: 'DATABASE_URL environment variable is missing. Please configure it in Vercel settings.'
+      });
     }
 
     const sql = neon(process.env.DATABASE_URL);
@@ -66,7 +69,10 @@ export default async function handler(req, res) {
         });
       } catch (error) {
         console.error('Get tags error:', error);
-        return res.status(500).json({ error: 'Failed to get tags' });
+        return res.status(500).json({
+          error: 'Failed to get tags',
+          message: error.message || 'Database query failed'
+        });
       }
 
     } else if (req.method === 'POST') {
@@ -134,8 +140,9 @@ export default async function handler(req, res) {
 
       } catch (error) {
         console.error('AI tags generation error:', error);
+        console.error('Error stack:', error.stack);
 
-        // User-friendly error messages
+        // User-friendly error messages with debugging info
         if (error.message?.includes('rate limit')) {
           return res.status(429).json({
             error: 'Rate limit exceeded',
@@ -143,16 +150,32 @@ export default async function handler(req, res) {
           });
         }
 
-        if (error.message?.includes('authentication')) {
+        if (error.message?.includes('authentication') || error.message?.includes('API key')) {
           return res.status(401).json({
             error: 'Authentication failed',
-            message: 'OpenAI API key is invalid. Please check your configuration.'
+            message: 'OpenAI API key is invalid or missing. Please check OPENAI_API_KEY in Vercel settings.'
           });
         }
 
+        if (error.message?.includes('AI service not available')) {
+          return res.status(503).json({
+            error: 'AI service not available',
+            message: 'OpenAI service is not initialized. Check OPENAI_API_KEY environment variable.'
+          });
+        }
+
+        if (error.message?.includes('Database')) {
+          return res.status(500).json({
+            error: 'Database error',
+            message: 'Failed to save tags to database. Check DATABASE_URL configuration.'
+          });
+        }
+
+        // Generic error with actual message for debugging
         return res.status(500).json({
           error: 'Failed to generate tags',
-          message: error.message || 'An unexpected error occurred'
+          message: error.message || 'An unexpected error occurred',
+          details: process.env.NODE_ENV === 'development' ? error.stack : undefined
         });
       }
 
@@ -163,6 +186,11 @@ export default async function handler(req, res) {
 
   } catch (error) {
     console.error('API error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('Error stack:', error.stack);
+    res.status(500).json({
+      error: 'Internal server error',
+      message: error.message || 'An unexpected error occurred in the API handler',
+      details: process.env.NODE_ENV === 'development' ? error.stack : undefined
+    });
   }
 }

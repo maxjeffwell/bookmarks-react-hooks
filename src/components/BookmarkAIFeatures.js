@@ -140,22 +140,51 @@ export default function BookmarkAIFeatures({ bookmark, onTagsGenerated }) {
       }
     } catch (err) {
       console.error('Failed to generate tags:', err);
+      console.error('Error response:', err.response?.data);
+      console.error('Error status:', err.response?.status);
+      console.error('Full error object:', {
+        message: err.message,
+        status: err.response?.status,
+        statusText: err.response?.statusText,
+        data: err.response?.data,
+        headers: err.response?.headers
+      });
 
-      // User-friendly error messages
-      if (err.response?.status === 503) {
-        setError(
-          'AI features are not available. Please configure OpenAI API key.'
-        );
-      } else if (err.response?.status === 429) {
-        setError(
-          'Too many requests. Please wait a moment and try again.'
-        );
+      // Build detailed error message
+      let errorMessage = 'Failed to generate tags. ';
+
+      if (err.response) {
+        // Server responded with error
+        const { status, data } = err.response;
+
+        if (status === 503) {
+          errorMessage = 'AI service unavailable. ' +
+            (data?.message || 'OpenAI API key not configured.');
+        } else if (status === 500) {
+          errorMessage = 'Database configuration error. ' +
+            (data?.message || data?.error || 'Please check DATABASE_URL environment variable.');
+        } else if (status === 429) {
+          errorMessage = 'Rate limit exceeded. ' +
+            (data?.message || 'Please wait a moment and try again.');
+        } else if (status === 401) {
+          errorMessage = 'Authentication failed. ' +
+            (data?.message || 'Invalid OpenAI API key.');
+        } else if (status === 404) {
+          errorMessage = 'Bookmark not found. Please refresh and try again.';
+        } else {
+          // Use backend error message if available
+          errorMessage = data?.message || data?.error ||
+            `Server error (${status}). Please try again.`;
+        }
+      } else if (err.request) {
+        // Request made but no response
+        errorMessage = 'Network error. Cannot reach the server. Please check your connection.';
       } else {
-        setError(
-          err.response?.data?.message ||
-            'Failed to generate tags. Please try again.'
-        );
+        // Error setting up request
+        errorMessage = err.message || 'An unexpected error occurred.';
       }
+
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
