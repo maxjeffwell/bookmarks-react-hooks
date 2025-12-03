@@ -11,6 +11,7 @@ import Header from './Header';
 import Footer from './Footer';
 import BookmarkForm from './BookmarkForm';
 import BookmarkImport from './BookmarkImport';
+import BookmarkAIFeatures from './BookmarkAIFeatures';
 import * as style from './Breakpoints';
 
 const StyledGrid = styled.div`
@@ -288,6 +289,7 @@ export default function BookmarksList() {
 	const [searchResults, setSearchResults] = useState(null);
 	const [isSearching, setIsSearching] = useState(false);
 	const [showImport, setShowImport] = useState(false);
+	const [isGeneratingTags, setIsGeneratingTags] = useState(false);
 	const searchTimeoutRef = useRef(null);
 
 	const title = state.bookmarks.length > 0
@@ -315,6 +317,35 @@ export default function BookmarksList() {
 			alert('Failed to refresh bookmarks. Please try again.');
 		}
 	}, [dispatch]);
+
+	// Batch generate tags for all bookmarks
+	const handleBatchGenerateTags = useCallback(async () => {
+		if (!window.confirm(`Generate AI tags for all ${state.bookmarks.length} bookmarks? This may take a few minutes.`)) {
+			return;
+		}
+
+		setIsGeneratingTags(true);
+		let successCount = 0;
+		let errorCount = 0;
+
+		for (const bookmark of state.bookmarks) {
+			try {
+				await axios.post(`${apiUrl}/ai/tags`, {
+					bookmarkId: bookmark.id,
+				});
+				successCount++;
+			} catch (error) {
+				console.error(`Failed to tag bookmark ${bookmark.id}:`, error);
+				errorCount++;
+			}
+		}
+
+		setIsGeneratingTags(false);
+		alert(`Tagging complete!\n✓ Success: ${successCount}\n✗ Errors: ${errorCount}`);
+
+		// Refresh bookmarks to show new tags
+		await handleRefresh();
+	}, [state.bookmarks, handleRefresh]);
 
 	// Debounced search handler
 	const handleSearch = useCallback((query) => {
@@ -442,6 +473,16 @@ export default function BookmarksList() {
 				{showImport ? 'Hide Import' : '📥 Import Bookmarks'}
 			</button>
 				</span>
+				<span>
+			<button
+				className="btn-filter"
+				type="button"
+				onClick={handleBatchGenerateTags}
+				disabled={isGeneratingTags || state.bookmarks.length === 0}
+			>
+				{isGeneratingTags ? '⏳ Generating Tags...' : '🤖 Auto-Tag All'}
+			</button>
+				</span>
 			</div>
 			{showImport && <BookmarkImport />}
 			<ul>
@@ -472,6 +513,18 @@ export default function BookmarksList() {
 									</p>
 								<p>Rating: {bookmark.rating}</p>
 								<p>Description: {bookmark.description}</p>
+
+								{/* AI-powered bookmark tagging */}
+								<BookmarkAIFeatures
+									bookmark={bookmark}
+									onTagsGenerated={(id, tags) => {
+										dispatch({
+											type: 'UPDATE_BOOKMARK_TAGS',
+											payload: { id, tags }
+										});
+									}}
+								/>
+
 								<span>
 									<button
 										className="bookmark-list-btn"

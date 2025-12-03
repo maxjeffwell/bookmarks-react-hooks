@@ -42,7 +42,22 @@ const bookmarksDB = {
   // Get all bookmarks
   async getAll() {
     try {
-      const result = await sql`SELECT * FROM bookmarks ORDER BY created_at DESC`;
+      // Get all bookmarks with their tags
+      const result = await sql`
+        SELECT
+          b.*,
+          COALESCE(
+            array_agg(t.name ORDER BY t.name) FILTER (WHERE t.name IS NOT NULL),
+            ARRAY[]::text[]
+          ) as tags
+        FROM bookmarks b
+        LEFT JOIN bookmark_tags bt ON b.id = bt.bookmark_id
+        LEFT JOIN tags t ON bt.tag_id = t.id
+        GROUP BY b.id, b.title, b.url, b.description, b.rating,
+                 b.toggled_radio_button, b.checked, b.created_at, b.updated_at
+        ORDER BY b.created_at DESC
+      `;
+
       return result.map(bookmark => ({
         id: bookmark.id,
         title: bookmark.title,
@@ -52,7 +67,8 @@ const bookmarksDB = {
         toggledRadioButton: bookmark.toggled_radio_button,
         checked: bookmark.checked,
         createdAt: bookmark.created_at,
-        updatedAt: bookmark.updated_at
+        updatedAt: bookmark.updated_at,
+        tags: bookmark.tags || []
       }));
     } catch (error) {
       console.error('Error getting bookmarks:', error);

@@ -73,19 +73,23 @@ app.patch('/bookmarks/:id', async (req, res) => {
 app.delete('/bookmarks/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    
+
     const deletedBookmark = await bookmarksDB.delete(id);
-    
+
     if (!deletedBookmark) {
       return res.status(404).json({ error: 'Bookmark not found' });
     }
-    
+
     res.json(deletedBookmark);
   } catch (error) {
     console.error('Error deleting bookmark:', error);
     res.status(500).json({ error: 'Failed to delete bookmark' });
   }
 });
+
+// Register AI routes (for auto-tagging and future AI features)
+const aiRoutes = require('./routes/ai-routes');
+aiRoutes(app);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

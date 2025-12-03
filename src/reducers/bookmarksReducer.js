@@ -54,6 +54,19 @@ const bookmarksReducer = (state, action) => {
 					bookmarks: updatedBookmarks
 				};
 
+			case 'UPDATE_BOOKMARK_TAGS':
+				// Update only the tags for a specific bookmark
+				const bookmarksWithTags = state.bookmarks.map(
+					b => b.id === action.payload.id
+						? { ...b, tags: action.payload.tags }
+						: b
+				);
+
+				return {
+					...state,
+					bookmarks: bookmarksWithTags
+				};
+
 			case 'DELETE_BOOKMARK':
 
 				const filteredBookmarks = state.bookmarks.filter(
