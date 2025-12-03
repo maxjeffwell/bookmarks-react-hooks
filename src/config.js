@@ -9,7 +9,8 @@ const config = {
 };
 
 const environment = process.env.NODE_ENV || 'development';
-const apiUrl = config[environment].apiUrl;
+// Allow environment variable to override the configured API URL
+const apiUrl = process.env.REACT_APP_API_BASE_URL || config[environment].apiUrl;
 
 // Use advanced bookmarks API with full CRUD support
 const apiEndpoint = 'bookmarks';
