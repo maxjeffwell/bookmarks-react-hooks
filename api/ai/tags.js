@@ -28,16 +28,42 @@ export default async function handler(req, res) {
       });
     }
 
-    const sql = neon(process.env.DATABASE_URL);
+    let sql;
+    try {
+      sql = neon(process.env.DATABASE_URL);
+    } catch (dbError) {
+      console.error('Database connection error:', dbError);
+      return res.status(500).json({
+        error: 'Database connection failed',
+        message: `Failed to connect to database: ${dbError.message || 'Invalid DATABASE_URL'}`
+      });
+    }
 
     // Run migrations once
     if (!migrationsRun) {
-      await initializeAITables(sql);
-      migrationsRun = true;
+      try {
+        await initializeAITables(sql);
+        migrationsRun = true;
+      } catch (migrationError) {
+        console.error('Migration error:', migrationError);
+        return res.status(500).json({
+          error: 'Database migration failed',
+          message: `Failed to initialize database tables: ${migrationError.message}`
+        });
+      }
     }
 
     // Initialize AI service
-    const aiService = new AIService(sql);
+    let aiService;
+    try {
+      aiService = new AIService(sql);
+    } catch (serviceError) {
+      console.error('AI Service initialization error:', serviceError);
+      return res.status(500).json({
+        error: 'AI service initialization failed',
+        message: `Failed to initialize AI service: ${serviceError.message}`
+      });
+    }
 
     if (!aiService.isAvailable()) {
       return res.status(503).json({
@@ -186,10 +212,18 @@ export default async function handler(req, res) {
 
   } catch (error) {
     console.error('API error:', error);
+    console.error('Error type:', error.constructor.name);
     console.error('Error stack:', error.stack);
+
+    // Ensure message is always a string
+    const errorMessage = typeof error.message === 'string'
+      ? error.message
+      : (error.toString ? error.toString() : 'An unexpected error occurred in the API handler');
+
     res.status(500).json({
       error: 'Internal server error',
-      message: error.message || 'An unexpected error occurred in the API handler',
+      message: errorMessage,
+      errorType: error.constructor.name,
       details: process.env.NODE_ENV === 'development' ? error.stack : undefined
     });
   }

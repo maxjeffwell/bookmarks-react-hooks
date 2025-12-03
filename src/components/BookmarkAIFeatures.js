@@ -150,6 +150,15 @@ export default function BookmarkAIFeatures({ bookmark, onTagsGenerated }) {
         headers: err.response?.headers
       });
 
+      // Helper to safely convert error data to string
+      const getErrorMessage = (data) => {
+        if (typeof data === 'string') return data;
+        if (typeof data === 'object' && data !== null) {
+          return JSON.stringify(data);
+        }
+        return String(data);
+      };
+
       // Build detailed error message
       let errorMessage = 'Failed to generate tags. ';
 
@@ -157,24 +166,34 @@ export default function BookmarkAIFeatures({ bookmark, onTagsGenerated }) {
         // Server responded with error
         const { status, data } = err.response;
 
+        // Extract message safely
+        const message = typeof data?.message === 'string'
+          ? data.message
+          : (typeof data?.error === 'string' ? data.error : null);
+
         if (status === 503) {
           errorMessage = 'AI service unavailable. ' +
-            (data?.message || 'OpenAI API key not configured.');
+            (message || 'OpenAI API key not configured.');
         } else if (status === 500) {
           errorMessage = 'Database configuration error. ' +
-            (data?.message || data?.error || 'Please check DATABASE_URL environment variable.');
+            (message || 'Please check DATABASE_URL and OPENAI_API_KEY environment variables.');
         } else if (status === 429) {
           errorMessage = 'Rate limit exceeded. ' +
-            (data?.message || 'Please wait a moment and try again.');
+            (message || 'Please wait a moment and try again.');
         } else if (status === 401) {
           errorMessage = 'Authentication failed. ' +
-            (data?.message || 'Invalid OpenAI API key.');
+            (message || 'Invalid OpenAI API key.');
         } else if (status === 404) {
           errorMessage = 'Bookmark not found. Please refresh and try again.';
         } else {
           // Use backend error message if available
-          errorMessage = data?.message || data?.error ||
-            `Server error (${status}). Please try again.`;
+          errorMessage = message || `Server error (${status}). Please try again.`;
+        }
+
+        // If we still have an object, show the full error for debugging
+        if (!message && data) {
+          console.error('Full error data:', getErrorMessage(data));
+          errorMessage += ` Debug: ${getErrorMessage(data)}`;
         }
       } else if (err.request) {
         // Request made but no response
