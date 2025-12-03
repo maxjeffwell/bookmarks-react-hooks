@@ -70,6 +70,9 @@ FROM node:18-alpine AS development
 # Set working directory
 WORKDIR /app
 
+# Set environment variables for development
+ENV REACT_APP_API_BASE_URL=/api
+
 # Copy package files
 COPY package*.json ./
 
