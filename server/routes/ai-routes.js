@@ -1,12 +1,12 @@
 // Express routes for AI features
-const { neon } = require('@neondatabase/serverless');
-const AIService = require('../../lib/ai/AIService');
-const { initializeAITables } = require('../../lib/ai/migrations');
+import { neon } from '@neondatabase/serverless';
+import AIService from '../lib/ai/AIService.js';
+import { initializeAITables } from '../lib/ai/migrations.js';
 
 // Track if migrations have been run
 let migrationsRun = false;
 
-module.exports = function(app) {
+export default function(app) {
   // Initialize database connection
   const sql = neon(process.env.DATABASE_URL);
 

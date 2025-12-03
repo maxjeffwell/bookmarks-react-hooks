@@ -35,13 +35,19 @@
         - NODE_ENV=${NODE_ENV:-production}
         - PORT=${SERVER_PORT:-3001}
         - DATABASE_URL=${DATABASE_URL}
+        - OPENAI_API_KEY=${OPENAI_API_KEY}
+        - OPENAI_MODEL=${OPENAI_MODEL:-gpt-4o-mini}
+        - OPENAI_TEMPERATURE=${OPENAI_TEMPERATURE:-0.3}
+        - OPENAI_MAX_TOKENS=${OPENAI_MAX_TOKENS:-500}
+        - AI_FEATURES_ENABLED=${AI_FEATURES_ENABLED:-true}
+        - AI_CACHE_ENABLED=${AI_CACHE_ENABLED:-true}
       ports:
         - "${SERVER_PORT:-3001}:3001"
       networks:
         - bookmarks-network
       restart: unless-stopped
       healthcheck:
-        test: ["CMD-SHELL", "node -e \"require('http').get('http://localhost:3001/api/bookmarks', (r) => 
+        test: ["CMD-SHELL", "node -e \"require('http').get('http://localhost:3001/api/bookmarks', (r) =>
   {process.exit(r.statusCode === 200 ? 0 : 1)})\""]
         interval: 30s
         timeout: 3s

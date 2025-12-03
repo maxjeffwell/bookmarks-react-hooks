@@ -1,5 +1,6 @@
-const { neon } = require('@neondatabase/serverless');
-require('dotenv').config();
+import { neon } from '@neondatabase/serverless';
+import dotenv from 'dotenv';
+dotenv.config();
 
 // Initialize the database connection
 const sql = neon(process.env.DATABASE_URL);
@@ -178,4 +179,4 @@ const bookmarksDB = {
   }
 };
 
-module.exports = { initializeDatabase, bookmarksDB };
+export { initializeDatabase, bookmarksDB };

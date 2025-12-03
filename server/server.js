@@ -1,6 +1,7 @@
-const express = require('express');
-const cors = require('cors');
-const { initializeDatabase, bookmarksDB } = require('./db');
+import express from 'express';
+import cors from 'cors';
+import { initializeDatabase, bookmarksDB } from './db.js';
+import aiRoutes from './routes/ai-routes.js';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -88,7 +89,6 @@ app.delete('/bookmarks/:id', async (req, res) => {
 });
 
 // Register AI routes (for auto-tagging and future AI features)
-const aiRoutes = require('./routes/ai-routes');
 aiRoutes(app);
 
 app.listen(PORT, () => {

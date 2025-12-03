@@ -1,6 +1,7 @@
 {
   "name": "bookmarks-backend",
   "version": "1.0.0",
+  "type": "module",
   "description": "Express backend for bookmarks app",
   "main": "server.js",
   "scripts": {
