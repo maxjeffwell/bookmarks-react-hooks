@@ -91,6 +91,6 @@ app.delete('/bookmarks/:id', async (req, res) => {
 // Register AI routes (for auto-tagging and future AI features)
 aiRoutes(app);
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
 });
