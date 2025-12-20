@@ -42,6 +42,8 @@ services:
       - OPENAI_MAX_TOKENS=${OPENAI_MAX_TOKENS:-500}
       - AI_FEATURES_ENABLED=${AI_FEATURES_ENABLED:-true}
       - AI_CACHE_ENABLED=${AI_CACHE_ENABLED:-true}
+      - USE_LOCAL_AI=${USE_LOCAL_AI:-true}
+      - LOCAL_AI_URL=${LOCAL_AI_URL:-http://shared-ai-gateway:8002}
 
   # Standard React Client (runs on CPU)
   client-gpu:

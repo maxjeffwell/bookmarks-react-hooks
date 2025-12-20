@@ -7,7 +7,7 @@ class LangChainClient {
     this.model = null;
     this.initialized = false;
     this.useLocalAI = process.env.USE_LOCAL_AI === 'true';
-    this.localAIUrl = process.env.LOCAL_AI_URL || 'http://bookmarked-ai-engine:8001';
+    this.localAIUrl = process.env.LOCAL_AI_URL || 'http://shared-ai-gateway:8002';
   }
 
   initialize() {
@@ -48,31 +48,32 @@ class LangChainClient {
 
     if (this.useLocalAI) {
       try {
-        console.log('Sending request to local AI: ' + this.localAIUrl);
+        console.log('Sending request to shared AI gateway: ' + this.localAIUrl);
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 180000);
 
-        const response = await fetch(this.localAIUrl + '/generate', {
+        const response = await fetch(this.localAIUrl + '/api/ai/generate', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             prompt: filledPrompt,
-            max_new_tokens: 200
+            app: 'bookmarked',
+            maxTokens: 200
           }),
           signal: controller.signal
         });
-        
+
         clearTimeout(timeoutId);
-        
+
         if (!response.ok) {
           throw new Error('HTTP error! status: ' + response.status);
         }
-        
+
         const data = await response.json();
         return data.response;
       } catch (error) {
-        console.error('Local AI generation error: ' + error.message);
-        throw new Error('Local AI failed to respond');
+        console.error('Shared AI gateway error: ' + error.message);
+        throw new Error('Shared AI gateway failed to respond');
       }
     }
 

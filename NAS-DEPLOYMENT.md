@@ -72,7 +72,13 @@ OPENAI_MAX_TOKENS=500
 # AI Feature Flags (Optional)
 AI_FEATURES_ENABLED=true
 AI_CACHE_ENABLED=true
+
+# Local AI Configuration (recommended for NAS - uses shared AI gateway)
+USE_LOCAL_AI=true
+LOCAL_AI_URL=http://shared-ai-gateway:8002
 ```
+
+**Note**: If you're using the shared AI gateway with other portfolio apps, make sure Bookmarked is on the same Docker network (`shared-infrastructure_app-network`).
 
 Save and exit (Ctrl+X, then Y, then Enter in nano)
 
@@ -357,6 +363,69 @@ docker stats bookmarks-client bookmarks-server
 
 # Container info
 docker ps -a --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
+```
+
+## Shared AI Infrastructure (Recommended for NAS)
+
+If you're running multiple portfolio apps on your NAS (educationELLy, code-talk, IntervalAI, etc.), you can use a shared AI gateway instead of separate AI engines for each app.
+
+### Benefits
+- Single OpenVINO model in memory (saves resources)
+- Consistent AI features across all apps
+- Hybrid tag generation (instant keyword extraction + optional AI)
+- Automatic failover and error handling
+
+### Setup
+
+1. **Deploy shared AI infrastructure** (if not already running):
+```bash
+# The shared AI gateway and portfolio AI engine containers should already be running
+docker ps | grep -E "shared-ai-gateway|portfolio-ai-engine"
+```
+
+2. **Connect Bookmarked to shared network**:
+
+Edit your `docker-compose.yml` to use the shared network:
+
+```yaml
+services:
+  server:
+    # ... existing config ...
+    networks:
+      - shared-infrastructure_app-network
+
+networks:
+  shared-infrastructure_app-network:
+    external: true
+```
+
+3. **Verify configuration**:
+```bash
+# Check that USE_LOCAL_AI=true in .env
+grep USE_LOCAL_AI .env
+
+# Restart Bookmarked server
+docker-compose restart server
+```
+
+4. **Test AI features**:
+```bash
+# Test tag generation through shared gateway
+curl -X POST http://localhost:3001/api/ai/tags \
+  -H "Content-Type: application/json" \
+  -d '{"bookmark": {"title": "React Hooks Tutorial", "url": "https://example.com", "description": "Learn React hooks"}}'
+```
+
+### Network Architecture
+
+```
+Bookmarked Server
+    ↓
+Shared AI Gateway (Node.js, port 8002)
+    ↓
+Portfolio AI Engine (Python/OpenVINO, port 8001)
+    ↓
+TinyLlama-1.1B-INT8 Model
 ```
 
 ## Advanced Configuration
