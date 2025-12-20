@@ -49,6 +49,33 @@ class LangChainClient {
     if (this.useLocalAI) {
       try {
         console.log('Sending request to shared AI gateway: ' + this.localAIUrl);
+
+        // Check if this is a bookmark tagging request (has title and url)
+        const isTaggingRequest = context.title && context.url;
+
+        if (isTaggingRequest) {
+          // Use the /api/ai/tags endpoint for fast keyword extraction
+          const response = await fetch(this.localAIUrl + '/api/ai/tags', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              title: context.title,
+              url: context.url,
+              description: context.description || '',
+              useAI: false  // Use fast keyword extraction by default
+            })
+          });
+
+          if (!response.ok) {
+            throw new Error('HTTP error! status: ' + response.status);
+          }
+
+          const data = await response.json();
+          // Return tags as comma-separated string to match expected format
+          return data.tags.join(', ');
+        }
+
+        // For non-tagging requests, use general generate endpoint
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 180000);
 
