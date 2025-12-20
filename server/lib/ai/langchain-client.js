@@ -1,98 +1,97 @@
-import { ChatOpenAI } from '@langchain/openai';
-    2 import { PromptTemplate } from '@langchain/core/prompts';
-    3 import { StringOutputParser } from '@langchain/core/output_parsers';
-    4 
-    5 class LangChainClient {
-    6   constructor() {
-    7     this.model = null;
-    8     this.initialized = false;
-    9     this.useLocalAI = process.env.USE_LOCAL_AI === 'true';
-   10     this.localAIUrl = process.env.LOCAL_AI_URL || 'http://bookmarked-ai-engine:8001';
-   11   }
-   12 
-   13   initialize() {
-   14     if (this.useLocalAI) {
-   15       console.log('Using Local OpenVINO AI Engine at ' + this.localAIUrl);
-   16       this.initialized = true;
-   17       return true;
-   18     }
-   19 
-   20     if (!process.env.OPENAI_API_KEY) {
-   21       console.warn('OpenAI API key not found - AI features disabled');
-   22       return false;
-   23     }
-   24 
-   25     try {
-   26       this.model = new ChatOpenAI({
-   27         openAIApiKey: process.env.OPENAI_API_KEY,
-   28         modelName: process.env.OPENAI_MODEL || 'gpt-4o-mini',
-   29         temperature: parseFloat(process.env.OPENAI_TEMPERATURE || '0.3'),
-   30         maxTokens: parseInt(process.env.OPENAI_MAX_TOKENS || '500'),
-   31       });
-   32 
-   33       this.initialized = true;
-   34       console.log('LangChain client initialized with OpenAI successfully');
-   35       return true;
-   36     } catch (error) {
-   37       console.error('Failed to initialize LangChain client:', error);
-   38       return false;
-   39     }
-   40   }
-   41 
-   42   async generateCompletion(prompt, context) {
-   43     if (!this.initialized) {
-   44       throw new Error('LangChain client not initialized');
-   45     }
-   46 
-   47     const filledPrompt = prompt.replace(/{(\w+)}/g, (_, key) => context[key] || '');
-   48 
-   49     if (this.useLocalAI) {
-   50       try {
-   51         console.log('Sending request to local AI: ' + this.localAIUrl);
-   52         const controller = new AbortController();
-   53         const timeoutId = setTimeout(() => controller.abort(), 180000);
-   54 
-   55         const response = await fetch(this.localAIUrl + '/generate', {
-   56           method: 'POST',
-   57           headers: { 'Content-Type': 'application/json' },
-   58           body: JSON.stringify({
-   59             prompt: filledPrompt,
-   60             max_new_tokens: 200
-   61           }),
-   62           signal: controller.signal
-   63         });
-   64         
-   65         clearTimeout(timeoutId);
-   66         
-   67         if (!response.ok) {
-   68           throw new Error('HTTP error! status: ' + response.status);
-   69         }
-   70         
-   71         const data = await response.json();
-   72         return data.response;
-   73       } catch (error) {
-   74         console.error('Local AI generation error: ' + error.message);
-   75         throw new Error('Local AI failed to respond');
-   76       }
-   77     }
-   78 
-   79     try {
-   80       const promptTemplate = PromptTemplate.fromTemplate(prompt);
-   81       const chain = promptTemplate.pipe(this.model).pipe(new StringOutputParser());
-   82 
-   83       const response = await chain.invoke(context);
-   84       return response;
-   85     } catch (error) {
-   86       console.error('LangChain generation error:', error);
-   87       throw error;
-   88     }
-   89   }
-   90 
-   91   isAvailable() {
-   92     return this.initialized;
-   93   }
-   94 }
-   95 
-   96 const client = new LangChainClient();
-   97 export default client;
-
+    2 import { ChatOpenAI } from '@langchain/openai';
+    3 import { PromptTemplate } from '@langchain/core/prompts';
+    4 import { StringOutputParser } from '@langchain/core/output_parsers';
+    5 
+    6 class LangChainClient {
+    7   constructor() {
+    8     this.model = null;
+    9     this.initialized = false;
+   10     this.useLocalAI = process.env.USE_LOCAL_AI === 'true';
+   11     this.localAIUrl = process.env.LOCAL_AI_URL || 'http://bookmarked-ai-engine:8001';
+   12   }
+   13 
+   14   initialize() {
+   15     if (this.useLocalAI) {
+   16       console.log('Using Local OpenVINO AI Engine at ' + this.localAIUrl);
+   17       this.initialized = true;
+   18       return true;
+   19     }
+   20 
+   21     if (!process.env.OPENAI_API_KEY) {
+   22       console.warn('OpenAI API key not found - AI features disabled');
+   23       return false;
+   24     }
+   25 
+   26     try {
+   27       this.model = new ChatOpenAI({
+   28         openAIApiKey: process.env.OPENAI_API_KEY,
+   29         modelName: process.env.OPENAI_MODEL || 'gpt-4o-mini',
+   30         temperature: parseFloat(process.env.OPENAI_TEMPERATURE || '0.3'),
+   31         maxTokens: parseInt(process.env.OPENAI_MAX_TOKENS || '500'),
+   32       });
+   33 
+   34       this.initialized = true;
+   35       console.log('LangChain client initialized with OpenAI successfully');
+   36       return true;
+   37     } catch (error) {
+   38       console.error('Failed to initialize LangChain client:', error);
+   39       return false;
+   40     }
+   41   }
+   42 
+   43   async generateCompletion(prompt, context) {
+   44     if (!this.initialized) {
+   45       throw new Error('LangChain client not initialized');
+   46     }
+   47 
+   48     const filledPrompt = prompt.replace(/{(\w+)}/g, (_, key) => context[key] || '');
+   49 
+   50     if (this.useLocalAI) {
+   51       try {
+   52         console.log('Sending request to local AI: ' + this.localAIUrl);
+   53         const controller = new AbortController();
+   54         const timeoutId = setTimeout(() => controller.abort(), 180000);
+   55 
+   56         const response = await fetch(this.localAIUrl + '/generate', {
+   57           method: 'POST',
+   58           headers: { 'Content-Type': 'application/json' },
+   59           body: JSON.stringify({
+   60             prompt: filledPrompt,
+   61             max_new_tokens: 200
+   62           }),
+   63           signal: controller.signal
+   64         });
+   65         
+   66         clearTimeout(timeoutId);
+   67         
+   68         if (!response.ok) {
+   69           throw new Error('HTTP error! status: ' + response.status);
+   70         }
+   71         
+   72         const data = await response.json();
+   73         return data.response;
+   74       } catch (error) {
+   75         console.error('Local AI generation error: ' + error.message);
+   76         throw new Error('Local AI failed to respond');
+   77       }
+   78     }
+   79 
+   80     try {
+   81       const promptTemplate = PromptTemplate.fromTemplate(prompt);
+   82       const chain = promptTemplate.pipe(this.model).pipe(new StringOutputParser());
+   83 
+   84       const response = await chain.invoke(context);
+   85       return response;
+   86     } catch (error) {
+   87       console.error('LangChain generation error:', error);
+   88       throw error;
+   89     }
+   90   }
+   91 
+   92   isAvailable() {
+   93     return this.initialized;
+   94   }
+   95 }
+   96 
+   97 const client = new LangChainClient();
+   98 export default client;
