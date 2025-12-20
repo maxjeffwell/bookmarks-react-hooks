@@ -1,0 +1,76 @@
+# Multi-stage Dockerfile for bookmarks Express server with GPU support
+# Uses Nvidia CUDA base image for hardware acceleration
+
+# ============================================
+# Production Stage
+# ============================================
+FROM nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04 AS production
+
+# Set working directory
+WORKDIR /app
+
+# Prevent interactive prompts during package installation
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install Node.js 20 and dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    ca-certificates \
+    python3 \
+    make \
+    g++ \
+    build-essential \
+    && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy package files
+COPY package*.json ./
+
+# Install production dependencies
+RUN npm ci --only=production && \
+    npm cache clean --force
+
+# Copy application code
+COPY . .
+
+# Create non-root user (good practice, though less strict in dev/gpu context sometimes)
+# We match the UID/GID to standard 1000 or 1001
+RUN groupadd -g 1001 nodejs && \
+    useradd -u 1001 -g nodejs -m -s /bin/bash nodejs && \
+    chown -R nodejs:nodejs /app
+
+# Switch to non-root user
+USER nodejs
+
+# Expose port
+EXPOSE 3001
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
+    CMD node -e "require('http').get('http://localhost:3001/api/bookmarks-simple', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"
+
+# Start application
+CMD ["npm", "start"]
+
+# ============================================
+# Development Stage
+# ============================================
+FROM production AS development
+
+# Switch back to root to install dev dependencies AND RUN AS ROOT
+USER root
+
+# Install all dependencies including devDependencies
+RUN npm install
+
+# DO NOT SWITCH BACK TO NODEJS USER
+# This allows access to host-mounted volumes regardless of permissions
+# USER nodejs
+
+# Expose port
+EXPOSE 3001
+
+# Start development server with nodemon
+CMD ["npm", "run", "dev"]

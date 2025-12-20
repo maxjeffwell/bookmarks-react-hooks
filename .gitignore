@@ -58,3 +58,6 @@ pids/
 
 # Editor
 .vscode/
+
+# GPU
+server/cuda-compat

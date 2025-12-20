@@ -5,6 +5,10 @@ on:
     branches: [master, main]
     tags:
       - 'v*'
+    paths-ignore:
+      - 'docker-compose.gpu.yml'
+      - 'server/Dockerfile.gpu'
+      - '.github/workflows/docker-build-push-gpu.yml'
   workflow_dispatch:
 
 permissions:

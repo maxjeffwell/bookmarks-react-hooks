@@ -3,8 +3,16 @@ name: CI
 on:
   push:
     branches: [master, main, develop]
+    paths-ignore:
+      - 'docker-compose.gpu.yml'
+      - 'server/Dockerfile.gpu'
+      - '.github/workflows/docker-build-push-gpu.yml'
   pull_request:
     branches: [master, main, develop]
+    paths-ignore:
+      - 'docker-compose.gpu.yml'
+      - 'server/Dockerfile.gpu'
+      - '.github/workflows/docker-build-push-gpu.yml'
 
 jobs:
   test:
