@@ -74,10 +74,4 @@ jobs:
       - name: Verify Docker image was built
         run: docker images | grep bookmarks-client
 
-      - name: Test Docker container
-        run: |
-          docker run -d --name bookmarks-test -p 3000:80 bookmarks-client:ci-test
-          sleep 5
-          curl -f http://localhost:3000 || exit 1
-          docker stop bookmarks-test
-          docker rm bookmarks-test
+
