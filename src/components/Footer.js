@@ -25,7 +25,7 @@ const StyledFooter = styled.footer`
 
 const Footer = () => (
 		<StyledFooter>
-			<p>Copyright &copy; Bookmarked 2025</p>
+			<p>Copyright &copy; Bookmarked 2026</p>
 		</StyledFooter>
 );
 
