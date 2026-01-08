@@ -54,7 +54,7 @@ class LangChainClient {
         const isTaggingRequest = context.title && context.url;
 
         if (isTaggingRequest) {
-          // Use the /api/ai/tags endpoint for fast keyword extraction
+          // Use the /api/ai/tags endpoint with GPU-accelerated LLM
           const response = await fetch(this.localAIUrl + '/api/ai/tags', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -62,7 +62,8 @@ class LangChainClient {
               title: context.title,
               url: context.url,
               description: context.description || '',
-              useAI: false  // Use fast keyword extraction by default
+              useAI: true,  // Use AI-powered tag generation
+              backend: 'auto'  // Try RunPod GPU first, fallback to local
             })
           });
 
@@ -75,7 +76,7 @@ class LangChainClient {
           return data.tags.join(', ');
         }
 
-        // For non-tagging requests, use general generate endpoint
+        // For non-tagging requests, use general generate endpoint with GPU
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 180000);
 
@@ -84,8 +85,9 @@ class LangChainClient {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             prompt: filledPrompt,
-            app: 'bookmarked',
-            maxTokens: 200
+            app: 'bookmarks',
+            maxTokens: 200,
+            backend: 'auto'  // Try RunPod GPU first, fallback to local
           }),
           signal: controller.signal
         });
