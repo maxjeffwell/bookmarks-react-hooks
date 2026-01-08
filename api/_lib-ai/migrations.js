@@ -66,6 +66,20 @@ export const initializeAITables = async (sql) => {
         EXECUTE FUNCTION clean_old_ai_cache();
     `;
 
+    // 6. Add embedding column to bookmarks table (for semantic search)
+    // Using JSONB to store embedding vectors (Neon PostgreSQL without pgvector)
+    await sql`
+      ALTER TABLE bookmarks
+      ADD COLUMN IF NOT EXISTS embedding JSONB;
+    `;
+
+    // 7. Create index for non-null embeddings (helps filter bookmarks with embeddings)
+    await sql`
+      CREATE INDEX IF NOT EXISTS idx_bookmarks_embedding_exists
+      ON bookmarks ((embedding IS NOT NULL))
+      WHERE embedding IS NOT NULL;
+    `;
+
     console.log('AI features database migrations completed successfully');
     return true;
   } catch (error) {
