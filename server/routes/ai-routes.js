@@ -20,7 +20,7 @@ export default function(app) {
   };
 
   // POST /ai/tags - Generate tags for a bookmark
-  app.post('/ai/tags', async (req, res) => {
+  app.post('/api/ai/tags', async (req, res) => {
     try {
       await ensureMigrations();
 
@@ -118,7 +118,7 @@ export default function(app) {
   });
 
   // GET /ai/tags/:bookmarkId - Get tags for a bookmark
-  app.get('/ai/tags/:bookmarkId', async (req, res) => {
+  app.get('/api/ai/tags/:bookmarkId', async (req, res) => {
     try {
       await ensureMigrations();
 
@@ -144,7 +144,7 @@ export default function(app) {
   });
 
   // GET /ai/tags - Get all tags with usage count
-  app.get('/ai/tags', async (req, res) => {
+  app.get('/api/ai/tags', async (req, res) => {
     try {
       await ensureMigrations();
 
@@ -176,7 +176,7 @@ export default function(app) {
   });
 
   // DELETE /ai/tags/:tagId - Delete a tag (and all its relationships)
-  app.delete('/ai/tags/:tagId', async (req, res) => {
+  app.delete('/api/ai/tags/:tagId', async (req, res) => {
     try {
       await ensureMigrations();
 
@@ -206,7 +206,7 @@ export default function(app) {
   // ============= SEMANTIC SEARCH ROUTES =============
 
   // GET /ai/semantic-search?q=query - Semantic search
-  app.get('/ai/semantic-search', async (req, res) => {
+  app.get('/api/ai/semantic-search', async (req, res) => {
     try {
       await ensureMigrations();
 
@@ -252,7 +252,7 @@ export default function(app) {
   });
 
   // POST /ai/semantic-search - Multiple actions (embed, similar, embed-all)
-  app.post('/ai/semantic-search', async (req, res) => {
+  app.post('/api/ai/semantic-search', async (req, res) => {
     try {
       await ensureMigrations();
 
