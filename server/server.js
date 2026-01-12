@@ -12,7 +12,7 @@ app.use(express.json());
 // Initialize database on startup
 initializeDatabase().catch(console.error);
 
-app.get('/api/bookmarks', async (req, res) => {
+app.get('/bookmarks', async (req, res) => {
   try {
     const bookmarks = await bookmarksDB.getAll();
     res.json(bookmarks);
@@ -22,7 +22,7 @@ app.get('/api/bookmarks', async (req, res) => {
   }
 });
 
-app.post('/api/bookmarks', async (req, res) => {
+app.post('/bookmarks', async (req, res) => {
   try {
     const { title, url, description, rating, toggledRadioButton, checked } = req.body;
     
@@ -46,7 +46,7 @@ app.post('/api/bookmarks', async (req, res) => {
   }
 });
 
-app.patch('/api/bookmarks/:id', async (req, res) => {
+app.patch('/bookmarks/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const { title, url, description, rating, toggledRadioButton, checked } = req.body;
@@ -71,7 +71,7 @@ app.patch('/api/bookmarks/:id', async (req, res) => {
   }
 });
 
-app.delete('/api/bookmarks/:id', async (req, res) => {
+app.delete('/bookmarks/:id', async (req, res) => {
   try {
     const { id } = req.params;
 
