@@ -47,9 +47,9 @@ const StyledGrid = styled.div`
 	}
 	.filters {
 		grid-column: 1 / 3;
-		grid-row: 1 / 2;
+		grid-row: 2 / 3;
 		grid-auto-flow: row;
-		margin-top: 125px;
+		margin-top: 0;
 		@media (max-width: ${style.breakpoint.tablet}) {
 			grid-column: 1;
 			grid-row: 2;
@@ -192,7 +192,7 @@ const StyledGrid = styled.div`
 	}
 	ul {
 		grid-column: 1 / 3;
-		grid-row: 2 / 3;
+		grid-row: 4 / 5;
 		padding: 10px 20px 0;
 		margin: 0 auto 2rem;
 		@media (max-width: ${style.breakpoint.tablet}) {
@@ -290,6 +290,18 @@ const StyledList= styled.div`
 	background-color: #fa625f;
 	@media (max-width: ${style.breakpoint.tablet}) {
 		display: contents;
+	}
+`;
+
+const SemanticSearchWrapper = styled.div`
+	grid-column: 1 / 3;
+	grid-row: 3 / 4;
+	margin: 0 20px;
+	@media (max-width: ${style.breakpoint.tablet}) {
+		grid-column: 1;
+		grid-row: 3;
+		margin: 0.5rem;
+		order: -1;
 	}
 `;
 
@@ -527,7 +539,9 @@ export default function BookmarksList() {
 			</div>
 			{showImport && <BookmarkImport />}
 			{showSemanticSearch && (
-				<SemanticSearch onResultSelect={handleSemanticResultSelect} />
+				<SemanticSearchWrapper>
+					<SemanticSearch onResultSelect={handleSemanticResultSelect} />
+				</SemanticSearchWrapper>
 			)}
 			<ul>
 				{loading && (
