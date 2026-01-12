@@ -90,10 +90,12 @@ const bookmarksDB = {
   // Get all bookmarks
   async getAll() {
     try {
-      // Get all bookmarks with their tags
+      // Get all bookmarks with their tags and embedding status
       const result = await sql`
         SELECT
-          b.*,
+          b.id, b.title, b.url, b.description, b.rating,
+          b.toggled_radio_button, b.checked, b.created_at, b.updated_at,
+          (b.embedding IS NOT NULL) as has_embedding,
           COALESCE(
             array_agg(t.name ORDER BY t.name) FILTER (WHERE t.name IS NOT NULL),
             ARRAY[]::text[]
@@ -102,7 +104,7 @@ const bookmarksDB = {
         LEFT JOIN bookmark_tags bt ON b.id = bt.bookmark_id
         LEFT JOIN tags t ON bt.tag_id = t.id
         GROUP BY b.id, b.title, b.url, b.description, b.rating,
-                 b.toggled_radio_button, b.checked, b.created_at, b.updated_at
+                 b.toggled_radio_button, b.checked, b.created_at, b.updated_at, b.embedding
         ORDER BY b.created_at DESC
       `;
 
@@ -116,7 +118,8 @@ const bookmarksDB = {
         checked: bookmark.checked,
         createdAt: bookmark.created_at,
         updatedAt: bookmark.updated_at,
-        tags: bookmark.tags || []
+        tags: bookmark.tags || [],
+        hasEmbedding: bookmark.has_embedding || false
       }));
     } catch (error) {
       console.error('Error getting bookmarks:', error);

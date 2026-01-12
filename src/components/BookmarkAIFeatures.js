@@ -207,6 +207,14 @@ const StyledAIFeatures = styled.div`
     border-radius: 6px;
   }
 
+  .similar-header {
+    display: block;
+    font-size: 0.85rem;
+    color: #1565c0;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
   .similar-result {
     display: flex;
     justify-content: space-between;
@@ -454,9 +462,7 @@ export default function BookmarkAIFeatures({ bookmark, onTagsGenerated, onSimila
 
         {similarResults && similarResults.length > 0 && (
           <div className="similar-results">
-            <strong style={{ fontSize: '0.85rem', color: '#1565c0' }}>
-              Similar Bookmarks:
-            </strong>
+            <span className="similar-header">Similar Bookmarks:</span>
             {similarResults.map((result) => (
               <div key={result.id} className="similar-result">
                 <a

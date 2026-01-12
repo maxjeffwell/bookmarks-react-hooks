@@ -118,14 +118,16 @@ class EmbeddingService {
 
   /**
    * Store embedding for a bookmark in the database
-   * Stores as JSON array (for Neon PostgreSQL without pgvector)
+   * Stores as pgvector type (for Neon PostgreSQL with pgvector extension)
    * @param {string} bookmarkId - Bookmark ID
    * @param {Array<number>} embedding - Embedding vector
    */
   async storeEmbedding(bookmarkId, embedding) {
+    // Convert array to pgvector string format: '[0.1, 0.2, ...]'
+    const vectorString = `[${embedding.join(',')}]`;
     await this.sql`
       UPDATE bookmarks
-      SET embedding = ${JSON.stringify(embedding)}::jsonb
+      SET embedding = ${vectorString}::vector
       WHERE id = ${bookmarkId}
     `;
   }

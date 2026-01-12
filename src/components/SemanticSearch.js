@@ -196,7 +196,7 @@ export default function SemanticSearch({ onResultSelect }) {
         params: {
           q: searchQuery.trim(),
           limit: 10,
-          threshold: 0.5
+          threshold: 0.6
         }
       });
 
