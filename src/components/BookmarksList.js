@@ -12,6 +12,7 @@ import Footer from './Footer';
 import BookmarkForm from './BookmarkForm';
 import BookmarkImport from './BookmarkImport';
 import BookmarkAIFeatures from './BookmarkAIFeatures';
+import SemanticSearch from './SemanticSearch';
 import * as style from './Breakpoints';
 
 const StyledGrid = styled.div`
@@ -254,6 +255,17 @@ const StyledGrid = styled.div`
   input:hover::after {
     opacity: 0.3;
   }
+
+	@keyframes highlight {
+		0% {
+			background-color: rgba(102, 126, 234, 0.4);
+			transform: scale(1.02);
+		}
+		100% {
+			background-color: transparent;
+			transform: scale(1);
+		}
+	}
 `;
 
 const StyledForm = styled.div`
@@ -290,6 +302,8 @@ export default function BookmarksList() {
 	const [isSearching, setIsSearching] = useState(false);
 	const [showImport, setShowImport] = useState(false);
 	const [isGeneratingTags, setIsGeneratingTags] = useState(false);
+	const [semanticResults, setSemanticResults] = useState(null);
+	const [showSemanticSearch, setShowSemanticSearch] = useState(false);
 	const searchTimeoutRef = useRef(null);
 
 	const title = state.bookmarks.length > 0
@@ -395,6 +409,21 @@ export default function BookmarksList() {
 		};
 	}, []);
 
+	// Handle semantic search result selection
+	const handleSemanticResultSelect = useCallback((result) => {
+		// Find the bookmark in our list and scroll to it or highlight it
+		const bookmarkElement = document.querySelector(`[data-bookmark-id="${result.id}"]`);
+		if (bookmarkElement) {
+			bookmarkElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+			bookmarkElement.style.animation = 'highlight 2s ease-out';
+		}
+	}, []);
+
+	// Clear semantic search
+	const clearSemanticSearch = useCallback(() => {
+		setSemanticResults(null);
+	}, []);
+
 	const filteredBookmarks = useMemo(() => {
 		// Use search results if search is active
 		const baseBookmarks = searchResults !== null ? searchResults : state.bookmarks;
@@ -483,8 +512,23 @@ export default function BookmarksList() {
 				{isGeneratingTags ? '⏳ Generating Tags...' : '🤖 Auto-Tag All'}
 			</button>
 				</span>
+				<span>
+			<button
+				className="btn-filter"
+				type="button"
+				onClick={() => setShowSemanticSearch(!showSemanticSearch)}
+				style={{
+					background: showSemanticSearch ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : undefined
+				}}
+			>
+				{showSemanticSearch ? '🧠 Hide AI Search' : '🧠 AI Search'}
+			</button>
+				</span>
 			</div>
 			{showImport && <BookmarkImport />}
+			{showSemanticSearch && (
+				<SemanticSearch onResultSelect={handleSemanticResultSelect} />
+			)}
 			<ul>
 				{loading && (
 					<li style={{ textAlign: 'center', fontSize: '1.5rem' }}>
@@ -497,7 +541,7 @@ export default function BookmarksList() {
 					</li>
 				)}
 				{!loading && !error && filteredBookmarks.map(bookmark => (
-					<li key={bookmark.id}>
+					<li key={bookmark.id} data-bookmark-id={bookmark.id}>
 						<span>
 							<div className="list-item">
 							<Collapsible trigger={bookmark.title}
