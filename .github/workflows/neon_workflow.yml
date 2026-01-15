@@ -16,11 +16,24 @@ jobs:
     name: Setup
     outputs:
       branch: ${{ steps.branch_name.outputs.current_branch }}
+      neon_project_id: ${{ steps.doppler.outputs.neon_project_id }}
+      neon_api_key: ${{ steps.doppler.outputs.neon_api_key }}
     runs-on: ubuntu-latest
     steps:
       - name: Get branch name
         id: branch_name
         uses: tj-actions/branch-names@v8
+
+      - name: Install Doppler CLI
+        uses: dopplerhq/cli-action@v3
+
+      - name: Get Neon credentials from Doppler
+        id: doppler
+        env:
+          DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN }}
+        run: |
+          echo "neon_project_id=$(doppler secrets get NEON_PROJECT_ID --plain)" >> $GITHUB_OUTPUT
+          echo "neon_api_key=$(doppler secrets get NEON_API_KEY --plain)" >> $GITHUB_OUTPUT
 
   create_neon_branch:
     name: Create Neon Branch
@@ -39,9 +52,9 @@ jobs:
         id: create_neon_branch
         uses: neondatabase/create-branch-action@v5
         with:
-          project_id: ${{ vars.NEON_PROJECT_ID }}
+          project_id: ${{ needs.setup.outputs.neon_project_id }}
           branch_name: preview/pr-${{ github.event.number }}-${{ needs.setup.outputs.branch }}
-          api_key: ${{ secrets.NEON_API_KEY }}
+          api_key: ${{ needs.setup.outputs.neon_api_key }}
 
 # The step above creates a new Neon branch.
 # You may want to do something with the new branch, such as run migrations, run tests
@@ -88,6 +101,6 @@ jobs:
       - name: Delete Neon Branch
         uses: neondatabase/delete-branch-action@v3
         with:
-          project_id: ${{ vars.NEON_PROJECT_ID }}
+          project_id: ${{ needs.setup.outputs.neon_project_id }}
           branch: preview/pr-${{ github.event.number }}-${{ needs.setup.outputs.branch }}
-          api_key: ${{ secrets.NEON_API_KEY }}
+          api_key: ${{ needs.setup.outputs.neon_api_key }}
