@@ -12,6 +12,11 @@ app.use(express.json());
 // Initialize database on startup
 initializeDatabase().catch(console.error);
 
+// Health check endpoint for Kubernetes probes
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
 app.get('/bookmarks', async (req, res) => {
   try {
     const bookmarks = await bookmarksDB.getAll();
