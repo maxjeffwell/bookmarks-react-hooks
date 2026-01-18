@@ -1,16 +1,67 @@
 import express from 'express';
 import cors from 'cors';
+import client from 'prom-client';
 import { initializeDatabase, bookmarksDB } from './db.js';
 import aiRoutes from './routes/ai-routes.js';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+// Prometheus metrics setup
+const register = new client.Registry();
+client.collectDefaultMetrics({ register });
+
+// HTTP request counter
+const httpRequestsTotal = new client.Counter({
+  name: 'http_requests_total',
+  help: 'Total number of HTTP requests',
+  labelNames: ['method', 'route', 'status'],
+  registers: [register]
+});
+
+// HTTP request duration histogram
+const httpRequestDuration = new client.Histogram({
+  name: 'http_request_duration_seconds',
+  help: 'Duration of HTTP requests in seconds',
+  labelNames: ['method', 'route', 'status'],
+  buckets: [0.001, 0.005, 0.015, 0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 1, 2, 5],
+  registers: [register]
+});
+
+// Metrics middleware
+app.use((req, res, next) => {
+  // Skip metrics endpoint to avoid recursion
+  if (req.path === '/metrics') return next();
+
+  const start = process.hrtime.bigint();
+
+  res.on('finish', () => {
+    const duration = Number(process.hrtime.bigint() - start) / 1e9;
+    const route = req.route?.path || req.path || 'unknown';
+    const labels = {
+      method: req.method,
+      route: route,
+      status: res.statusCode.toString()
+    };
+
+    httpRequestsTotal.inc(labels);
+    httpRequestDuration.observe(labels, duration);
+  });
+
+  next();
+});
+
 app.use(cors());
 app.use(express.json());
 
 // Initialize database on startup
 initializeDatabase().catch(console.error);
+
+// Prometheus metrics endpoint
+app.get('/metrics', async (req, res) => {
+  res.set('Content-Type', register.contentType);
+  res.end(await register.metrics());
+});
 
 // Health check endpoint for Kubernetes probes
 app.get('/health', (req, res) => {
