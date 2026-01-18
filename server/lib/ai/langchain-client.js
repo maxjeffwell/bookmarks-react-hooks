@@ -12,7 +12,7 @@ class LangChainClient {
 
   initialize() {
     if (this.useLocalAI) {
-      console.log('Using Local OpenVINO AI Engine at ' + this.localAIUrl);
+      console.log('Using Shared AI Gateway at ' + this.localAIUrl);
       this.initialized = true;
       return true;
     }
