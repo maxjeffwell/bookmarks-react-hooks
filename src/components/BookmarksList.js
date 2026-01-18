@@ -314,7 +314,6 @@ export default function BookmarksList() {
 	const [isSearching, setIsSearching] = useState(false);
 	const [showImport, setShowImport] = useState(false);
 	const [isGeneratingTags, setIsGeneratingTags] = useState(false);
-	const [semanticResults, setSemanticResults] = useState(null);
 	const [showSemanticSearch, setShowSemanticSearch] = useState(false);
 	const searchTimeoutRef = useRef(null);
 
@@ -429,11 +428,6 @@ export default function BookmarksList() {
 			bookmarkElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
 			bookmarkElement.style.animation = 'highlight 2s ease-out';
 		}
-	}, []);
-
-	// Clear semantic search
-	const clearSemanticSearch = useCallback(() => {
-		setSemanticResults(null);
 	}, []);
 
 	const filteredBookmarks = useMemo(() => {
