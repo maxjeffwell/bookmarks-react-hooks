@@ -24,6 +24,8 @@ env:
 jobs:
   build-and-push-client:
     runs-on: ubuntu-latest
+    outputs:
+      image-tag: ${{ steps.image-tag.outputs.tag }}
 
     steps:
       - name: Checkout code
@@ -66,6 +68,16 @@ jobs:
             type=sha,prefix={{branch}}-
             type=raw,value=latest,enable={{is_default_branch}}
 
+      - name: Generate image tag for K8s deployment
+        id: image-tag
+        run: |
+          # Generate consistent tag format: YYYYMMDD-HHMMSS-shortsha
+          TIMESTAMP=$(date +%Y%m%d-%H%M%S)
+          SHORT_SHA="${GITHUB_SHA:0:7}"
+          TAG="${TIMESTAMP}-${SHORT_SHA}"
+          echo "tag=${TAG}" >> $GITHUB_OUTPUT
+          echo "Generated image tag: ${TAG}"
+
       - name: Build and push client Docker image
         uses: docker/build-push-action@v5
         with:
@@ -74,7 +86,9 @@ jobs:
           target: production
           platforms: ${{ env.DOCKER_PLATFORMS }}
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: |
+            ${{ steps.meta.outputs.tags }}
+            ${{ env.DOCKER_CLIENT_IMAGE }}:${{ steps.image-tag.outputs.tag }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
             REACT_APP_API_BASE_URL=/api
@@ -102,6 +116,7 @@ jobs:
 
   build-and-push-server:
     runs-on: ubuntu-latest
+    needs: build-and-push-client
 
     steps:
       - name: Checkout code
@@ -152,7 +167,9 @@ jobs:
           target: production
           platforms: ${{ env.DOCKER_PLATFORMS }}
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: |
+            ${{ steps.meta.outputs.tags }}
+            ${{ env.DOCKER_SERVER_IMAGE }}:${{ needs.build-and-push-client.outputs.image-tag }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=registry,ref=${{ env.DOCKER_SERVER_IMAGE }}:buildcache
           cache-to: type=registry,ref=${{ env.DOCKER_SERVER_IMAGE }}:buildcache,mode=max
@@ -175,3 +192,23 @@ jobs:
 
       - name: Server image digest
         run: echo "Server image pushed with digest ${{ steps.meta.outputs.digest }}"
+
+  trigger-k8s-deploy:
+    runs-on: ubuntu-latest
+    needs: [build-and-push-client, build-and-push-server]
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Trigger Bookmarked deployment
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.DEPLOY_PAT }}
+          repository: maxjeffwell/devops-portfolio-manager
+          event-type: deploy-bookmarked
+          client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}", "image_tag": "${{ needs.build-and-push-client.outputs.image-tag }}"}'
+
+      - name: Log trigger
+        env:
+          IMAGE_TAG: ${{ needs.build-and-push-client.outputs.image-tag }}
+        run: |
+          echo "Triggered deploy-bookmarked with image tag: ${IMAGE_TAG}"
