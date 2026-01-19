@@ -216,14 +216,15 @@ const StyledGrid = styled.div`
 		padding: 0.75rem 1rem;
 		font-family: ${props => props.theme.fonts.quinary};
 		font-size: 1.25rem;
-		background: transparent;
+		background-color: #7b1f1d;
+		color: #ffffff;
 		border: none;
 		cursor: pointer;
 		border-radius: 6px;
 		transition: background-color 0.2s ease;
 	}
 	.list-item__trigger:hover {
-		background-color: rgba(0, 0, 0, 0.05);
+		background-color: #5a1715;
 	}
 	.list-item__trigger.is-open .trigger-arrow {
 		transform: rotate(180deg);
