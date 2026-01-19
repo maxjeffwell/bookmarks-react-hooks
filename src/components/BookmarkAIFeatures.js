@@ -4,10 +4,10 @@ import axios from 'axios';
 import { apiUrl } from '../config';
 
 const StyledAIFeatures = styled.div`
-  margin: 1rem 0;
+  margin: 0;
   padding: 1rem;
   background: #f8f9fa;
-  border-radius: 5px;
+  border-radius: 8px;
   border: 1px solid #dee2e6;
 
   .ai-header {

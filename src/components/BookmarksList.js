@@ -68,23 +68,166 @@ const StyledGrid = styled.div`
 		}
 	}
 	.list-item__contentInner {
-		font-family: ${props => props.theme.fonts.quinary};
-		padding: .5rem;
-		font-size: 1rem;
-		background-color: #f5f5f5;
-		border-radius: 5px;
-		margin: 0.5rem;
+		font-family: ${props => props.theme.fonts.secondary};
+		padding: 1.25rem;
+		font-size: 1.1rem;
+		background-color: transparent;
+		border-radius: 8px;
+		margin: 0.5rem 0;
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
 		@media (max-width: ${style.breakpoint.tablet}) {
-			margin: 0.25rem;
+			padding: 1rem;
+			gap: 0.75rem;
+			margin: 0.25rem 0;
 		}
 	}
-	.list-item__contentInner a, p {
+	.list-item__contentInner p {
+		margin: 0;
+		line-height: 1.6;
+	}
+	.list-item__contentInner a {
 		text-decoration: none;
-		line-height: 1;
+		color: #1976d2;
+		word-break: break-all;
 	}
-		a:hover {
-			text-decoration: underline;
+	.list-item__contentInner a:hover {
+		text-decoration: underline;
+	}
+
+	/* Section Cards */
+	.bookmark-section {
+		padding: 1rem;
+		border-radius: 8px;
+		margin: 0;
+	}
+	.bookmark-section-label {
+		display: block;
+		font-size: 0.75rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		margin-bottom: 0.5rem;
+	}
+	.bookmark-section-url {
+		background-color: #e3f2fd;
+		border: 1px solid #bbdefb;
+	}
+	.bookmark-section-url .bookmark-section-label {
+		color: #1565c0;
+	}
+	.bookmark-section-url a {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+	}
+	.bookmark-section-url a::after {
+		content: '↗';
+		font-size: 0.85em;
+		opacity: 0.7;
+	}
+	.bookmark-section-rating {
+		background-color: #fff8e1;
+		border: 1px solid #ffecb3;
+	}
+	.bookmark-section-rating .bookmark-section-label {
+		color: #f57c00;
+	}
+	.bookmark-section-rating .stars {
+		color: #ffa000;
+		font-size: 1.25rem;
+		letter-spacing: 0.1em;
+	}
+	.bookmark-section-rating .stars-empty {
+		color: #e0e0e0;
+	}
+	.bookmark-section-description {
+		background-color: #f5f5f5;
+		border: 1px solid #e0e0e0;
+	}
+	.bookmark-section-description .bookmark-section-label {
+		color: #616161;
+	}
+	.bookmark-section-description p {
+		color: #333;
+		max-height: 200px;
+		overflow-y: auto;
+	}
+	.bookmark-section-description .no-description {
+		color: #9e9e9e;
+		font-style: italic;
+	}
+
+	/* Action Buttons Row */
+	.bookmark-actions {
+		display: flex;
+		gap: 0.75rem;
+		margin-top: 0.5rem;
+		padding-top: 1rem;
+		border-top: 1px solid #e0e0e0;
+	}
+	.bookmark-actions button {
+		padding: 0.6rem 1.25rem;
+		font-size: 0.95rem;
+		border-radius: 6px;
+		font-weight: 600;
+		transition: all 0.2s ease;
+	}
+	.bookmark-actions button:hover {
+		transform: translateY(-1px);
+	}
+	.btn-edit {
+		background: linear-gradient(135deg, #28a745 0%, #20c997 100%) !important;
+	}
+	.btn-delete {
+		background: #dc3545 !important;
+	}
+	.btn-delete:hover {
+		background: #c82333 !important;
+	}
+	@media (max-width: ${style.breakpoint.tablet}) {
+		.bookmark-actions {
+			flex-direction: column;
 		}
+		.bookmark-actions button {
+			width: 100%;
+			min-height: 44px;
+		}
+	}
+
+	/* Trigger Button Styles */
+	.bookmark-trigger {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		width: 100%;
+		text-align: left;
+	}
+	.trigger-arrow {
+		font-size: 0.75em;
+		opacity: 0.6;
+		transition: transform 0.3s ease;
+		margin-left: 0.5rem;
+	}
+	.list-item__trigger {
+		width: 100%;
+		text-align: left;
+		padding: 0.75rem 1rem;
+		font-family: ${props => props.theme.fonts.quinary};
+		font-size: 1.25rem;
+		background: transparent;
+		border: none;
+		cursor: pointer;
+		border-radius: 6px;
+		transition: background-color 0.2s ease;
+	}
+	.list-item__trigger:hover {
+		background-color: rgba(0, 0, 0, 0.05);
+	}
+	.list-item__trigger.is-open .trigger-arrow {
+		transform: rotate(180deg);
+	}
 	.list-item__contentOuter {	
 	@media (max-width: ${style.breakpoint.mobileS}) {
 		display: inline-block;
@@ -206,16 +349,17 @@ const StyledGrid = styled.div`
 	}
 	li {
 		font-size: 1.5rem;
-		line-height: .5;
-		padding: 10px;
+		line-height: 1.5;
+		padding: 12px 16px;
 		width: auto;
 		list-style-type: none;
-		border: 2px solid black;
-		border-radius: 5px;
-		margin-bottom: 10px;
+		border: 2px solid #343436;
+		border-radius: 8px;
+		margin-bottom: 12px;
+		background: #fff;
 		@media (max-width: ${style.breakpoint.tablet}) {
-			margin: 0 0 0.5rem 0;
-			padding: 8px;
+			margin: 0 0 0.75rem 0;
+			padding: 10px 12px;
 			width: 100%;
 			box-sizing: border-box;
 		}
@@ -304,6 +448,25 @@ const SemanticSearchWrapper = styled.div`
 		order: -1;
 	}
 `;
+
+// Helper function to render visual star rating
+const renderStars = (ratingStr) => {
+	const ratingMap = {
+		'5 stars': 5,
+		'4 stars': 4,
+		'3 stars': 3,
+		'2 stars': 2,
+		'1 star': 1,
+	};
+	const numStars = ratingMap[ratingStr] || 0;
+	const filled = '★'.repeat(numStars);
+	const empty = '☆'.repeat(5 - numStars);
+	return (
+		<span className="stars">
+			{filled}<span className="stars-empty">{empty}</span>
+		</span>
+	);
+};
 
 export default function BookmarksList() {
 	const { state, dispatch, loading, error } = useContext(BookmarksContext);
@@ -552,19 +715,37 @@ export default function BookmarksList() {
 					<li key={bookmark.id} data-bookmark-id={bookmark.id}>
 						<span>
 							<div className="list-item">
-							<Collapsible trigger={bookmark.title}
-							             triggerTagName="button"
-							             transitionTime={400}
-							             easing="cubic-bezier(0.175, 0.885, 0.32, 2.275)"
-							             classParentString="list-item"
-							             >
-								<p><span>Url:</span>
-									<span>
-									<a href={bookmark.url} target="_blank" rel="noopener noreferrer">{bookmark.url}</a>
-									</span>
-									</p>
-								<p>Rating: {bookmark.rating}</p>
-								<p>Description: {bookmark.description}</p>
+							<Collapsible
+								trigger={<span className="bookmark-trigger">{bookmark.title} <span className="trigger-arrow">▼</span></span>}
+								triggerTagName="button"
+								transitionTime={400}
+								easing="cubic-bezier(0.175, 0.885, 0.32, 2.275)"
+								classParentString="list-item"
+								triggerOpenedClassName="is-open"
+							>
+								{/* URL Section */}
+								<div className="bookmark-section bookmark-section-url">
+									<span className="bookmark-section-label">URL</span>
+									<a href={bookmark.url} target="_blank" rel="noopener noreferrer">
+										{bookmark.url}
+									</a>
+								</div>
+
+								{/* Rating Section */}
+								<div className="bookmark-section bookmark-section-rating">
+									<span className="bookmark-section-label">Rating</span>
+									{renderStars(bookmark.rating)}
+								</div>
+
+								{/* Description Section */}
+								<div className="bookmark-section bookmark-section-description">
+									<span className="bookmark-section-label">Description</span>
+									{bookmark.description ? (
+										<p>{bookmark.description}</p>
+									) : (
+										<p className="no-description">No description added</p>
+									)}
+								</div>
 
 								{/* AI-powered bookmark tagging */}
 								<BookmarkAIFeatures
@@ -577,37 +758,36 @@ export default function BookmarksList() {
 									}}
 								/>
 
-								<span>
+								{/* Action Buttons */}
+								<div className="bookmark-actions">
 									<button
-										className="bookmark-list-btn"
+										className="btn-edit"
 										type="button"
 										onClick={() => dispatch({type: 'SET_CURRENT_BOOKMARK', payload: bookmark})}
 									>
-							Edit
-						</button>
-								</span>
-								<span>
-						<button
-							className="bookmark-list-btn"
-							type="button"
-							onClick={async () => {
-								try {
-									await axios.delete(
-										`${apiUrl}/${apiEndpoint}/${bookmark.id}`
-									);
-									dispatch({
-										type: 'DELETE_BOOKMARK',
-										payload: bookmark
-									})
-								} catch (error) {
-									console.error('Failed to delete bookmark:', error);
-									alert('Failed to delete bookmark. Please try again.');
-								}
-							}}
-						>
-							Delete
-						</button>
-						</span>
+										Edit
+									</button>
+									<button
+										className="btn-delete"
+										type="button"
+										onClick={async () => {
+											try {
+												await axios.delete(
+													`${apiUrl}/${apiEndpoint}/${bookmark.id}`
+												);
+												dispatch({
+													type: 'DELETE_BOOKMARK',
+													payload: bookmark
+												})
+											} catch (error) {
+												console.error('Failed to delete bookmark:', error);
+												alert('Failed to delete bookmark. Please try again.');
+											}
+										}}
+									>
+										Delete
+									</button>
+								</div>
 							</Collapsible>
 							</div>
 						</span>
