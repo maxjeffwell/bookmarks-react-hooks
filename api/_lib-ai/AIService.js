@@ -1,6 +1,6 @@
 // Main AI service facade - extensible for future features
 
-import langchainClient from './langchain-client.js';
+import aiClient from './ai-client.js';
 import PROMPTS from './prompts.js';
 import AICache from './cache.js';
 
@@ -8,15 +8,15 @@ class AIService {
   constructor(sql) {
     this.sql = sql;
     this.cache = new AICache(sql);
-    this.initialized = langchainClient.initialize();
+    this.initialized = aiClient.initialize();
   }
 
   /**
    * Check if AI service is available
-   * @returns {boolean} - True if OpenAI is configured and ready
+   * @returns {boolean} - True if HuggingFace is configured and ready
    */
   isAvailable() {
-    return this.initialized && langchainClient.isAvailable();
+    return this.initialized && aiClient.isAvailable();
   }
 
   /**
@@ -53,8 +53,8 @@ class AIService {
     console.log('Generating tags for:', context.title);
 
     try {
-      // Generate tags using LangChain
-      const response = await langchainClient.generateCompletion(
+      // Generate tags using HuggingFace
+      const response = await aiClient.generateCompletion(
         PROMPTS.AUTO_TAG,
         context
       );
