@@ -1,5 +1,6 @@
-// Vercel AI SDK + HuggingFace wrapper
-// Lightweight replacement for LangChain with faster cold starts
+// Vercel AI SDK + HuggingFace with gateway fallback
+// Primary: HuggingFace Inference API
+// Fallback: shared-ai-gateway (when HuggingFace fails)
 
 import { generateText } from 'ai';
 import { createHuggingFace } from '@ai-sdk/huggingface';
@@ -9,21 +10,29 @@ class AIClient {
     this.huggingface = null;
     this.initialized = false;
     this.model = process.env.HF_MODEL || 'mistralai/Mistral-7B-Instruct-v0.3';
+    this.gatewayUrl = process.env.AI_GATEWAY_URL || null;
   }
 
   initialize() {
-    if (!process.env.HUGGINGFACE_API_KEY) {
-      console.warn('HuggingFace API key not found - AI features disabled');
+    // Need at least one provider configured
+    if (!process.env.HUGGINGFACE_API_KEY && !this.gatewayUrl) {
+      console.warn('No AI provider configured - AI features disabled');
       return false;
     }
 
     try {
-      this.huggingface = createHuggingFace({
-        apiKey: process.env.HUGGINGFACE_API_KEY,
-      });
+      if (process.env.HUGGINGFACE_API_KEY) {
+        this.huggingface = createHuggingFace({
+          apiKey: process.env.HUGGINGFACE_API_KEY,
+        });
+        console.log('HuggingFace initialized with model:', this.model);
+      }
+
+      if (this.gatewayUrl) {
+        console.log('AI Gateway fallback configured:', this.gatewayUrl);
+      }
 
       this.initialized = true;
-      console.log('AI client initialized with model:', this.model);
       return true;
     } catch (error) {
       console.error('Failed to initialize AI client:', error);
@@ -42,27 +51,59 @@ class AIClient {
       formattedPrompt = formattedPrompt.replace(new RegExp(`\\{${key}\\}`, 'g'), value);
     }
 
+    // Try HuggingFace first, fall back to gateway
+    if (this.huggingface) {
+      try {
+        return await this.generateWithHuggingFace(formattedPrompt);
+      } catch (error) {
+        console.warn('HuggingFace failed, trying gateway fallback:', error.message);
+        if (this.gatewayUrl) {
+          return await this.generateWithGateway(formattedPrompt);
+        }
+        throw error;
+      }
+    } else if (this.gatewayUrl) {
+      return await this.generateWithGateway(formattedPrompt);
+    }
+
+    throw new Error('No AI provider available');
+  }
+
+  async generateWithHuggingFace(prompt) {
+    const { text } = await generateText({
+      model: this.huggingface(this.model),
+      prompt: prompt,
+      maxTokens: parseInt(process.env.AI_MAX_TOKENS || '500'),
+      temperature: parseFloat(process.env.AI_TEMPERATURE || '0.3'),
+    });
+    return text;
+  }
+
+  async generateWithGateway(prompt) {
     try {
-      const { text } = await generateText({
-        model: this.huggingface(this.model),
-        prompt: formattedPrompt,
-        maxTokens: parseInt(process.env.AI_MAX_TOKENS || '500'),
-        temperature: parseFloat(process.env.AI_TEMPERATURE || '0.3'),
+      const response = await fetch(`${this.gatewayUrl}/api/ai/generate`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          prompt: prompt,
+          app: 'bookmarks',
+          maxTokens: parseInt(process.env.AI_MAX_TOKENS || '500'),
+        }),
       });
 
-      return text;
-    } catch (error) {
-      console.error('AI generation error:', error);
+      if (!response.ok) {
+        throw new Error(`AI Gateway error: ${response.status}`);
+      }
 
-      // Provide user-friendly error messages
-      if (error.message?.includes('rate limit') || error.message?.includes('429')) {
-        throw new Error('Rate limit exceeded. Please try again later.');
-      } else if (error.message?.includes('authentication') || error.message?.includes('401')) {
-        throw new Error('HuggingFace authentication failed. Check your API key.');
+      const data = await response.json();
+      return data.response;
+    } catch (error) {
+      console.error('Gateway generation error:', error);
+
+      if (error.message?.includes('ECONNREFUSED')) {
+        throw new Error('AI Gateway is not available.');
       } else if (error.message?.includes('timeout')) {
         throw new Error('Request timed out. Please try again.');
-      } else if (error.message?.includes('model') && error.message?.includes('not found')) {
-        throw new Error(`Model ${this.model} not found. Check HF_MODEL environment variable.`);
       }
 
       throw error;
