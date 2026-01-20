@@ -135,7 +135,7 @@ app.post('/bookmarks', async (req, res) => {
 
     // Invalidate Redis and Cloudflare cache on create
     await invalidateCache(CACHE_KEYS.BOOKMARKS_ALL);
-    purgeBookmarksCache();
+    await purgeBookmarksCache();
 
     res.status(201).json(newBookmark);
   } catch (error) {
@@ -164,7 +164,7 @@ app.patch('/bookmarks/:id', async (req, res) => {
 
     // Invalidate Redis and Cloudflare cache on update
     await invalidateCache(CACHE_KEYS.BOOKMARKS_ALL);
-    purgeBookmarksCache();
+    await purgeBookmarksCache();
 
     res.json(updatedBookmark);
   } catch (error) {
@@ -185,7 +185,7 @@ app.delete('/bookmarks/:id', async (req, res) => {
 
     // Invalidate Redis and Cloudflare cache on delete
     await invalidateCache(CACHE_KEYS.BOOKMARKS_ALL);
-    purgeBookmarksCache();
+    await purgeBookmarksCache();
 
     res.json(deletedBookmark);
   } catch (error) {
