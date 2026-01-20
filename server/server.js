@@ -3,6 +3,7 @@ import cors from 'cors';
 import client from 'prom-client';
 import { initializeDatabase, bookmarksDB } from './db.js';
 import aiRoutes from './routes/ai-routes.js';
+import { getCache, setCache, invalidateCache, CACHE_KEYS } from './lib/redis.js';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -70,7 +71,18 @@ app.get('/health', (req, res) => {
 
 app.get('/bookmarks', async (req, res) => {
   try {
+    // Check cache first
+    const cached = await getCache(CACHE_KEYS.BOOKMARKS_ALL);
+    if (cached) {
+      return res.json(cached);
+    }
+
+    // Cache miss - query database
     const bookmarks = await bookmarksDB.getAll();
+
+    // Store in cache
+    await setCache(CACHE_KEYS.BOOKMARKS_ALL, bookmarks);
+
     res.json(bookmarks);
   } catch (error) {
     console.error('Error getting bookmarks:', error);
@@ -81,7 +93,7 @@ app.get('/bookmarks', async (req, res) => {
 app.post('/bookmarks', async (req, res) => {
   try {
     const { title, url, description, rating, toggledRadioButton, checked } = req.body;
-    
+
     if (!title || !url) {
       return res.status(400).json({ error: 'Title and URL are required' });
     }
@@ -94,7 +106,10 @@ app.post('/bookmarks', async (req, res) => {
       toggledRadioButton: toggledRadioButton || false,
       checked: checked || false
     });
-    
+
+    // Invalidate cache on create
+    await invalidateCache(CACHE_KEYS.BOOKMARKS_ALL);
+
     res.status(201).json(newBookmark);
   } catch (error) {
     console.error('Error creating bookmark:', error);
@@ -106,7 +121,7 @@ app.patch('/bookmarks/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const { title, url, description, rating, toggledRadioButton, checked } = req.body;
-    
+
     const updatedBookmark = await bookmarksDB.update(id, {
       title,
       url,
@@ -115,10 +130,13 @@ app.patch('/bookmarks/:id', async (req, res) => {
       toggledRadioButton,
       checked
     });
-    
+
     if (!updatedBookmark) {
       return res.status(404).json({ error: 'Bookmark not found' });
     }
+
+    // Invalidate cache on update
+    await invalidateCache(CACHE_KEYS.BOOKMARKS_ALL);
 
     res.json(updatedBookmark);
   } catch (error) {
@@ -136,6 +154,9 @@ app.delete('/bookmarks/:id', async (req, res) => {
     if (!deletedBookmark) {
       return res.status(404).json({ error: 'Bookmark not found' });
     }
+
+    // Invalidate cache on delete
+    await invalidateCache(CACHE_KEYS.BOOKMARKS_ALL);
 
     res.json(deletedBookmark);
   } catch (error) {
