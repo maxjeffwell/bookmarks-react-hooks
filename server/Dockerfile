@@ -15,7 +15,6 @@ COPY package*.json ./
 # Install production dependencies
 RUN apk add --no-cache python3 make g++ && \
     npm ci --omit=dev && \
-    npm cache clean --force && \
     apk del python3 make g++
 
 # Copy application code
