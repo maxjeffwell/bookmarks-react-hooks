@@ -1,6 +1,7 @@
 import { neon } from '@neondatabase/serverless';
 import AIService from '../_lib-ai/AIService.js';
 import { initializeAITables } from '../_lib-ai/migrations.js';
+import { purgeBookmarksCache } from '../_lib/cloudflare.js';
 
 // Track if migrations have been run
 let migrationsRun = false;
@@ -155,6 +156,9 @@ export default async function handler(req, res) {
               ON CONFLICT DO NOTHING
             `;
           }
+
+          // Purge cache for both deployments
+          await purgeBookmarksCache();
         }
 
         return res.status(200).json({

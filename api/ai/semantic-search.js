@@ -1,6 +1,7 @@
 import { neon } from '@neondatabase/serverless';
 import EmbeddingService from '../_lib-ai/embedding-service.js';
 import { initializeAITables } from '../_lib-ai/migrations.js';
+import { purgeBookmarksCache } from '../_lib/cloudflare.js';
 
 // Track if migrations have been run
 let migrationsRun = false;
@@ -125,6 +126,9 @@ export default async function handler(req, res) {
         const embedding = await embeddingService.embedBookmark(bookmark);
         await embeddingService.storeEmbedding(bookmarkId, embedding);
 
+        // Purge cache for both deployments
+        await purgeBookmarksCache();
+
         return res.status(200).json({
           success: true,
           bookmarkId,
@@ -136,6 +140,9 @@ export default async function handler(req, res) {
       // POST /api/ai/semantic-search - Embed all bookmarks without embeddings
       if (action === 'embed-all') {
         const processed = await embeddingService.embedAllBookmarks();
+
+        // Purge cache for both deployments
+        await purgeBookmarksCache();
 
         return res.status(200).json({
           success: true,

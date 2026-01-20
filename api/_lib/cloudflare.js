@@ -1,7 +1,13 @@
-// Cloudflare cache purge utility
+// Cloudflare cache purge utility for Vercel API routes
 
 const CLOUDFLARE_API_TOKEN = process.env.CLOUDFLARE_API_TOKEN;
 const CLOUDFLARE_ZONE_ID = process.env.CLOUDFLARE_ZONE_ID;
+
+// Both deployment URLs that need cache purging
+const DEPLOYMENT_URLS = [
+  'https://bookmarked-k8s.el-jefe.me',
+  'https://bookmarks-react-hooks.vercel.app'
+];
 
 export async function purgeCache(urls) {
   if (!CLOUDFLARE_API_TOKEN || !CLOUDFLARE_ZONE_ID) {
@@ -38,12 +44,6 @@ export async function purgeCache(urls) {
     return { success: false, error: error.message };
   }
 }
-
-// Both deployment URLs that need cache purging
-const DEPLOYMENT_URLS = [
-  'https://bookmarked-k8s.el-jefe.me',
-  'https://bookmarks-react-hooks.vercel.app'
-];
 
 export async function purgeBookmarksCache() {
   const urls = DEPLOYMENT_URLS.map(baseUrl => `${baseUrl}/api/bookmarks`);

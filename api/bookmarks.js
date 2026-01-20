@@ -1,4 +1,5 @@
 import { neon } from '@neondatabase/serverless';
+import { purgeBookmarksCache } from './_lib/cloudflare.js';
 
 // Initialize the database connection
 let sql;
@@ -281,7 +282,10 @@ export default async function handler(req, res) {
             toggledRadioButton: toggledRadioButton || false,
             checked: checked || false
           });
-          
+
+          // Purge cache for both deployments
+          await purgeBookmarksCache();
+
           res.status(201).json(newBookmark);
         } catch (error) {
           console.error('Error creating bookmark:', error);

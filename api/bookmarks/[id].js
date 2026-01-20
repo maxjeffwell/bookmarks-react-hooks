@@ -1,4 +1,5 @@
 import { neon } from '@neondatabase/serverless';
+import { purgeBookmarksCache } from '../_lib/cloudflare.js';
 
 // Initialize the database connection
 const sql = neon(process.env.DATABASE_URL);
@@ -117,6 +118,9 @@ export default async function handler(req, res) {
             return res.status(404).json({ error: 'Bookmark not found' });
           }
 
+          // Purge cache for both deployments
+          await purgeBookmarksCache();
+
           res.json(updatedBookmark);
         } catch (error) {
           console.error('Error updating bookmark:', error);
@@ -131,7 +135,10 @@ export default async function handler(req, res) {
           if (!deletedBookmark) {
             return res.status(404).json({ error: 'Bookmark not found' });
           }
-          
+
+          // Purge cache for both deployments
+          await purgeBookmarksCache();
+
           res.json(deletedBookmark);
         } catch (error) {
           console.error('Error deleting bookmark:', error);
