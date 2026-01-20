@@ -70,19 +70,40 @@ app.get('/health', (req, res) => {
 });
 
 app.get('/bookmarks', async (req, res) => {
+  const timings = [];
+  const requestStart = performance.now();
+
   try {
     // Check cache first
+    const cacheStart = performance.now();
     const cached = await getCache(CACHE_KEYS.BOOKMARKS_ALL);
+    const cacheDuration = performance.now() - cacheStart;
+    timings.push(`cache;dur=${cacheDuration.toFixed(2)};desc="Redis lookup"`);
+
     if (cached) {
+      timings.push(`hit;desc="Cache hit"`);
+      const total = performance.now() - requestStart;
+      timings.push(`total;dur=${total.toFixed(2)}`);
+      res.set('Server-Timing', timings.join(', '));
       return res.json(cached);
     }
 
     // Cache miss - query database
+    timings.push(`miss;desc="Cache miss"`);
+    const dbStart = performance.now();
     const bookmarks = await bookmarksDB.getAll();
+    const dbDuration = performance.now() - dbStart;
+    timings.push(`db;dur=${dbDuration.toFixed(2)};desc="Database query"`);
 
     // Store in cache
+    const setCacheStart = performance.now();
     await setCache(CACHE_KEYS.BOOKMARKS_ALL, bookmarks);
+    const setCacheDuration = performance.now() - setCacheStart;
+    timings.push(`cache-set;dur=${setCacheDuration.toFixed(2)};desc="Redis write"`);
 
+    const total = performance.now() - requestStart;
+    timings.push(`total;dur=${total.toFixed(2)}`);
+    res.set('Server-Timing', timings.join(', '));
     res.json(bookmarks);
   } catch (error) {
     console.error('Error getting bookmarks:', error);
