@@ -13,6 +13,7 @@ const StyledImport = styled.div`
 	margin: 1rem 0;
 	@media (max-width: ${style.breakpoint.tablet}) {
 		padding: 1rem;
+		order: 3;
 	}
 
 	h3 {

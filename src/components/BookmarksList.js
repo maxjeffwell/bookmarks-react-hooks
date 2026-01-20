@@ -26,10 +26,9 @@ const StyledGrid = styled.div`
 	width: 100%;
 	background-color: #005995;
 	@media (max-width: ${style.breakpoint.tablet}) {
-		display: grid;
-		grid-template-columns: 1fr;
-		grid-template-rows: auto auto auto auto;
-		grid-gap: 0.5rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
 		margin: 0;
 		padding: 0.5rem;
 		overflow-x: hidden;
@@ -39,10 +38,9 @@ const StyledGrid = styled.div`
 		grid-column: 1 / 3;
 		grid-row: 1 / 2 ;
 		@media (max-width: ${style.breakpoint.tablet}) {
-			grid-column: 1;
-			grid-row: 1;
 			text-align: center;
 			margin: 10px 0;
+			order: 1;
 		}
 	}
 	.filters {
@@ -51,13 +49,12 @@ const StyledGrid = styled.div`
 		grid-auto-flow: row;
 		margin-top: 0;
 		@media (max-width: ${style.breakpoint.tablet}) {
-			grid-column: 1;
-			grid-row: 2;
 			display: flex;
 			flex-direction: column;
 			gap: 1rem;
 			margin: 1rem 0;
 			width: 100%;
+			order: 2;
 		}
 	}
 	.filters span {
@@ -340,12 +337,11 @@ const StyledGrid = styled.div`
 		padding: 10px 20px 0;
 		margin: 0 auto 2rem;
 		@media (max-width: ${style.breakpoint.tablet}) {
-			grid-column: 1;
-			grid-row: 4;
 			padding: 0.5rem;
 			margin: 0;
 			width: 100%;
 			box-sizing: border-box;
+			order: 5;
 		}
 	}
 	li {
@@ -418,12 +414,11 @@ const StyledForm = styled.div`
 	grid-row: 2 / 3;
 	background-color: #fbf579;
 	@media (max-width: ${style.breakpoint.tablet}) {
-		grid-column: 1;
-		grid-row: 3;
 		width: 100%;
 		margin: 0;
 		padding: 1rem;
 		border-radius: 8px;
+		order: 0;
 	}
 `;
 
@@ -443,10 +438,8 @@ const SemanticSearchWrapper = styled.div`
 	grid-row: 3 / 4;
 	margin: 0 20px;
 	@media (max-width: ${style.breakpoint.tablet}) {
-		grid-column: 1;
-		grid-row: 3;
 		margin: 0.5rem;
-		order: -1;
+		order: 4;
 	}
 `;
 
