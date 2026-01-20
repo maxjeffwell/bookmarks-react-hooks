@@ -18,11 +18,16 @@ const StyledHeader = styled.header`
 	position: relative;
 	text-align: left;
 	@media (max-width: ${style.breakpoint.tablet}) {
-		display: inline-block;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
 		width: 100%;
-		padding-left: 0.5rem;
-		padding-top: 1rem;
+		padding: 1rem 0.5rem;
 		box-sizing: border-box;
+		font-size: 1.5rem;
+	}
+	@media (max-width: ${style.breakpoint.mobileL}) {
+		font-size: 1.25rem;
 	}
 `;
 
@@ -39,9 +44,9 @@ const StyledLink = styled(Link)`
 		text-decoration: underline;
 	}
 	@media (max-width: ${style.breakpoint.tablet}) {
-		display: inline-block;
-		padding-right: 0.5rem;
-		box-sizing: border-box;
+		float: none;
+		padding-right: 0;
+		flex-shrink: 0;
 	}
 `;
 

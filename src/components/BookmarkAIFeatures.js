@@ -234,10 +234,27 @@ const StyledAIFeatures = styled.div`
     color: #333;
     font-size: 0.85rem;
     flex: 1;
+    min-width: 0;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     margin-right: 0.5rem;
+  }
+
+  @media (max-width: 425px) {
+    .similar-result {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.25rem;
+    }
+
+    .similar-title {
+      white-space: normal;
+      overflow: visible;
+      text-overflow: unset;
+      margin-right: 0;
+      width: 100%;
+    }
   }
 
   .similar-score {
