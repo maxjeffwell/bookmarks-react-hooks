@@ -72,7 +72,7 @@ app.get('/health', (req, res) => {
 
 // Cache invalidation endpoint for cross-deployment sync
 // Called by Vercel when data changes to invalidate K8s Redis cache
-app.post('/bookmarks/invalidate-cache', async (req, res) => {
+app.post('/cache/invalidate', async (req, res) => {
   // Verify API key for security
   const apiKey = req.headers['x-cache-api-key'];
   const expectedKey = process.env.CACHE_INVALIDATION_API_KEY;
