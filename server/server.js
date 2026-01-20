@@ -85,6 +85,8 @@ app.get('/bookmarks', async (req, res) => {
       const total = performance.now() - requestStart;
       timings.push(`total;dur=${total.toFixed(2)}`);
       res.set('Server-Timing', timings.join(', '));
+      res.set('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=300');
+      res.set('CDN-Cache-Control', 'max-age=60');
       return res.json(cached);
     }
 
@@ -104,6 +106,8 @@ app.get('/bookmarks', async (req, res) => {
     const total = performance.now() - requestStart;
     timings.push(`total;dur=${total.toFixed(2)}`);
     res.set('Server-Timing', timings.join(', '));
+    res.set('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=300');
+    res.set('CDN-Cache-Control', 'max-age=60');
     res.json(bookmarks);
   } catch (error) {
     console.error('Error getting bookmarks:', error);
