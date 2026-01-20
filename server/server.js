@@ -4,6 +4,7 @@ import client from 'prom-client';
 import { initializeDatabase, bookmarksDB } from './db.js';
 import aiRoutes from './routes/ai-routes.js';
 import { getCache, setCache, invalidateCache, CACHE_KEYS } from './lib/redis.js';
+import { purgeBookmarksCache } from './lib/cloudflare.js';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -132,8 +133,9 @@ app.post('/bookmarks', async (req, res) => {
       checked: checked || false
     });
 
-    // Invalidate cache on create
+    // Invalidate Redis and Cloudflare cache on create
     await invalidateCache(CACHE_KEYS.BOOKMARKS_ALL);
+    purgeBookmarksCache();
 
     res.status(201).json(newBookmark);
   } catch (error) {
@@ -160,8 +162,9 @@ app.patch('/bookmarks/:id', async (req, res) => {
       return res.status(404).json({ error: 'Bookmark not found' });
     }
 
-    // Invalidate cache on update
+    // Invalidate Redis and Cloudflare cache on update
     await invalidateCache(CACHE_KEYS.BOOKMARKS_ALL);
+    purgeBookmarksCache();
 
     res.json(updatedBookmark);
   } catch (error) {
@@ -180,8 +183,9 @@ app.delete('/bookmarks/:id', async (req, res) => {
       return res.status(404).json({ error: 'Bookmark not found' });
     }
 
-    // Invalidate cache on delete
+    // Invalidate Redis and Cloudflare cache on delete
     await invalidateCache(CACHE_KEYS.BOOKMARKS_ALL);
+    purgeBookmarksCache();
 
     res.json(deletedBookmark);
   } catch (error) {
