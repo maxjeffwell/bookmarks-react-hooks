@@ -3,6 +3,8 @@ import { neon } from '@neondatabase/serverless';
 import AIService from '../lib/ai/AIService.js';
 import EmbeddingService from '../lib/ai/EmbeddingService.js';
 import { initializeAITables } from '../lib/ai/migrations.js';
+import { invalidateCache, CACHE_KEYS } from '../lib/redis.js';
+import { purgeBookmarksCache } from '../lib/cloudflare.js';
 
 // Track if migrations have been run
 let migrationsRun = false;
@@ -84,6 +86,10 @@ export default function(app) {
             ON CONFLICT DO NOTHING
           `;
         }
+
+        // Invalidate caches since bookmarks data changed
+        await invalidateCache(CACHE_KEYS.BOOKMARKS_ALL);
+        purgeBookmarksCache();
       }
 
       return res.json({
@@ -320,6 +326,10 @@ export default function(app) {
         const embedding = await embeddingService.embedBookmark(bookmark);
         await embeddingService.storeEmbedding(bookmarkId, embedding);
 
+        // Invalidate caches since bookmarks data changed (hasEmbedding flag)
+        await invalidateCache(CACHE_KEYS.BOOKMARKS_ALL);
+        purgeBookmarksCache();
+
         return res.json({
           success: true,
           bookmarkId,
@@ -331,6 +341,10 @@ export default function(app) {
       // Embed all bookmarks without embeddings
       if (action === 'embed-all') {
         const processed = await embeddingService.embedAllBookmarks();
+
+        // Invalidate caches since bookmarks data changed
+        await invalidateCache(CACHE_KEYS.BOOKMARKS_ALL);
+        purgeBookmarksCache();
 
         return res.json({
           success: true,
