@@ -56,7 +56,7 @@ async function invalidateK8sRedisCache() {
   }
 
   try {
-    const response = await fetch(`${K8S_API_URL}/api/cache/invalidate`, {
+    const response = await fetch(`${K8S_API_URL}/cache/invalidate`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
