@@ -8,7 +8,7 @@ const bookmarksReducer = (state, action) => {
 			};
 
 			case 'ADD_BOOKMARK':
-				const addedBookmark = [...state.bookmarks, action.payload];
+				const addedBookmark = [action.payload, ...state.bookmarks];
 
 				return {
 				...state,
