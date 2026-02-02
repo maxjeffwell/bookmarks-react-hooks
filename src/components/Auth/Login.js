@@ -150,7 +150,7 @@ export default function Login() {
     setIsSubmitting(true);
     try {
       await authLogin(login.trim(), password);
-      navigate('/');
+      navigate('/bookmarks');
     } catch (err) {
       // Error is handled by AuthContext
     } finally {

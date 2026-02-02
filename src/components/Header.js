@@ -40,22 +40,6 @@ const NavContainer = styled.div`
 	}
 `;
 
-const NavItem = styled.span`
-	font-family: ${props => props.theme.fonts.primary};
-	font-size: 1.25rem;
-	color: ${props => props.theme.colors.white};
-	white-space: nowrap;
-	@media (max-width: ${style.breakpoint.tablet}) {
-		font-size: 1rem;
-	}
-`;
-
-const UserInfo = styled(NavItem)`
-	opacity: 0.8;
-	@media (max-width: ${style.breakpoint.tablet}) {
-		display: none;
-	}
-`;
 
 const StyledLink = styled(Link)`
 	font-family: ${props => props.theme.fonts.primary};
@@ -91,7 +75,7 @@ const LogoutButton = styled.button`
 const Header = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
-	const { isAuthenticated, user, logout } = useAuth();
+	const { isAuthenticated, logout } = useAuth();
 	const isBookmarksPage = location.pathname === '/bookmarks';
 	const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
 
@@ -106,7 +90,6 @@ const Header = () => {
 			<NavContainer>
 				{isAuthenticated ? (
 					<>
-						<UserInfo>{user?.username}</UserInfo>
 						{isBookmarksPage ? (
 							<StyledLink to='/'>Home</StyledLink>
 						) : (
