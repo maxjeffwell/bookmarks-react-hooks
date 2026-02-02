@@ -1,5 +1,5 @@
 import { neon } from '@neondatabase/serverless';
-import { createBookmarkSchema, validateData } from '../shared/validation/index.js';
+import { createBookmarkSchema, validateData } from './_lib-validation/index.js';
 
 export default async function handler(req, res) {
   // Set CORS headers

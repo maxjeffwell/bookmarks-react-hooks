@@ -15,7 +15,7 @@ import {
 } from '../_lib-auth/cookies.js';
 import { handleCors } from '../_lib-auth/cors.js';
 import { authLimiter } from '../_lib-auth/rate-limit.js';
-import { registerSchema, loginSchema, validateData } from '../../shared/validation/index.js';
+import { registerSchema, loginSchema, validateData } from '../_lib-validation/index.js';
 
 export default async function handler(req, res) {
   if (handleCors(req, res)) return;

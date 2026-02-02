@@ -5,7 +5,7 @@ import { parseCookies } from '../_lib-auth/cookies.js';
 import { verifyAccessToken } from '../_lib-auth/jwt.js';
 import { handleCors } from '../_lib-auth/cors.js';
 import { aiLimiter } from '../_lib-auth/rate-limit.js';
-import { generateTagsSchema, validateData } from '../../shared/validation/index.js';
+import { generateTagsSchema, validateData } from '../_lib-validation/index.js';
 
 // Track if migrations have been run
 let migrationsRun = false;
