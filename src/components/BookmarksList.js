@@ -426,8 +426,6 @@ const StyledContent = styled.div`
 
 const StyledForm = styled.div`
 	background-color: #fbf579;
-	/* Form container handles its own scroll */
-	max-height: calc(100vh - 6rem);
 	overflow-y: auto;
 	@media (max-width: ${style.breakpoint.tablet}) {
 		width: 100%;
@@ -435,13 +433,13 @@ const StyledForm = styled.div`
 		padding: 1rem;
 		border-radius: 8px;
 		order: 0;
-		max-height: none;
 		overflow-y: visible;
 	}
 `;
 
 const StyledFormInner = styled.div`
-	padding-bottom: 2rem;
+	padding: 1rem;
+	padding-bottom: 3rem;
 `;
 
 const StyledList= styled.div`

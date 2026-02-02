@@ -29,55 +29,45 @@ const StyledHeader = styled.header`
 	}
 `;
 
-const StyledLink = styled(Link)`
-	white-space: nowrap;
-	color: ${props => props.theme.colors.white};
-	text-decoration: none;
-	font-size: 1rem;
-	:hover {
-		text-decoration: underline;
-	}
-	@media (max-width: ${style.breakpoint.tablet}) {
-		font-size: 0.9rem;
-	}
-`;
-
 const NavContainer = styled.div`
 	display: flex;
 	align-items: center;
-	gap: 1rem;
+	gap: 1.5rem;
+	font-family: ${props => props.theme.fonts.primary};
+	font-size: 1.25rem;
 	@media (max-width: ${style.breakpoint.tablet}) {
-		gap: 0.5rem;
+		gap: 1rem;
+		font-size: 1rem;
 	}
 `;
 
 const UserInfo = styled.span`
-	font-size: 1rem;
 	opacity: 0.8;
 	@media (max-width: ${style.breakpoint.tablet}) {
 		display: none;
 	}
 `;
 
+const StyledLink = styled(Link)`
+	white-space: nowrap;
+	color: ${props => props.theme.colors.white};
+	text-decoration: none;
+	:hover {
+		text-decoration: underline;
+	}
+`;
+
 const LogoutButton = styled.button`
 	background: transparent;
-	border: 1px solid ${props => props.theme.colors.white};
+	border: none;
 	color: ${props => props.theme.colors.white};
-	font-family: ${props => props.theme.fonts.secondary};
-	font-size: 1rem;
-	padding: 0.25rem 0.75rem;
-	border-radius: 4px;
+	font-family: inherit;
+	font-size: inherit;
+	padding: 0;
 	cursor: pointer;
-	transition: all 0.2s ease;
 
 	&:hover {
-		background: ${props => props.theme.colors.white};
-		color: ${props => props.theme.colors.black};
-	}
-
-	@media (max-width: ${style.breakpoint.tablet}) {
-		font-size: 0.9rem;
-		padding: 0.25rem 0.5rem;
+		text-decoration: underline;
 	}
 `;
 
