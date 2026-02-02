@@ -439,13 +439,17 @@ const StyledFormInner = styled.div`
 	/* Sticky positioning for desktop - form stays visible while scrolling bookmarks */
 	position: sticky;
 	top: 1rem;
-	max-height: calc(100vh - 10rem);
+	max-height: calc(100vh - 6rem);
 	overflow-y: auto;
 	z-index: 10;
+	padding-bottom: 2rem;
+	/* Ensure scrollbar is always visible when content overflows */
+	scrollbar-gutter: stable;
 	@media (max-width: ${style.breakpoint.tablet}) {
 		position: static;
 		max-height: none;
 		overflow-y: visible;
+		padding-bottom: 0;
 	}
 `;
 

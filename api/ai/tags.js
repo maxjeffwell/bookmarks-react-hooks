@@ -2,22 +2,36 @@ import { neon } from '@neondatabase/serverless';
 import AIService from '../_lib-ai/AIService.js';
 import { initializeAITables } from '../_lib-ai/migrations.js';
 import { purgeBookmarksCache } from '../_lib/cloudflare.js';
+import { parseCookies } from '../_lib-auth/cookies.js';
+import { verifyAccessToken } from '../_lib-auth/jwt.js';
+import { handleCors } from '../_lib-auth/cors.js';
 
 // Track if migrations have been run
 let migrationsRun = false;
 
 export default async function handler(req, res) {
-  // Set CORS headers
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  res.setHeader('Access-Control-Max-Age', '86400');
+  // Handle CORS
+  if (handleCors(req, res)) return;
 
-  // Handle preflight requests
-  if (req.method === 'OPTIONS') {
-    res.status(200).end();
-    return;
+  // Authenticate user
+  const cookies = parseCookies(req.headers.cookie);
+  const token = cookies.accessToken;
+
+  if (!token) {
+    return res.status(401).json({ error: 'Authentication required' });
   }
+
+  let user;
+  try {
+    user = verifyAccessToken(token);
+  } catch (error) {
+    if (error.code === 'TOKEN_EXPIRED') {
+      return res.status(401).json({ error: 'Token expired', code: 'TOKEN_EXPIRED' });
+    }
+    return res.status(401).json({ error: 'Invalid token' });
+  }
+
+  const userId = user.id;
 
   try {
     // Check if DATABASE_URL is available
@@ -87,6 +101,7 @@ export default async function handler(req, res) {
           FROM tags t
           JOIN bookmark_tags bt ON t.id = bt.tag_id
           WHERE bt.bookmark_id = ${bookmarkId}
+            AND t.user_id = ${userId}
           ORDER BY t.name
         `;
 
@@ -136,23 +151,23 @@ export default async function handler(req, res) {
         if (bookmarkId || bookmarkData.id) {
           const id = bookmarkId || bookmarkData.id;
 
-          // Insert tags (ignore duplicates)
+          // Insert tags (ignore duplicates, user-scoped)
           for (const tagName of tags) {
             await sql`
-              INSERT INTO tags (name)
-              VALUES (${tagName})
-              ON CONFLICT (name) DO NOTHING
+              INSERT INTO tags (name, user_id)
+              VALUES (${tagName}, ${userId})
+              ON CONFLICT (name, user_id) DO NOTHING
             `;
           }
 
           // Remove existing bookmark-tag relationships
           await sql`DELETE FROM bookmark_tags WHERE bookmark_id = ${id}`;
 
-          // Create new bookmark-tag relationships
+          // Create new bookmark-tag relationships (user-scoped tags)
           for (const tagName of tags) {
             await sql`
               INSERT INTO bookmark_tags (bookmark_id, tag_id)
-              SELECT ${id}, id FROM tags WHERE name = ${tagName}
+              SELECT ${id}, id FROM tags WHERE name = ${tagName} AND user_id = ${userId}
               ON CONFLICT DO NOTHING
             `;
           }

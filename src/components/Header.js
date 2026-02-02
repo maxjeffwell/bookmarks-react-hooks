@@ -14,17 +14,14 @@ const StyledHeader = styled.header`
 	font-family: ${props => props.theme.fonts.primary};
 	color: ${props => props.theme.colors.white};
 	font-size: 2rem;
-	padding-left: 10px;
-	padding-top: 20px;
-	position: relative;
-	text-align: left;
+	padding: 1rem 1.5rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	box-sizing: border-box;
 	@media (max-width: ${style.breakpoint.tablet}) {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
 		width: 100%;
 		padding: 1rem 0.5rem;
-		box-sizing: border-box;
 		font-size: 1.5rem;
 	}
 	@media (max-width: ${style.breakpoint.mobileL}) {
@@ -33,21 +30,15 @@ const StyledHeader = styled.header`
 `;
 
 const StyledLink = styled(Link)`
-	grid-column: 2 / 3;
 	white-space: nowrap;
-	text-align: right;
 	color: ${props => props.theme.colors.white};
 	text-decoration: none;
-	padding-right: 10px;
-	float: right;
-	-webkit-appearance: none;
+	font-size: 1rem;
 	:hover {
 		text-decoration: underline;
 	}
 	@media (max-width: ${style.breakpoint.tablet}) {
-		float: none;
-		padding-right: 0;
-		flex-shrink: 0;
+		font-size: 0.9rem;
 	}
 `;
 
