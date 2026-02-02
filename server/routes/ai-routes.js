@@ -26,12 +26,13 @@ export default function(app) {
       await ensureMigrations();
 
       const aiService = new AIService(sql);
+      await aiService.initialize();
       const userId = req.user.id;
 
       if (!aiService.isAvailable()) {
         return res.status(503).json({
           error: 'AI service not available',
-          message: 'OpenAI API key not configured. Please add OPENAI_API_KEY to your environment variables.'
+          message: 'AI backend not configured. Please set USE_LOCAL_AI=true with LOCAL_AI_URL, or set OPENAI_API_KEY.'
         });
       }
 

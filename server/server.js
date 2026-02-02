@@ -15,6 +15,9 @@ import { purgeBookmarksCache } from './lib/cloudflare.js';
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+// Trust first proxy (K8s ingress) for correct client IP in rate limiting
+app.set('trust proxy', 1);
+
 // Prometheus metrics setup
 const register = new client.Registry();
 client.collectDefaultMetrics({ register });
