@@ -31,17 +31,26 @@ const StyledHeader = styled.header`
 
 const NavContainer = styled.div`
 	display: flex;
+	flex-direction: row;
 	align-items: center;
+	flex-wrap: nowrap;
 	gap: 1.5rem;
-	font-family: ${props => props.theme.fonts.primary};
-	font-size: 1.25rem;
 	@media (max-width: ${style.breakpoint.tablet}) {
 		gap: 1rem;
+	}
+`;
+
+const NavItem = styled.span`
+	font-family: ${props => props.theme.fonts.primary};
+	font-size: 1.25rem;
+	color: ${props => props.theme.colors.white};
+	white-space: nowrap;
+	@media (max-width: ${style.breakpoint.tablet}) {
 		font-size: 1rem;
 	}
 `;
 
-const UserInfo = styled.span`
+const UserInfo = styled(NavItem)`
 	opacity: 0.8;
 	@media (max-width: ${style.breakpoint.tablet}) {
 		display: none;
@@ -49,25 +58,33 @@ const UserInfo = styled.span`
 `;
 
 const StyledLink = styled(Link)`
-	white-space: nowrap;
+	font-family: ${props => props.theme.fonts.primary};
+	font-size: 1.25rem;
 	color: ${props => props.theme.colors.white};
 	text-decoration: none;
-	:hover {
+	white-space: nowrap;
+	&:hover {
 		text-decoration: underline;
+	}
+	@media (max-width: ${style.breakpoint.tablet}) {
+		font-size: 1rem;
 	}
 `;
 
 const LogoutButton = styled.button`
 	background: transparent;
 	border: none;
+	font-family: ${props => props.theme.fonts.primary};
+	font-size: 1.25rem;
 	color: ${props => props.theme.colors.white};
-	font-family: inherit;
-	font-size: inherit;
 	padding: 0;
 	cursor: pointer;
-
+	white-space: nowrap;
 	&:hover {
 		text-decoration: underline;
+	}
+	@media (max-width: ${style.breakpoint.tablet}) {
+		font-size: 1rem;
 	}
 `;
 
