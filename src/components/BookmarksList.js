@@ -224,7 +224,7 @@ const StyledGrid = styled.div`
 		transition: background-color 0.2s ease;
 	}
 	.list-item__trigger:hover {
-		background-color: #5a1715;
+		background-color: #B4E4BE;
 	}
 	.list-item__trigger.is-open .trigger-arrow {
 		transform: rotate(180deg);
