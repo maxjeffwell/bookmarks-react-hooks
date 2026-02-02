@@ -413,7 +413,18 @@ const StyledForm = styled.div`
 	grid-column: 2 / 3;
 	grid-row: 2 / 3;
 	background-color: #fbf579;
+	/* Sticky positioning for desktop - form stays visible while scrolling bookmarks */
+	position: sticky;
+	top: 1rem;
+	align-self: start;
+	max-height: calc(100vh - 2rem);
+	overflow-y: auto;
+	z-index: 10;
 	@media (max-width: ${style.breakpoint.tablet}) {
+		/* Disable sticky on mobile - form stacks above list, would consume too much viewport */
+		position: static;
+		max-height: none;
+		overflow-y: visible;
 		width: 100%;
 		margin: 0;
 		padding: 1rem;
