@@ -177,7 +177,7 @@ const BookmarkForm = memo(function BookmarkForm() {
 	const [bookmarkTitle, setBookmarkTitle] = useState('');
 	const [bookmarkUrl, setBookmarkUrl] = useState('');
 	const [bookmarkDescription, setBookmarkDescription] = useState('');
-	const [bookmarkRating, setBookmarkRating] = useState('');
+	const [bookmarkRating, setBookmarkRating] = useState(0);
 	const [bookmarkChecked, setBookmarkChecked] = useState(false);
 	const [toggleRadioButton, setToggleRadioButton] = useState(false);
 
@@ -190,7 +190,7 @@ const BookmarkForm = memo(function BookmarkForm() {
 			setBookmarkTitle(currentBookmark.title || '');
 			setBookmarkUrl(currentBookmark.url || '');
 			setBookmarkDescription(currentBookmark.description || '');
-			setBookmarkRating(currentBookmark.toggledRadioButton ? currentBookmark.rating || '' : '');
+			setBookmarkRating(currentBookmark.toggledRadioButton ? currentBookmark.rating || 0 : 0);
 			setToggleRadioButton(currentBookmark.toggledRadioButton || false);
 			setBookmarkChecked(currentBookmark.checked || false);
 		} else {
@@ -198,7 +198,7 @@ const BookmarkForm = memo(function BookmarkForm() {
 			setBookmarkTitle('');
 			setBookmarkUrl('');
 			setBookmarkDescription('');
-			setBookmarkRating('');
+			setBookmarkRating(0);
 			setToggleRadioButton(false);
 			setBookmarkChecked(false);
 		}
@@ -267,7 +267,7 @@ const BookmarkForm = memo(function BookmarkForm() {
 			setBookmarkTitle('');
 			setBookmarkUrl('');
 			setBookmarkDescription('');
-			setBookmarkRating('');
+			setBookmarkRating(0);
 			setToggleRadioButton(false);
 			setBookmarkChecked(false);
 		} catch (error) {
@@ -280,7 +280,7 @@ const BookmarkForm = memo(function BookmarkForm() {
 		setBookmarkTitle('');
 		setBookmarkUrl('');
 		setBookmarkDescription('');
-		setBookmarkRating('');
+		setBookmarkRating(0);
 	}, []);
 
 	return (
@@ -334,40 +334,40 @@ const BookmarkForm = memo(function BookmarkForm() {
 			<fieldset>
 				<legend>Bookmark Rating</legend>
 				<div className="ratings">
-				<input name="bookmarkRating" type="radio" aria-label={bookmarkRating}
-				       onChange={event => setBookmarkRating(event.target.value)}
+				<input name="bookmarkRating" type="radio" aria-label="1 star rating"
+				       onChange={event => setBookmarkRating(parseInt(event.target.value, 10))}
 					     onClick={() => setToggleRadioButton(toggleRadioButton === false)}
-					     value="1 star"
-					     checked={bookmarkRating === "1 star" && !toggleRadioButton}
+					     value="1"
+					     checked={bookmarkRating === 1 && !toggleRadioButton}
 				       required
 				/>
 				<label htmlFor="bookmarkRating-1">1 star</label>
-				<input name="bookmarkRating" type="radio" aria-label={bookmarkRating}
-				       onChange={event => setBookmarkRating(event.target.value)}
+				<input name="bookmarkRating" type="radio" aria-label="2 star rating"
+				       onChange={event => setBookmarkRating(parseInt(event.target.value, 10))}
 				       onClick={() => setToggleRadioButton(toggleRadioButton)}
-				       value="2 stars"
-				       checked={bookmarkRating === "2 stars" && !toggleRadioButton}
+				       value="2"
+				       checked={bookmarkRating === 2 && !toggleRadioButton}
 				/>
 				<label htmlFor="bookmarkRating-2">2 stars</label>
-				<input name="bookmarkRating" type="radio" aria-label={bookmarkRating}
-				       onChange={event => setBookmarkRating(event.target.value)}
+				<input name="bookmarkRating" type="radio" aria-label="3 star rating"
+				       onChange={event => setBookmarkRating(parseInt(event.target.value, 10))}
 				       onClick={() => setToggleRadioButton(toggleRadioButton)}
-				       value="3 stars"
-				       checked={bookmarkRating === "3 stars" && !toggleRadioButton}
+				       value="3"
+				       checked={bookmarkRating === 3 && !toggleRadioButton}
 				/>
 				<label htmlFor="bookmarkRating-3">3 stars</label>
-				<input name="bookmarkRating" type="radio" aria-label={bookmarkRating}
-				       onChange={event => setBookmarkRating(event.target.value)}
+				<input name="bookmarkRating" type="radio" aria-label="4 star rating"
+				       onChange={event => setBookmarkRating(parseInt(event.target.value, 10))}
 				       onClick={() => setToggleRadioButton(toggleRadioButton)}
-				       value="4 stars"
-				       checked={bookmarkRating === "4 stars" && !toggleRadioButton}
+				       value="4"
+				       checked={bookmarkRating === 4 && !toggleRadioButton}
 				/>
 				<label htmlFor="bookmarkRating-4">4 stars</label>
-				<input name="bookmarkRating" type="radio" aria-label={bookmarkRating}
-				       onChange={event => setBookmarkRating(event.target.value)}
+				<input name="bookmarkRating" type="radio" aria-label="5 star rating"
+				       onChange={event => setBookmarkRating(parseInt(event.target.value, 10))}
 				       onClick={() => setToggleRadioButton(toggleRadioButton)}
-				       value="5 stars"
-				       checked={bookmarkRating === "5 stars" && !toggleRadioButton}
+				       value="5"
+				       checked={bookmarkRating === 5 && !toggleRadioButton}
 				/>
 				<label htmlFor="bookmarkRating-5">5 stars</label>
 				</div>
