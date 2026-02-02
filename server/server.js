@@ -1,8 +1,13 @@
 import express from 'express';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import client from 'prom-client';
+import { neon } from '@neondatabase/serverless';
 import { initializeDatabase, bookmarksDB } from './db.js';
 import aiRoutes from './routes/ai-routes.js';
+import authRoutes from './routes/auth-routes.js';
+import { runAuthMigration } from './db/migrations/001-add-auth.js';
+import { requireAuth } from './middleware/auth.js';
 import { getCache, setCache, invalidateCache, CACHE_KEYS } from './lib/redis.js';
 import { purgeBookmarksCache } from './lib/cloudflare.js';
 
@@ -53,11 +58,23 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(cors());
+app.use(cors({
+  origin: process.env.ALLOWED_ORIGINS?.split(',') || [
+    'http://localhost:3000',
+    'https://bookmarks-react-hooks.vercel.app'
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express.json());
+app.use(cookieParser());
 
-// Initialize database on startup
-initializeDatabase().catch(console.error);
+// Initialize database and run migrations on startup
+const sql = neon(process.env.DATABASE_URL);
+initializeDatabase()
+  .then(() => runAuthMigration(sql))
+  .catch(console.error);
 
 // Prometheus metrics endpoint
 app.get('/metrics', async (req, res) => {
@@ -69,6 +86,9 @@ app.get('/metrics', async (req, res) => {
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
+
+// Auth routes
+app.use('/auth', authRoutes);
 
 // Cache invalidation endpoint for cross-deployment sync
 // Called by Vercel when data changes to invalidate K8s Redis cache
@@ -96,14 +116,17 @@ app.post('/cache/invalidate', async (req, res) => {
   }
 });
 
-app.get('/bookmarks', async (req, res) => {
+app.get('/bookmarks', requireAuth, async (req, res) => {
   const timings = [];
   const requestStart = performance.now();
 
   try {
+    // User-specific cache key
+    const cacheKey = `${CACHE_KEYS.BOOKMARKS_ALL}:${req.user.id}`;
+
     // Check cache first
     const cacheStart = performance.now();
-    const cached = await getCache(CACHE_KEYS.BOOKMARKS_ALL);
+    const cached = await getCache(cacheKey);
     const cacheDuration = performance.now() - cacheStart;
     timings.push(`cache;dur=${cacheDuration.toFixed(2)};desc="Redis lookup"`);
 
@@ -112,29 +135,27 @@ app.get('/bookmarks', async (req, res) => {
       const total = performance.now() - requestStart;
       timings.push(`total;dur=${total.toFixed(2)}`);
       res.set('Server-Timing', timings.join(', '));
-      res.set('Cache-Control', 'public, max-age=0, s-maxage=60, must-revalidate');
-      res.set('CDN-Cache-Control', 'max-age=60');
+      res.set('Cache-Control', 'private, max-age=0, must-revalidate');
       return res.json(cached);
     }
 
-    // Cache miss - query database
+    // Cache miss - query database (user-scoped)
     timings.push(`miss;desc="Cache miss"`);
     const dbStart = performance.now();
-    const bookmarks = await bookmarksDB.getAll();
+    const bookmarks = await bookmarksDB.getAll(req.user.id);
     const dbDuration = performance.now() - dbStart;
     timings.push(`db;dur=${dbDuration.toFixed(2)};desc="Database query"`);
 
     // Store in cache
     const setCacheStart = performance.now();
-    await setCache(CACHE_KEYS.BOOKMARKS_ALL, bookmarks);
+    await setCache(cacheKey, bookmarks);
     const setCacheDuration = performance.now() - setCacheStart;
     timings.push(`cache-set;dur=${setCacheDuration.toFixed(2)};desc="Redis write"`);
 
     const total = performance.now() - requestStart;
     timings.push(`total;dur=${total.toFixed(2)}`);
     res.set('Server-Timing', timings.join(', '));
-    res.set('Cache-Control', 'public, max-age=0, s-maxage=60, must-revalidate');
-    res.set('CDN-Cache-Control', 'max-age=60');
+    res.set('Cache-Control', 'private, max-age=0, must-revalidate');
     res.json(bookmarks);
   } catch (error) {
     console.error('Error getting bookmarks:', error);
@@ -142,7 +163,7 @@ app.get('/bookmarks', async (req, res) => {
   }
 });
 
-app.post('/bookmarks', async (req, res) => {
+app.post('/bookmarks', requireAuth, async (req, res) => {
   try {
     const { title, url, description, rating, toggledRadioButton, checked } = req.body;
 
@@ -156,11 +177,13 @@ app.post('/bookmarks', async (req, res) => {
       description: description || '',
       rating: rating || 0,
       toggledRadioButton: toggledRadioButton || false,
-      checked: checked || false
+      checked: checked || false,
+      userId: req.user.id
     });
 
-    // Invalidate Redis and Cloudflare cache on create
-    await invalidateCache(CACHE_KEYS.BOOKMARKS_ALL);
+    // Invalidate user-specific cache
+    const cacheKey = `${CACHE_KEYS.BOOKMARKS_ALL}:${req.user.id}`;
+    await invalidateCache(cacheKey);
     await purgeBookmarksCache();
 
     res.status(201).json(newBookmark);
@@ -170,7 +193,7 @@ app.post('/bookmarks', async (req, res) => {
   }
 });
 
-app.patch('/bookmarks/:id', async (req, res) => {
+app.patch('/bookmarks/:id', requireAuth, async (req, res) => {
   try {
     const { id } = req.params;
     const { title, url, description, rating, toggledRadioButton, checked } = req.body;
@@ -182,14 +205,15 @@ app.patch('/bookmarks/:id', async (req, res) => {
       rating,
       toggledRadioButton,
       checked
-    });
+    }, req.user.id);
 
     if (!updatedBookmark) {
-      return res.status(404).json({ error: 'Bookmark not found' });
+      return res.status(404).json({ error: 'Bookmark not found or not authorized' });
     }
 
-    // Invalidate Redis and Cloudflare cache on update
-    await invalidateCache(CACHE_KEYS.BOOKMARKS_ALL);
+    // Invalidate user-specific cache
+    const cacheKey = `${CACHE_KEYS.BOOKMARKS_ALL}:${req.user.id}`;
+    await invalidateCache(cacheKey);
     await purgeBookmarksCache();
 
     res.json(updatedBookmark);
@@ -199,18 +223,19 @@ app.patch('/bookmarks/:id', async (req, res) => {
   }
 });
 
-app.delete('/bookmarks/:id', async (req, res) => {
+app.delete('/bookmarks/:id', requireAuth, async (req, res) => {
   try {
     const { id } = req.params;
 
-    const deletedBookmark = await bookmarksDB.delete(id);
+    const deletedBookmark = await bookmarksDB.delete(id, req.user.id);
 
     if (!deletedBookmark) {
-      return res.status(404).json({ error: 'Bookmark not found' });
+      return res.status(404).json({ error: 'Bookmark not found or not authorized' });
     }
 
-    // Invalidate Redis and Cloudflare cache on delete
-    await invalidateCache(CACHE_KEYS.BOOKMARKS_ALL);
+    // Invalidate user-specific cache
+    const cacheKey = `${CACHE_KEYS.BOOKMARKS_ALL}:${req.user.id}`;
+    await invalidateCache(cacheKey);
     await purgeBookmarksCache();
 
     res.json(deletedBookmark);
