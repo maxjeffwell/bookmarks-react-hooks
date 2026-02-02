@@ -19,6 +19,8 @@ const StyledHeader = styled.header`
 	justify-content: space-between;
 	align-items: center;
 	box-sizing: border-box;
+	position: relative;
+	z-index: 10;
 	@media (max-width: ${style.breakpoint.tablet}) {
 		width: 100%;
 		padding: 1rem 0.5rem;

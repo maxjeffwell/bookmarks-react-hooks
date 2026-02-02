@@ -20,7 +20,7 @@ const StyledGrid = styled.div`
 	grid-template-columns: .25fr 1fr 1fr .25fr;
 	grid-template-rows: auto 1fr auto;
 	grid-column-gap: 1rem;
-	grid-row-gap: 0;
+	grid-row-gap: 1rem;
 	text-align: center;
 	line-height: 1.5;
 	width: 100%;
