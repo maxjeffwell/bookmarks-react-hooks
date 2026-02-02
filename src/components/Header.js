@@ -55,7 +55,11 @@ const StyledLink = styled(Link)`
 `;
 
 const LogoutButton = styled.button`
-	all: unset;
+	background: none;
+	border: none;
+	padding: 0;
+	margin: 0;
+	font: inherit;
 	color: ${props => props.theme.colors.white};
 	cursor: pointer;
 	white-space: nowrap;
