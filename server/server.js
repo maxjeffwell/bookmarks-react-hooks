@@ -12,7 +12,7 @@ import { runAuthMigration } from './db/migrations/001-add-auth.js';
 import { requireAuth } from './middleware/auth.js';
 import { getCache, setCache, invalidateCache, CACHE_KEYS } from './lib/redis.js';
 import { purgeBookmarksCache } from './lib/cloudflare.js';
-import { validateBody, validateParams, createBookmarkSchema, updateBookmarkSchema, uuidParamSchema } from './lib/validation/index.js';
+import { validateBody, validateParams, createBookmarkSchema, updateBookmarkSchema, uuidParamSchema } from '../shared/validation/index.js';
 
 const app = express();
 const PORT = process.env.PORT || 3001;

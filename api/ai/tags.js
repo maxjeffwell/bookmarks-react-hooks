@@ -5,6 +5,7 @@ import { parseCookies } from '../_lib-auth/cookies.js';
 import { verifyAccessToken } from '../_lib-auth/jwt.js';
 import { handleCors } from '../_lib-auth/cors.js';
 import { aiLimiter } from '../_lib-auth/rate-limit.js';
+import { generateTagsSchema, validateData } from '../../shared/validation/index.js';
 
 // Track if migrations have been run
 let migrationsRun = false;
@@ -126,13 +127,13 @@ export default async function handler(req, res) {
 
     } else if (req.method === 'POST') {
       // POST /api/ai-tags - Generate and store tags for a bookmark
-      const { bookmarkId, bookmark } = req.body;
-
-      if (!bookmarkId && !bookmark) {
-        return res.status(400).json({
-          error: 'bookmarkId or bookmark data required'
-        });
+      // Validate request body
+      const validation = await validateData(generateTagsSchema, req.body);
+      if (!validation.success) {
+        return res.status(400).json(validation.error);
       }
+
+      const { bookmarkId, bookmark } = validation.data;
 
       try {
         // Fetch bookmark if only ID provided

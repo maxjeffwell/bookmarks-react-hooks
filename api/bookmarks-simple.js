@@ -1,4 +1,5 @@
 import { neon } from '@neondatabase/serverless';
+import { createBookmarkSchema, validateData } from '../shared/validation/index.js';
 
 export default async function handler(req, res) {
   // Set CORS headers
@@ -51,12 +52,14 @@ export default async function handler(req, res) {
       
       res.status(200).json(bookmarks);
     } else if (req.method === 'POST') {
-      const { title, url, description, rating, toggledRadioButton, checked } = req.body;
-      
-      if (!title || !url) {
-        return res.status(400).json({ error: 'Title and URL are required' });
+      // Validate request body
+      const validation = await validateData(createBookmarkSchema, req.body);
+      if (!validation.success) {
+        return res.status(400).json(validation.error);
       }
-      
+
+      const { title, url, description, rating, toggledRadioButton, checked } = validation.data;
+
       // Create new bookmark in database
       const result = await sql`
         INSERT INTO bookmarks (title, url, description, rating, toggled_radio_button, checked)

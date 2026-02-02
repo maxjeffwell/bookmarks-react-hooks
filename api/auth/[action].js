@@ -15,6 +15,7 @@ import {
 } from '../_lib-auth/cookies.js';
 import { handleCors } from '../_lib-auth/cors.js';
 import { authLimiter } from '../_lib-auth/rate-limit.js';
+import { registerSchema, loginSchema, validateData } from '../../shared/validation/index.js';
 
 export default async function handler(req, res) {
   if (handleCors(req, res)) return;
@@ -55,11 +56,13 @@ async function handleLogin(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { login, password } = req.body;
-
-  if (!login || !password) {
-    return res.status(400).json({ error: 'Login and password are required' });
+  // Validate request body
+  const validation = await validateData(loginSchema, req.body);
+  if (!validation.success) {
+    return res.status(400).json(validation.error);
   }
+
+  const { login, password } = validation.data;
 
   const user = await usersDB.findByLogin(login.toLowerCase());
 
@@ -90,24 +93,13 @@ async function handleRegister(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { username, email, password } = req.body;
-
-  if (!username || !email || !password) {
-    return res.status(400).json({ error: 'Username, email, and password are required' });
+  // Validate request body
+  const validation = await validateData(registerSchema, req.body);
+  if (!validation.success) {
+    return res.status(400).json(validation.error);
   }
 
-  if (username.length < 3 || username.length > 50) {
-    return res.status(400).json({ error: 'Username must be 3-50 characters' });
-  }
-
-  if (password.length < 7 || password.length > 72) {
-    return res.status(400).json({ error: 'Password must be 7-72 characters' });
-  }
-
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) {
-    return res.status(400).json({ error: 'Invalid email format' });
-  }
+  const { username, email, password } = validation.data;
 
   if (await usersDB.usernameExists(username)) {
     return res.status(409).json({ error: 'Username already taken' });

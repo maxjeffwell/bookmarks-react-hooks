@@ -10,7 +10,7 @@ import {
 } from '../lib/auth/jwt.js';
 import { setAuthCookies, clearAuthCookies } from '../lib/auth/cookies.js';
 import { requireAuth } from '../middleware/auth.js';
-import { validateBody, registerSchema, loginSchema } from '../lib/validation/index.js';
+import { validateBody, registerSchema, loginSchema } from '../../shared/validation/index.js';
 
 const router = express.Router();
 
