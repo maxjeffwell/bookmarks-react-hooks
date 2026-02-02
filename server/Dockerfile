@@ -23,6 +23,9 @@ COPY server/ .
 # Copy shared modules to /shared/ to match relative import paths (../../shared/ai/)
 COPY shared/ /shared/
 
+# Install shared module dependencies
+RUN cd /shared && npm ci --omit=dev
+
 # Create non-root user for security
 RUN addgroup -g 1001 -S nodejs && \
     adduser -S nodejs -u 1001 && \
@@ -61,6 +64,9 @@ COPY server/ .
 
 # Copy shared modules to /shared/ to match relative import paths (../../shared/ai/)
 COPY shared/ /shared/
+
+# Install shared module dependencies
+RUN cd /shared && npm install
 
 # Expose port
 EXPOSE 3001
