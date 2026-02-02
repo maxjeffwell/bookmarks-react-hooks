@@ -55,16 +55,21 @@ const StyledLink = styled(Link)`
 `;
 
 const LogoutButton = styled.button`
-	background: none;
-	border: none;
-	padding: 0;
-	margin: 0;
-	font: inherit;
-	color: ${props => props.theme.colors.white};
+	background: transparent !important;
+	border: none !important;
+	padding: 0 !important;
+	margin: 0 !important;
+	height: auto !important;
+	width: auto !important;
+	font-family: inherit !important;
+	font-size: inherit !important;
+	color: ${props => props.theme.colors.white} !important;
 	cursor: pointer;
 	white-space: nowrap;
+	box-shadow: none !important;
 	&:hover {
 		text-decoration: underline;
+		box-shadow: none !important;
 	}
 `;
 
