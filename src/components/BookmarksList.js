@@ -426,31 +426,22 @@ const StyledContent = styled.div`
 
 const StyledForm = styled.div`
 	background-color: #fbf579;
+	/* Form container handles its own scroll */
+	max-height: calc(100vh - 6rem);
+	overflow-y: auto;
 	@media (max-width: ${style.breakpoint.tablet}) {
 		width: 100%;
 		margin: 0;
 		padding: 1rem;
 		border-radius: 8px;
 		order: 0;
+		max-height: none;
+		overflow-y: visible;
 	}
 `;
 
 const StyledFormInner = styled.div`
-	/* Sticky positioning for desktop - form stays visible while scrolling bookmarks */
-	position: sticky;
-	top: 1rem;
-	max-height: calc(100vh - 6rem);
-	overflow-y: auto;
-	z-index: 10;
 	padding-bottom: 2rem;
-	/* Ensure scrollbar is always visible when content overflows */
-	scrollbar-gutter: stable;
-	@media (max-width: ${style.breakpoint.tablet}) {
-		position: static;
-		max-height: none;
-		overflow-y: visible;
-		padding-bottom: 0;
-	}
 `;
 
 const StyledList= styled.div`
