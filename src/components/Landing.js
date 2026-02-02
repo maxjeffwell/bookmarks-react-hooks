@@ -36,7 +36,7 @@ const StyledText = styled.p`
 	:first-of-type {
 		grid-column: 2 / 3;
 		grid-row: 1 / 3;
-		padding: 5rem 2rem 2rem 2rem;
+		padding: 7rem 2rem 2rem 2rem;
 		border-radius: 5px;
 		background-color: #005995;
 		@media (max-width: ${style.breakpoint.tablet}) {
@@ -89,6 +89,7 @@ const Landing = () => (
 			<StyledText>Bookmarked is a full-stack bookmark manager featuring AI-powered auto-tagging via LLM integration,
 					vector embeddings for semantic search, and JWT authentication with httpOnly cookies. Built with React Hooks,
 					Context API, and useReducer for state management, and backed by PostgreSQL on Neon with Redis caching.
+					<br/><br/>
 					The application runs on dual deployment targets: Vercel serverless functions for the frontend and API,
 					plus a Kubernetes cluster with ArgoCD GitOps for the Express backend. Features include Zod schema validation,
 					rate limiting, Prometheus metrics, and a self-hosted AI gateway with multi-tier LLM fallback.
@@ -98,8 +99,14 @@ const Landing = () => (
 			</StyledImage>
 			<StyledText>
 					To get started, click "My Bookmarks" in the navigation bar to register or log in. From there you can
-					create, edit, and organize your bookmarks. Use the AI tag generation to automatically categorize your
-					bookmarks, or leverage semantic search to find bookmarks by meaning rather than exact keywords.
+					create, edit, and organize your bookmarks with an intuitive interface designed for efficiency.
+					<br/><br/>
+					Use the AI tag generation to automatically categorize your bookmarks based on their content, or leverage
+					semantic search to find bookmarks by meaning rather than exact keywords. Rate your bookmarks, add them to
+					favorites for quick access, and import existing bookmarks from your browser.
+					<br/><br/>
+					All AI processing happens server-side with intelligent caching to minimize latency and API costs.
+					Your data is secured with JWT authentication and encrypted connections throughout.
 			</StyledText>
 		<Footer />
 	</StyledLanding>
