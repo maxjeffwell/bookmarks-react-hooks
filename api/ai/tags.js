@@ -78,6 +78,7 @@ export default async function handler(req, res) {
     let aiService;
     try {
       aiService = new AIService(sql);
+      await aiService.initialize();
     } catch (serviceError) {
       console.error('AI Service initialization error:', serviceError);
       return res.status(500).json({
@@ -89,7 +90,7 @@ export default async function handler(req, res) {
     if (!aiService.isAvailable()) {
       return res.status(503).json({
         error: 'AI service not available',
-        message: 'OpenAI API key not configured. Please add OPENAI_API_KEY to your environment variables.'
+        message: 'AI backend not configured. Please set AI_GATEWAY_URL or OPENAI_API_KEY.'
       });
     }
 
