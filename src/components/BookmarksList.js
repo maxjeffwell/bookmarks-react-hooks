@@ -418,7 +418,7 @@ const StyledContent = styled.div`
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 	gap: 1rem;
-	overflow-y: auto;
+	min-height: 0;
 	@media (max-width: ${style.breakpoint.tablet}) {
 		display: contents;
 	}
@@ -427,6 +427,7 @@ const StyledContent = styled.div`
 const StyledForm = styled.div`
 	background-color: #fbf579;
 	overflow-y: auto;
+	min-height: 0;
 	@media (max-width: ${style.breakpoint.tablet}) {
 		width: 100%;
 		margin: 0;
@@ -434,6 +435,7 @@ const StyledForm = styled.div`
 		border-radius: 8px;
 		order: 0;
 		overflow-y: visible;
+		min-height: auto;
 	}
 `;
 
@@ -446,6 +448,8 @@ const StyledList= styled.div`
 	display: grid;
 	font-family: ${props => props.theme.fonts.secondary};
 	background-color: #fa625f;
+	overflow-y: auto;
+	min-height: 0;
 	@media (max-width: ${style.breakpoint.tablet}) {
 		display: contents;
 	}
