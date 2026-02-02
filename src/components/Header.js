@@ -60,6 +60,22 @@ const NavLink = styled(Link)`
 	}
 `;
 
+const LogoutButton = styled.button`
+	all: unset;
+	font-family: ${props => props.theme.fonts.primary};
+	font-size: 1.25rem;
+	color: ${props => props.theme.colors.white};
+	text-decoration: none;
+	white-space: nowrap;
+	cursor: pointer;
+	&:hover {
+		text-decoration: underline;
+	}
+	@media (max-width: ${style.breakpoint.tablet}) {
+		font-size: 1rem;
+	}
+`;
+
 
 const Header = () => {
 	const location = useLocation();
@@ -84,7 +100,7 @@ const Header = () => {
 						) : (
 							<NavLink to='/bookmarks'>My Bookmarks</NavLink>
 						)}
-						<NavLink to="#" onClick={(e) => { e.preventDefault(); handleLogout(); }}>Logout</NavLink>
+						<LogoutButton onClick={handleLogout}>Logout</LogoutButton>
 					</>
 				) : (
 					!isAuthPage && <NavLink to='/login'>Sign In</NavLink>
