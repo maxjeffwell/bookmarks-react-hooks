@@ -10,6 +10,7 @@ import {
 } from '../lib/auth/jwt.js';
 import { setAuthCookies, clearAuthCookies } from '../lib/auth/cookies.js';
 import { requireAuth } from '../middleware/auth.js';
+import { validateBody, registerSchema, loginSchema } from '../lib/validation/index.js';
 
 const router = express.Router();
 
@@ -19,28 +20,9 @@ function hashToken(token) {
 }
 
 // POST /auth/register
-router.post('/register', async (req, res) => {
+router.post('/register', validateBody(registerSchema), async (req, res) => {
   try {
     const { username, email, password } = req.body;
-
-    // Validate input
-    if (!username || !email || !password) {
-      return res.status(400).json({ error: 'Username, email, and password are required' });
-    }
-
-    if (username.length < 3 || username.length > 50) {
-      return res.status(400).json({ error: 'Username must be 3-50 characters' });
-    }
-
-    if (password.length < 7 || password.length > 72) {
-      return res.status(400).json({ error: 'Password must be 7-72 characters' });
-    }
-
-    // Check email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      return res.status(400).json({ error: 'Invalid email format' });
-    }
 
     // Check if username or email already exists
     if (await usersDB.usernameExists(username)) {
@@ -87,13 +69,9 @@ router.post('/register', async (req, res) => {
 });
 
 // POST /auth/login
-router.post('/login', async (req, res) => {
+router.post('/login', validateBody(loginSchema), async (req, res) => {
   try {
     const { login, password } = req.body;
-
-    if (!login || !password) {
-      return res.status(400).json({ error: 'Login and password are required' });
-    }
 
     // Find user by username or email
     const user = await usersDB.findByLogin(login.toLowerCase());

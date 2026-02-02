@@ -12,6 +12,7 @@ import { runAuthMigration } from './db/migrations/001-add-auth.js';
 import { requireAuth } from './middleware/auth.js';
 import { getCache, setCache, invalidateCache, CACHE_KEYS } from './lib/redis.js';
 import { purgeBookmarksCache } from './lib/cloudflare.js';
+import { validateBody, validateParams, createBookmarkSchema, updateBookmarkSchema, uuidParamSchema } from './lib/validation/index.js';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -229,21 +230,17 @@ app.get('/bookmarks', requireAuth, async (req, res) => {
   }
 });
 
-app.post('/bookmarks', requireAuth, async (req, res) => {
+app.post('/bookmarks', requireAuth, validateBody(createBookmarkSchema), async (req, res) => {
   try {
     const { title, url, description, rating, toggledRadioButton, checked } = req.body;
-
-    if (!title || !url) {
-      return res.status(400).json({ error: 'Title and URL are required' });
-    }
 
     const newBookmark = await bookmarksDB.create({
       title,
       url,
-      description: description || '',
-      rating: rating || 0,
-      toggledRadioButton: toggledRadioButton || false,
-      checked: checked || false,
+      description,
+      rating,
+      toggledRadioButton,
+      checked,
       userId: req.user.id
     });
 
@@ -259,7 +256,7 @@ app.post('/bookmarks', requireAuth, async (req, res) => {
   }
 });
 
-app.patch('/bookmarks/:id', requireAuth, async (req, res) => {
+app.patch('/bookmarks/:id', requireAuth, validateParams(uuidParamSchema), validateBody(updateBookmarkSchema), async (req, res) => {
   try {
     const { id } = req.params;
     const { title, url, description, rating, toggledRadioButton, checked } = req.body;
@@ -289,7 +286,7 @@ app.patch('/bookmarks/:id', requireAuth, async (req, res) => {
   }
 });
 
-app.delete('/bookmarks/:id', requireAuth, async (req, res) => {
+app.delete('/bookmarks/:id', requireAuth, validateParams(uuidParamSchema), async (req, res) => {
   try {
     const { id } = req.params;
 
