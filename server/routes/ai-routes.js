@@ -1,8 +1,6 @@
 // Express routes for AI features
 import { neon } from '@neondatabase/serverless';
-import AIService from '../lib/ai/AIService.js';
-import EmbeddingService from '../lib/ai/EmbeddingService.js';
-import { initializeAITables } from '../lib/ai/migrations.js';
+import { AIService, EmbeddingService, initializeAITables } from '../../shared/ai/index.js';
 import { invalidateCache, CACHE_KEYS } from '../lib/redis.js';
 import { purgeBookmarksCache } from '../lib/cloudflare.js';
 import { requireAuth } from '../middleware/auth.js';

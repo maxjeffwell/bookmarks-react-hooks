@@ -1,6 +1,5 @@
 import { neon } from '@neondatabase/serverless';
-import AIService from '../_lib-ai/AIService.js';
-import { initializeAITables } from '../_lib-ai/migrations.js';
+import { AIService, initializeAITables } from '../../shared/ai/index.js';
 import { purgeBookmarksCache } from '../_lib/cloudflare.js';
 import { parseCookies } from '../_lib-auth/cookies.js';
 import { verifyAccessToken } from '../_lib-auth/jwt.js';

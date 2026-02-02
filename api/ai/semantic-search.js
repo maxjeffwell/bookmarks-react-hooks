@@ -1,6 +1,5 @@
 import { neon } from '@neondatabase/serverless';
-import EmbeddingService from '../_lib-ai/embedding-service.js';
-import { initializeAITables } from '../_lib-ai/migrations.js';
+import { EmbeddingService, initializeAITables } from '../../shared/ai/index.js';
 import { purgeBookmarksCache } from '../_lib/cloudflare.js';
 
 // Track if migrations have been run

@@ -1,6 +1,6 @@
 // Main AI service facade - extensible for future features
 
-import langchainClient from './langchain-client.js';
+import aiClient from './ai-client.js';
 import PROMPTS from './prompts.js';
 import AICache from './cache.js';
 
@@ -8,15 +8,33 @@ class AIService {
   constructor(sql) {
     this.sql = sql;
     this.cache = new AICache(sql);
-    this.initialized = langchainClient.initialize();
+    this.initPromise = null;
+  }
+
+  /**
+   * Initialize the AI service (async)
+   */
+  async initialize() {
+    if (!this.initPromise) {
+      this.initPromise = aiClient.initialize();
+    }
+    return this.initPromise;
   }
 
   /**
    * Check if AI service is available
-   * @returns {boolean} - True if OpenAI is configured and ready
+   * @returns {boolean} - True if AI backend is configured and ready
    */
   isAvailable() {
-    return this.initialized && langchainClient.isAvailable();
+    return aiClient.isAvailable();
+  }
+
+  /**
+   * Get the current AI backend mode
+   * @returns {string} - 'gateway', 'local-gateway', 'openai', or null
+   */
+  getMode() {
+    return aiClient.getMode();
   }
 
   /**
@@ -25,6 +43,9 @@ class AIService {
    * @returns {Array} - Array of tag strings
    */
   async generateTags(bookmark) {
+    // Ensure initialized
+    await this.initialize();
+
     if (!this.isAvailable()) {
       throw new Error('AI service not available');
     }
@@ -53,8 +74,8 @@ class AIService {
     console.log('Generating tags for:', context.title);
 
     try {
-      // Generate tags using LangChain
-      const response = await langchainClient.generateCompletion(
+      // Generate tags using configured backend
+      const response = await aiClient.generateCompletion(
         PROMPTS.AUTO_TAG,
         context
       );
