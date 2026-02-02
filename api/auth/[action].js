@@ -14,11 +14,20 @@ import {
   setAccessTokenCookie
 } from '../_lib-auth/cookies.js';
 import { handleCors } from '../_lib-auth/cors.js';
+import { authLimiter } from '../_lib-auth/rate-limit.js';
 
 export default async function handler(req, res) {
   if (handleCors(req, res)) return;
 
   const { action } = req.query;
+
+  // Apply rate limiting to login and register only
+  if (action === 'login' || action === 'register') {
+    const rateLimitResult = authLimiter(req, res);
+    if (rateLimitResult.limited) {
+      return res.status(429).json(rateLimitResult);
+    }
+  }
 
   try {
     switch (action) {

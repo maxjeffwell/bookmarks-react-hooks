@@ -4,6 +4,7 @@ import { purgeBookmarksCache } from '../_lib/cloudflare.js';
 import { parseCookies } from '../_lib-auth/cookies.js';
 import { verifyAccessToken } from '../_lib-auth/jwt.js';
 import { handleCors } from '../_lib-auth/cors.js';
+import { aiLimiter } from '../_lib-auth/rate-limit.js';
 
 // Track if migrations have been run
 let migrationsRun = false;
@@ -11,6 +12,12 @@ let migrationsRun = false;
 export default async function handler(req, res) {
   // Handle CORS
   if (handleCors(req, res)) return;
+
+  // Check rate limit (50 AI requests per hour)
+  const rateLimitResult = aiLimiter(req, res);
+  if (rateLimitResult.limited) {
+    return res.status(429).json(rateLimitResult);
+  }
 
   // Authenticate user
   const cookies = parseCookies(req.headers.cookie);

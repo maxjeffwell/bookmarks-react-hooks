@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import rateLimit from 'express-rate-limit';
 import client from 'prom-client';
 import { neon } from '@neondatabase/serverless';
 import { initializeDatabase, bookmarksDB } from './db.js';
@@ -58,15 +59,54 @@ app.use((req, res, next) => {
   next();
 });
 
+// CORS configuration - specific allowed origins only
+const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',') || [
+  'http://localhost:3000',
+  'https://bookmarks-react-hooks.vercel.app',
+  'https://bookmarked-k8s.el-jefe.me'
+];
+
 app.use(cors({
-  origin: process.env.ALLOWED_ORIGINS?.split(',') || [
-    'http://localhost:3000',
-    'https://bookmarks-react-hooks.vercel.app'
-  ],
+  origin: allowedOrigins,
   credentials: true,
   methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
+// General API rate limiter - 100 requests per 15 minutes per IP
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100,
+  message: { error: 'Too many requests', message: 'Please try again in a few minutes' },
+  standardHeaders: true,
+  legacyHeaders: false,
+  skip: (req) => req.path === '/health' || req.path === '/metrics'
+});
+
+// AI rate limiter - 50 requests per hour per IP
+const aiLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 50,
+  message: { error: 'AI rate limit exceeded', message: 'Too many AI requests. Please try again later.' },
+  standardHeaders: true,
+  legacyHeaders: false
+});
+
+// Auth rate limiter - 10 login attempts per 15 minutes per IP
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 10,
+  message: { error: 'Too many login attempts', message: 'Please try again in 15 minutes' },
+  standardHeaders: true,
+  legacyHeaders: false
+});
+
+// Apply rate limits
+app.use(apiLimiter);
+app.use('/ai', aiLimiter);
+app.use('/auth/login', authLimiter);
+app.use('/auth/register', authLimiter);
+
 app.use(express.json());
 app.use(cookieParser());
 
