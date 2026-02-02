@@ -20,7 +20,7 @@ const StyledGrid = styled.div`
 	grid-template-columns: .25fr 1fr 1fr .25fr;
 	grid-template-rows: auto 1fr auto;
 	grid-column-gap: 1rem;
-	grid-row-gap: 1rem;
+	grid-row-gap: 0;
 	text-align: center;
 	line-height: 1.5;
 	width: 100%;
@@ -413,7 +413,7 @@ const StyledGrid = styled.div`
 `;
 
 const StyledContent = styled.div`
-	grid-column: 1 / 5;
+	grid-column: 2 / 4;
 	grid-row: 2 / 3;
 	display: grid;
 	grid-template-columns: 1fr 1fr;

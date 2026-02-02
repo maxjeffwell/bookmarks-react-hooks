@@ -11,8 +11,9 @@ const StyledFooter = styled.footer`
 	border-top: 5px solid ${props => props.theme.colors.secondary};
 	border-radius: 2px;
 	position: relative;
-	grid-column: 1 / 7;
-	grid-row: 5 / -1;
+	z-index: 10;
+	grid-column: 1 / -1;
+	grid-row: 3 / 4;
 	p {
 		color: #ffffff;
 	}
@@ -20,7 +21,7 @@ const StyledFooter = styled.footer`
 		display: inline-block;
 		width: 100%;
 		height: 100%;
-}
+	}
 `;
 
 const Footer = () => (

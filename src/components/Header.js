@@ -7,7 +7,7 @@ import * as style from './Breakpoints';
 
 const StyledHeader = styled.header`
 	grid-row: 1 / 2;
-	grid-column: 1 / 7;
+	grid-column: 1 / -1;
 	background: ${props => props.theme.colors.black};
 	border-bottom: 5px solid ${props => props.theme.colors.secondary};
 	border-radius: 2px;
@@ -32,43 +32,33 @@ const StyledHeader = styled.header`
 const NavContainer = styled.div`
 	display: flex;
 	flex-direction: row;
-	align-items: center;
+	align-items: baseline;
 	flex-wrap: nowrap;
 	gap: 1.5rem;
+	font-family: ${props => props.theme.fonts.primary};
+	font-size: 1.25rem;
 	@media (max-width: ${style.breakpoint.tablet}) {
 		gap: 1rem;
+		font-size: 1rem;
 	}
 `;
 
-
 const StyledLink = styled(Link)`
-	font-family: ${props => props.theme.fonts.primary};
-	font-size: 1.25rem;
 	color: ${props => props.theme.colors.white};
 	text-decoration: none;
 	white-space: nowrap;
 	&:hover {
 		text-decoration: underline;
 	}
-	@media (max-width: ${style.breakpoint.tablet}) {
-		font-size: 1rem;
-	}
 `;
 
 const LogoutButton = styled.button`
-	background: transparent;
-	border: none;
-	font-family: ${props => props.theme.fonts.primary};
-	font-size: 1.25rem;
+	all: unset;
 	color: ${props => props.theme.colors.white};
-	padding: 0;
 	cursor: pointer;
 	white-space: nowrap;
 	&:hover {
 		text-decoration: underline;
-	}
-	@media (max-width: ${style.breakpoint.tablet}) {
-		font-size: 1rem;
 	}
 `;
 
