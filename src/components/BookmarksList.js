@@ -24,6 +24,8 @@ const StyledGrid = styled.div`
 	text-align: center;
 	line-height: 1.5;
 	width: 100%;
+	height: 100vh;
+	overflow-y: auto;
 	background-color: #005995;
 	@media (max-width: ${style.breakpoint.tablet}) {
 		display: flex;
@@ -31,6 +33,7 @@ const StyledGrid = styled.div`
 		gap: 0.5rem;
 		margin: 0;
 		padding: 0.5rem;
+		height: auto;
 		overflow-x: hidden;
 		overflow-y: auto;
 	}
