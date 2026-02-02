@@ -5,6 +5,7 @@ import EmbeddingService from '../lib/ai/EmbeddingService.js';
 import { initializeAITables } from '../lib/ai/migrations.js';
 import { invalidateCache, CACHE_KEYS } from '../lib/redis.js';
 import { purgeBookmarksCache } from '../lib/cloudflare.js';
+import { requireAuth } from '../middleware/auth.js';
 
 // Track if migrations have been run
 let migrationsRun = false;
@@ -22,11 +23,12 @@ export default function(app) {
   };
 
   // POST /ai/tags - Generate tags for a bookmark
-  app.post('/ai/tags', async (req, res) => {
+  app.post('/ai/tags', requireAuth, async (req, res) => {
     try {
       await ensureMigrations();
 
       const aiService = new AIService(sql);
+      const userId = req.user.id;
 
       if (!aiService.isAvailable()) {
         return res.status(503).json({
@@ -43,17 +45,17 @@ export default function(app) {
         });
       }
 
-      // Fetch bookmark if only ID provided
+      // Fetch bookmark if only ID provided (with ownership check)
       let bookmarkData = bookmark;
       if (bookmarkId && !bookmark) {
         const result = await sql`
           SELECT id, title, url, description
           FROM bookmarks
-          WHERE id = ${bookmarkId}
+          WHERE id = ${bookmarkId} AND user_id = ${userId}
         `;
 
         if (result.length === 0) {
-          return res.status(404).json({ error: 'Bookmark not found' });
+          return res.status(404).json({ error: 'Bookmark not found or not authorized' });
         }
 
         bookmarkData = result[0];
@@ -66,29 +68,30 @@ export default function(app) {
       if (bookmarkId || bookmarkData.id) {
         const id = bookmarkId || bookmarkData.id;
 
-        // Insert tags (ignore duplicates)
+        // Insert tags (ignore duplicates, user-scoped)
         for (const tagName of tags) {
           await sql`
-            INSERT INTO tags (name)
-            VALUES (${tagName})
-            ON CONFLICT (name) DO NOTHING
+            INSERT INTO tags (name, user_id)
+            VALUES (${tagName}, ${userId})
+            ON CONFLICT (name, user_id) DO NOTHING
           `;
         }
 
         // Remove existing bookmark-tag relationships
         await sql`DELETE FROM bookmark_tags WHERE bookmark_id = ${id}`;
 
-        // Create new bookmark-tag relationships
+        // Create new bookmark-tag relationships (user-scoped tags)
         for (const tagName of tags) {
           await sql`
             INSERT INTO bookmark_tags (bookmark_id, tag_id)
-            SELECT ${id}, id FROM tags WHERE name = ${tagName}
+            SELECT ${id}, id FROM tags WHERE name = ${tagName} AND user_id = ${userId}
             ON CONFLICT DO NOTHING
           `;
         }
 
-        // Invalidate caches since bookmarks data changed
-        await invalidateCache(CACHE_KEYS.BOOKMARKS_ALL);
+        // Invalidate user-specific cache
+        const cacheKey = `${CACHE_KEYS.BOOKMARKS_ALL}:${userId}`;
+        await invalidateCache(cacheKey);
         purgeBookmarksCache();
       }
 
@@ -124,17 +127,27 @@ export default function(app) {
   });
 
   // GET /ai/tags/:bookmarkId - Get tags for a bookmark
-  app.get('/ai/tags/:bookmarkId', async (req, res) => {
+  app.get('/ai/tags/:bookmarkId', requireAuth, async (req, res) => {
     try {
       await ensureMigrations();
 
       const { bookmarkId } = req.params;
+      const userId = req.user.id;
+
+      // Verify bookmark ownership
+      const [bookmark] = await sql`
+        SELECT id FROM bookmarks WHERE id = ${bookmarkId} AND user_id = ${userId}
+      `;
+
+      if (!bookmark) {
+        return res.status(404).json({ error: 'Bookmark not found or not authorized' });
+      }
 
       const tags = await sql`
         SELECT t.name
         FROM tags t
         JOIN bookmark_tags bt ON t.id = bt.tag_id
-        WHERE bt.bookmark_id = ${bookmarkId}
+        WHERE bt.bookmark_id = ${bookmarkId} AND t.user_id = ${userId}
         ORDER BY t.name
       `;
 
@@ -149,10 +162,12 @@ export default function(app) {
     }
   });
 
-  // GET /ai/tags - Get all tags with usage count
-  app.get('/ai/tags', async (req, res) => {
+  // GET /ai/tags - Get all tags with usage count (user-scoped)
+  app.get('/ai/tags', requireAuth, async (req, res) => {
     try {
       await ensureMigrations();
+
+      const userId = req.user.id;
 
       const tags = await sql`
         SELECT
@@ -162,6 +177,7 @@ export default function(app) {
           t.created_at
         FROM tags t
         LEFT JOIN bookmark_tags bt ON t.id = bt.tag_id
+        WHERE t.user_id = ${userId}
         GROUP BY t.id, t.name, t.created_at
         ORDER BY usage_count DESC, t.name
       `;
@@ -181,21 +197,22 @@ export default function(app) {
     }
   });
 
-  // DELETE /ai/tags/:tagId - Delete a tag (and all its relationships)
-  app.delete('/ai/tags/:tagId', async (req, res) => {
+  // DELETE /ai/tags/:tagId - Delete a tag (and all its relationships, user-scoped)
+  app.delete('/ai/tags/:tagId', requireAuth, async (req, res) => {
     try {
       await ensureMigrations();
 
       const { tagId } = req.params;
+      const userId = req.user.id;
 
       const result = await sql`
         DELETE FROM tags
-        WHERE id = ${tagId}
+        WHERE id = ${tagId} AND user_id = ${userId}
         RETURNING name
       `;
 
       if (result.length === 0) {
-        return res.status(404).json({ error: 'Tag not found' });
+        return res.status(404).json({ error: 'Tag not found or not authorized' });
       }
 
       return res.json({
@@ -211,12 +228,13 @@ export default function(app) {
 
   // ============= SEMANTIC SEARCH ROUTES =============
 
-  // GET /ai/semantic-search?q=query - Semantic search
-  app.get('/ai/semantic-search', async (req, res) => {
+  // GET /ai/semantic-search?q=query - Semantic search (user-scoped)
+  app.get('/ai/semantic-search', requireAuth, async (req, res) => {
     try {
       await ensureMigrations();
 
       const embeddingService = new EmbeddingService(sql);
+      const userId = req.user.id;
       const { q, query, limit = 10, threshold = 0.3 } = req.query;
       const searchQuery = q || query;
 
@@ -230,7 +248,8 @@ export default function(app) {
       const results = await embeddingService.semanticSearch(
         searchQuery,
         parseInt(limit),
-        parseFloat(threshold)
+        parseFloat(threshold),
+        userId
       );
 
       return res.json({
@@ -258,14 +277,15 @@ export default function(app) {
   });
 
   // POST /ai/semantic-search - Multiple actions (embed, similar, embed-all)
-  app.post('/ai/semantic-search', async (req, res) => {
+  app.post('/ai/semantic-search', requireAuth, async (req, res) => {
     try {
       await ensureMigrations();
 
       const embeddingService = new EmbeddingService(sql);
+      const userId = req.user.id;
       const { action, bookmarkId, query, limit = 10, threshold = 0.3 } = req.body;
 
-      // Search by query
+      // Search by query (user-scoped)
       if (action === 'search' || (!action && query)) {
         if (!query) {
           return res.status(400).json({
@@ -274,7 +294,7 @@ export default function(app) {
           });
         }
 
-        const results = await embeddingService.semanticSearch(query, limit, threshold);
+        const results = await embeddingService.semanticSearch(query, limit, threshold, userId);
 
         return res.json({
           success: true,
@@ -284,7 +304,7 @@ export default function(app) {
         });
       }
 
-      // Find similar bookmarks
+      // Find similar bookmarks (user-scoped)
       if (action === 'similar') {
         if (!bookmarkId) {
           return res.status(400).json({
@@ -293,7 +313,7 @@ export default function(app) {
           });
         }
 
-        const results = await embeddingService.findSimilar(bookmarkId, limit);
+        const results = await embeddingService.findSimilar(bookmarkId, limit, userId);
 
         return res.json({
           success: true,
@@ -303,7 +323,7 @@ export default function(app) {
         });
       }
 
-      // Generate embedding for a bookmark
+      // Generate embedding for a bookmark (with ownership check)
       if (action === 'embed') {
         if (!bookmarkId) {
           return res.status(400).json({
@@ -312,22 +332,23 @@ export default function(app) {
           });
         }
 
-        // Get bookmark
+        // Get bookmark with ownership check
         const [bookmark] = await sql`
           SELECT id, title, url, description
-          FROM bookmarks WHERE id = ${bookmarkId}
+          FROM bookmarks WHERE id = ${bookmarkId} AND user_id = ${userId}
         `;
 
         if (!bookmark) {
-          return res.status(404).json({ error: 'Bookmark not found' });
+          return res.status(404).json({ error: 'Bookmark not found or not authorized' });
         }
 
         // Generate and store embedding
         const embedding = await embeddingService.embedBookmark(bookmark);
         await embeddingService.storeEmbedding(bookmarkId, embedding);
 
-        // Invalidate caches since bookmarks data changed (hasEmbedding flag)
-        await invalidateCache(CACHE_KEYS.BOOKMARKS_ALL);
+        // Invalidate user-specific cache
+        const cacheKey = `${CACHE_KEYS.BOOKMARKS_ALL}:${userId}`;
+        await invalidateCache(cacheKey);
         purgeBookmarksCache();
 
         return res.json({
@@ -338,12 +359,13 @@ export default function(app) {
         });
       }
 
-      // Embed all bookmarks without embeddings
+      // Embed all bookmarks without embeddings (user-scoped)
       if (action === 'embed-all') {
-        const processed = await embeddingService.embedAllBookmarks();
+        const processed = await embeddingService.embedAllBookmarks(userId);
 
-        // Invalidate caches since bookmarks data changed
-        await invalidateCache(CACHE_KEYS.BOOKMARKS_ALL);
+        // Invalidate user-specific cache
+        const cacheKey = `${CACHE_KEYS.BOOKMARKS_ALL}:${userId}`;
+        await invalidateCache(cacheKey);
         purgeBookmarksCache();
 
         return res.json({

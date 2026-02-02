@@ -162,18 +162,25 @@ class EmbeddingService {
    * @param {string} query - Search query
    * @param {number} limit - Max results to return
    * @param {number} threshold - Minimum similarity score (0-1)
+   * @param {string} userId - User ID for scoping (optional for backwards compatibility)
    * @returns {Array} - Similar bookmarks with scores
    */
-  async semanticSearch(query, limit = 10, threshold = 0.3) {
+  async semanticSearch(query, limit = 10, threshold = 0.3, userId = null) {
     // Generate embedding for the query
     const queryEmbedding = await this.embed(query);
 
-    // Get all bookmarks with embeddings
-    const bookmarks = await this.sql`
-      SELECT id, title, url, description, embedding
-      FROM bookmarks
-      WHERE embedding IS NOT NULL
-    `;
+    // Get all bookmarks with embeddings (user-scoped if userId provided)
+    const bookmarks = userId
+      ? await this.sql`
+          SELECT id, title, url, description, embedding
+          FROM bookmarks
+          WHERE embedding IS NOT NULL AND user_id = ${userId}
+        `
+      : await this.sql`
+          SELECT id, title, url, description, embedding
+          FROM bookmarks
+          WHERE embedding IS NOT NULL
+        `;
 
     // Calculate similarity scores
     const results = bookmarks
@@ -203,28 +210,39 @@ class EmbeddingService {
    * Find bookmarks similar to a given bookmark
    * @param {string} bookmarkId - Source bookmark ID
    * @param {number} limit - Max results
+   * @param {string} userId - User ID for scoping (optional for backwards compatibility)
    * @returns {Array} - Similar bookmarks
    */
-  async findSimilar(bookmarkId, limit = 5) {
-    // Get the source bookmark's embedding
-    const [source] = await this.sql`
-      SELECT embedding FROM bookmarks WHERE id = ${bookmarkId}
-    `;
+  async findSimilar(bookmarkId, limit = 5, userId = null) {
+    // Get the source bookmark's embedding (with ownership check if userId provided)
+    const [source] = userId
+      ? await this.sql`
+          SELECT embedding FROM bookmarks WHERE id = ${bookmarkId} AND user_id = ${userId}
+        `
+      : await this.sql`
+          SELECT embedding FROM bookmarks WHERE id = ${bookmarkId}
+        `;
 
     if (!source || !source.embedding) {
-      throw new Error('Source bookmark has no embedding');
+      throw new Error('Source bookmark has no embedding or not authorized');
     }
 
     const sourceEmbedding = typeof source.embedding === 'string'
       ? JSON.parse(source.embedding)
       : source.embedding;
 
-    // Get all other bookmarks with embeddings
-    const bookmarks = await this.sql`
-      SELECT id, title, url, description, embedding
-      FROM bookmarks
-      WHERE embedding IS NOT NULL AND id != ${bookmarkId}
-    `;
+    // Get all other bookmarks with embeddings (user-scoped if userId provided)
+    const bookmarks = userId
+      ? await this.sql`
+          SELECT id, title, url, description, embedding
+          FROM bookmarks
+          WHERE embedding IS NOT NULL AND id != ${bookmarkId} AND user_id = ${userId}
+        `
+      : await this.sql`
+          SELECT id, title, url, description, embedding
+          FROM bookmarks
+          WHERE embedding IS NOT NULL AND id != ${bookmarkId}
+        `;
 
     // Calculate and sort by similarity
     const results = bookmarks
@@ -249,14 +267,21 @@ class EmbeddingService {
 
   /**
    * Generate embeddings for all bookmarks without one
+   * @param {string} userId - User ID for scoping (optional for backwards compatibility)
    * @returns {number} - Number of bookmarks processed
    */
-  async embedAllBookmarks() {
-    const bookmarks = await this.sql`
-      SELECT id, title, url, description
-      FROM bookmarks
-      WHERE embedding IS NULL
-    `;
+  async embedAllBookmarks(userId = null) {
+    const bookmarks = userId
+      ? await this.sql`
+          SELECT id, title, url, description
+          FROM bookmarks
+          WHERE embedding IS NULL AND user_id = ${userId}
+        `
+      : await this.sql`
+          SELECT id, title, url, description
+          FROM bookmarks
+          WHERE embedding IS NULL
+        `;
 
     let processed = 0;
 
