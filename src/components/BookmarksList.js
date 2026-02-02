@@ -217,7 +217,7 @@ const StyledGrid = styled.div`
 		font-family: ${props => props.theme.fonts.quinary};
 		font-size: 1.25rem;
 		background-color: #A8E6CF;
-		color: #343436;
+		color: #005995;
 		border: none;
 		cursor: pointer;
 		border-radius: 6px;
