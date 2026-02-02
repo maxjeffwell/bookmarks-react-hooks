@@ -25,7 +25,7 @@ const StyledGrid = styled.div`
 	line-height: 1.5;
 	width: 100%;
 	height: 100vh;
-	overflow-y: auto;
+	overflow: hidden;
 	background-color: #005995;
 	@media (max-width: ${style.breakpoint.tablet}) {
 		display: flex;
@@ -412,15 +412,25 @@ const StyledGrid = styled.div`
 	}
 `;
 
-const StyledForm = styled.div`
-	grid-column: 2 / 3;
+const StyledContent = styled.div`
+	grid-column: 2 / 4;
 	grid-row: 2 / 3;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 1rem;
+	overflow-y: auto;
+	@media (max-width: ${style.breakpoint.tablet}) {
+		display: contents;
+	}
+`;
+
+const StyledForm = styled.div`
 	background-color: #fbf579;
 	/* Sticky positioning for desktop - form stays visible while scrolling bookmarks */
 	position: sticky;
 	top: 1rem;
 	align-self: start;
-	max-height: calc(100vh - 2rem);
+	max-height: calc(100vh - 10rem);
 	overflow-y: auto;
 	z-index: 10;
 	@media (max-width: ${style.breakpoint.tablet}) {
@@ -438,8 +448,6 @@ const StyledForm = styled.div`
 
 const StyledList= styled.div`
 	display: grid;
-	grid-column: 3 / 4;
-	grid-row: 2 / 3;
 	font-family: ${props => props.theme.fonts.secondary};
 	background-color: #fa625f;
 	@media (max-width: ${style.breakpoint.tablet}) {
@@ -619,6 +627,7 @@ export default function BookmarksList() {
 	return (
 		<StyledGrid>
 			<Header />
+		<StyledContent>
 		<StyledForm>
 			<BookmarkForm />
 		</StyledForm>
@@ -829,6 +838,7 @@ export default function BookmarksList() {
 				))}
 			</ul>
 		</StyledList>
+		</StyledContent>
 		<Footer />
 	</StyledGrid>
 	);
