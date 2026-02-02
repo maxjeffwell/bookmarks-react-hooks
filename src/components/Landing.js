@@ -98,7 +98,7 @@ const Landing = () => (
 			<StyledImage src={bookmark} alt="bookmark-icon">
 			</StyledImage>
 			<StyledText>
-					To get started, click "My Bookmarks" in the navigation bar to register or log in. From there you can
+					To get started, click "Sign In" in the navigation bar to register or log in. From there you can
 					create, edit, and organize your bookmarks with an intuitive interface designed for efficiency.
 					<br/><br/>
 					Use the AI tag generation to automatically categorize your bookmarks based on their content, or leverage

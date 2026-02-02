@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, memo } from 'react';
 import styled from '@emotion/styled';
 import axios from 'axios';
 import { apiUrl } from '../config';
@@ -267,7 +267,7 @@ const StyledAIFeatures = styled.div`
   }
 `;
 
-export default function BookmarkAIFeatures({ bookmark, onTagsGenerated, onSimilarFound }) {
+const BookmarkAIFeatures = memo(function BookmarkAIFeatures({ bookmark, onTagsGenerated, onSimilarFound }) {
   const [tags, setTags] = useState(bookmark.tags || []);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -282,7 +282,7 @@ export default function BookmarkAIFeatures({ bookmark, onTagsGenerated, onSimila
   const [similarResults, setSimilarResults] = useState(null);
   const [similarError, setSimilarError] = useState(null);
 
-  const handleGenerateTags = async () => {
+  const handleGenerateTags = useCallback(async () => {
     setLoading(true);
     setError(null);
 
@@ -330,9 +330,9 @@ export default function BookmarkAIFeatures({ bookmark, onTagsGenerated, onSimila
     } finally {
       setLoading(false);
     }
-  };
+  }, [bookmark.id, onTagsGenerated]);
 
-  const handleGenerateEmbedding = async () => {
+  const handleGenerateEmbedding = useCallback(async () => {
     setEmbeddingLoading(true);
     setEmbeddingError(null);
 
@@ -362,9 +362,9 @@ export default function BookmarkAIFeatures({ bookmark, onTagsGenerated, onSimila
     } finally {
       setEmbeddingLoading(false);
     }
-  };
+  }, [bookmark.id]);
 
-  const handleFindSimilar = async () => {
+  const handleFindSimilar = useCallback(async () => {
     setSimilarLoading(true);
     setSimilarError(null);
     setSimilarResults(null);
@@ -400,7 +400,7 @@ export default function BookmarkAIFeatures({ bookmark, onTagsGenerated, onSimila
     } finally {
       setSimilarLoading(false);
     }
-  };
+  }, [bookmark, onSimilarFound]);
 
   return (
     <StyledAIFeatures>
@@ -507,4 +507,6 @@ export default function BookmarkAIFeatures({ bookmark, onTagsGenerated, onSimila
       </div>
     </StyledAIFeatures>
   );
-}
+});
+
+export default BookmarkAIFeatures;

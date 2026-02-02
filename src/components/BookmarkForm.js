@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback, memo } from 'react';
 import styled from '@emotion/styled';
 import axios from 'axios';
 import DOMPurify from 'dompurify';
@@ -173,7 +173,7 @@ export const StyledForm = styled.form`
 	}
 `;
 
-export default function BookmarkForm() {
+const BookmarkForm = memo(function BookmarkForm() {
 	const [bookmarkTitle, setBookmarkTitle] = useState('');
 	const [bookmarkUrl, setBookmarkUrl] = useState('');
 	const [bookmarkDescription, setBookmarkDescription] = useState('');
@@ -207,16 +207,16 @@ export default function BookmarkForm() {
 	const title = !!currentBookmark && currentBookmark.title ? 'Edit Bookmark' : 'Create Bookmark';
 	const ConditionalButton = currentBookmark.title ? 'Update Bookmark' : 'Create Bookmark';
 
-	const validateUrl = (url) => {
+	const validateUrl = useCallback((url) => {
 		try {
 			new URL(url);
 			return url.startsWith('http://') || url.startsWith('https://');
 		} catch {
 			return false;
 		}
-	};
+	}, []);
 
-	const handleSubmit = async event => {
+	const handleSubmit = useCallback(async event => {
 		event.preventDefault();
 		
 		// Input validation and sanitization
@@ -274,14 +274,14 @@ export default function BookmarkForm() {
 			console.error('Failed to save bookmark:', error);
 			alert('Failed to save bookmark. Please try again.');
 		}
-	};
+	}, [bookmarkTitle, bookmarkUrl, bookmarkDescription, bookmarkRating, toggleRadioButton, bookmarkChecked, currentBookmark, dispatch, validateUrl]);
 
-	const handleReset = () => {
+	const handleReset = useCallback(() => {
 		setBookmarkTitle('');
 		setBookmarkUrl('');
 		setBookmarkDescription('');
 		setBookmarkRating('');
-	};
+	}, []);
 
 	return (
 	<StyledForm onSubmit={handleSubmit} onReset={handleReset}>
@@ -387,4 +387,6 @@ export default function BookmarkForm() {
 		</div>
 		</StyledForm>
 	);
-}
+});
+
+export default BookmarkForm;

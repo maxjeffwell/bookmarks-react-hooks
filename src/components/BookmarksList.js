@@ -610,6 +610,14 @@ export default function BookmarksList() {
 		}
 	}, []);
 
+	// Handle AI tags generated callback
+	const handleTagsGenerated = useCallback((id, tags) => {
+		dispatch({
+			type: 'UPDATE_BOOKMARK_TAGS',
+			payload: { id, tags }
+		});
+	}, [dispatch]);
+
 	const filteredBookmarks = useMemo(() => {
 		// Use search results if search is active
 		const baseBookmarks = searchResults !== null ? searchResults : state.bookmarks;
@@ -770,12 +778,7 @@ export default function BookmarksList() {
 								{/* AI-powered bookmark tagging */}
 								<BookmarkAIFeatures
 									bookmark={bookmark}
-									onTagsGenerated={(id, tags) => {
-										dispatch({
-											type: 'UPDATE_BOOKMARK_TAGS',
-											payload: { id, tags }
-										});
-									}}
+									onTagsGenerated={handleTagsGenerated}
 								/>
 
 								{/* Action Buttons */}
