@@ -86,17 +86,20 @@ const StyledImage = styled.img`
 const Landing = () => (
 	<StyledLanding>
 		<Header />
-			<StyledText>Bookmarked is a lightweight bookmark manager written in React, but without the use of class components and an external state management library.
-					Leveraging the power of React Hooks, Bookmarked is composed entirely of elegant function components now capable of managing state and
-					interacting with an external API.
+			<StyledText>Bookmarked is a full-stack bookmark manager featuring AI-powered auto-tagging via LLM integration,
+					vector embeddings for semantic search, and JWT authentication with httpOnly cookies. Built with React Hooks,
+					Context API, and useReducer for state management, and backed by PostgreSQL on Neon with Redis caching.
+					The application runs on dual deployment targets: Vercel serverless functions for the frontend and API,
+					plus a Kubernetes cluster with ArgoCD GitOps for the Express backend. Features include Zod schema validation,
+					rate limiting, Prometheus metrics, and a self-hosted AI gateway with multi-tier LLM fallback.
 			</StyledText>
 			<Sidebar />
 			<StyledImage src={bookmark} alt="bookmark-icon">
 			</StyledImage>
 			<StyledText>
-					To get started storing and syncing your bookmarks across sessions, please click the "My Bookmarks" link, which can be found in the
-					navigation bar above. You will then be directed to where you can create, edit, and delete your bookmarks. Your saved bookmarks will consist
-					of a required title, a required url, a required rating, and an optional description.
+					To get started, click "My Bookmarks" in the navigation bar to register or log in. From there you can
+					create, edit, and organize your bookmarks. Use the AI tag generation to automatically categorize your
+					bookmarks, or leverage semantic search to find bookmarks by meaning rather than exact keywords.
 			</StyledText>
 		<Footer />
 	</StyledLanding>
