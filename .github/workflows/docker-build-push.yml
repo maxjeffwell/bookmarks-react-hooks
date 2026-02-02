@@ -180,7 +180,7 @@ jobs:
       - name: Build and push server Docker image
         uses: docker/build-push-action@v5
         with:
-          context: ./server
+          context: .
           file: ./server/Dockerfile
           target: production
           platforms: ${{ env.DOCKER_PLATFORMS }}

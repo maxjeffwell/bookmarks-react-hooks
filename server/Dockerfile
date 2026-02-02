@@ -9,21 +9,25 @@ FROM node:20-alpine AS production
 # Set working directory
 WORKDIR /app
 
-# Copy package files
-COPY package*.json ./
+# Copy package files from server directory (build context is project root)
+COPY server/package*.json ./
 
 # Install production dependencies
 RUN apk add --no-cache python3 make g++ && \
     npm ci --omit=dev && \
     apk del python3 make g++
 
-# Copy application code
-COPY . .
+# Copy server application code
+COPY server/ .
+
+# Copy shared modules to /shared/ to match relative import paths (../../shared/ai/)
+COPY shared/ /shared/
 
 # Create non-root user for security
 RUN addgroup -g 1001 -S nodejs && \
     adduser -S nodejs -u 1001 && \
-    chown -R nodejs:nodejs /app
+    chown -R nodejs:nodejs /app && \
+    chown -R nodejs:nodejs /shared
 
 # Switch to non-root user
 USER nodejs
@@ -46,14 +50,17 @@ FROM node:20-alpine AS development
 # Set working directory
 WORKDIR /app
 
-# Copy package files
-COPY package*.json ./
+# Copy package files from server directory (build context is project root)
+COPY server/package*.json ./
 
 # Install all dependencies including devDependencies
 RUN npm install
 
-# Copy application code
-COPY . .
+# Copy server application code
+COPY server/ .
+
+# Copy shared modules to /shared/ to match relative import paths (../../shared/ai/)
+COPY shared/ /shared/
 
 # Expose port
 EXPOSE 3001
