@@ -467,15 +467,23 @@ const SemanticSearchWrapper = styled.div`
 `;
 
 // Helper function to render visual star rating
-const renderStars = (ratingStr) => {
-	const ratingMap = {
-		'5 stars': 5,
-		'4 stars': 4,
-		'3 stars': 3,
-		'2 stars': 2,
-		'1 star': 1,
-	};
-	const numStars = ratingMap[ratingStr] || 0;
+const renderStars = (rating) => {
+	// Handle both string format ("3 stars") and integer format (3)
+	let numStars = 0;
+	if (typeof rating === 'number') {
+		numStars = rating;
+	} else if (typeof rating === 'string') {
+		const ratingMap = {
+			'5 stars': 5,
+			'4 stars': 4,
+			'3 stars': 3,
+			'2 stars': 2,
+			'1 star': 1,
+		};
+		numStars = ratingMap[rating] || parseInt(rating, 10) || 0;
+	}
+	// Clamp to valid range
+	numStars = Math.max(0, Math.min(5, numStars));
 	const filled = '★'.repeat(numStars);
 	const empty = '☆'.repeat(5 - numStars);
 	return (
