@@ -46,11 +46,16 @@ const NavContainer = styled.div`
 `;
 
 const StyledLink = styled(Link)`
+	font-family: ${props => props.theme.fonts.primary} !important;
+	font-size: 1.25rem !important;
 	color: ${props => props.theme.colors.white};
 	text-decoration: none;
 	white-space: nowrap;
 	&:hover {
 		text-decoration: underline;
+	}
+	@media (max-width: ${style.breakpoint.tablet}) {
+		font-size: 1rem !important;
 	}
 `;
 
@@ -61,8 +66,8 @@ const LogoutButton = styled.button`
 	margin: 0 !important;
 	height: auto !important;
 	width: auto !important;
-	font-family: inherit !important;
-	font-size: inherit !important;
+	font-family: ${props => props.theme.fonts.primary} !important;
+	font-size: 1.25rem !important;
 	color: ${props => props.theme.colors.white} !important;
 	cursor: pointer;
 	white-space: nowrap;
@@ -70,6 +75,9 @@ const LogoutButton = styled.button`
 	&:hover {
 		text-decoration: underline;
 		box-shadow: none !important;
+	}
+	@media (max-width: ${style.breakpoint.tablet}) {
+		font-size: 1rem !important;
 	}
 `;
 
