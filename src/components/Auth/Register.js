@@ -9,8 +9,10 @@ const AuthContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 80vh;
+  min-height: 100vh;
   padding: 2rem;
+  background-color: #fa625f;
+  box-sizing: border-box;
 `;
 
 const AuthForm = styled.form`
