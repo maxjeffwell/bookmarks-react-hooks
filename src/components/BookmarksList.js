@@ -503,7 +503,7 @@ export default function BookmarksList() {
 	const searchTimeoutRef = useRef(null);
 	const listRef = useRef(null);
 	const listContainerRef = useRef(null);
-	const [listHeight, setListHeight] = useState(400);
+	const [listHeight, setListHeight] = useState(600);
 
 	const title = state.bookmarks.length > 0
 	? 'My Bookmarks' : 'You have not created any bookmarks yet ...';
@@ -811,10 +811,9 @@ export default function BookmarksList() {
 						// Desktop: Virtual scrolling list
 						<List
 							listRef={listRef}
-							defaultHeight={listHeight}
 							rowCount={filteredBookmarks.length}
 							rowHeight={getItemSize}
-							style={{ listStyle: 'none', width: '100%' }}
+							style={{ listStyle: 'none', width: '100%', height: listHeight, maxHeight: '100%' }}
 							rowComponent={({ index, style }) => {
 								const bookmark = filteredBookmarks[index];
 								if (!bookmark) return null;
@@ -828,13 +827,6 @@ export default function BookmarksList() {
 										style={style}
 									/>
 								);
-							}}
-							rowProps={{
-								filteredBookmarks,
-								dispatch,
-								handleTagsGenerated,
-								expandedItems,
-								handleItemToggle
 							}}
 						/>
 					)}
