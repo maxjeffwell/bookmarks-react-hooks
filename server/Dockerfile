@@ -24,7 +24,7 @@ COPY server/ .
 COPY shared/ /shared/
 
 # Install shared module dependencies
-RUN cd /shared && npm ci --omit=dev
+RUN cd /shared && npm install --omit=dev
 
 # Create non-root user for security
 RUN addgroup -g 1001 -S nodejs && \
