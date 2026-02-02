@@ -9,8 +9,12 @@ import BookmarksContext from '../context';
 import bookmarksReducer from '../reducers/bookmarksReducer';
 import { apiUrl, apiEndpoint } from '../config';
 
+import { AuthProvider, useAuth, ProtectedRoute, Login, Register } from './Auth';
 import Landing from './Landing';
 import BookmarksList from './BookmarksList';
+
+// Configure axios to send cookies globally
+axios.defaults.withCredentials = true;
 
 const globalStyles = css`
 	@font-face {
@@ -59,12 +63,16 @@ const globalStyles = css`
 	}
 `;
 
-const useAPI = endpoint => {
+const useAPI = (endpoint, enabled = true) => {
 	const [data, setData] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
 
 	const getData = React.useCallback(async () => {
+		if (!enabled) {
+			setLoading(false);
+			return;
+		}
 		try {
 			setLoading(true);
 			setError(null);
@@ -77,7 +85,7 @@ const useAPI = endpoint => {
 		} finally {
 			setLoading(false);
 		}
-	}, [endpoint]);
+	}, [endpoint, enabled]);
 
 	useEffect(() => {
 		getData();
@@ -86,33 +94,62 @@ const useAPI = endpoint => {
 	return { data, loading, error, refetch: getData };
 };
 
-export default function App() {
+// Bookmarks provider that fetches data only when authenticated
+function BookmarksProvider({ children }) {
+	const { isAuthenticated, isLoading: authLoading } = useAuth();
 	const initialState = {
 		bookmarks: [],
 		currentBookmark: {},
 	};
 	const [state, dispatch] = useReducer(bookmarksReducer, initialState);
-	const { data: savedBookmarks, loading, error } = useAPI(`${apiUrl}/${apiEndpoint}`);
-
-	useEffect(() => {
-			if (!loading && !error) {
-				dispatch({ type: 'GET_BOOKMARKS', payload: savedBookmarks });
-			}
-		},
-		[savedBookmarks, loading, error]
+	const { data: savedBookmarks, loading, error, refetch } = useAPI(
+		`${apiUrl}/${apiEndpoint}`,
+		isAuthenticated && !authLoading
 	);
 
+	useEffect(() => {
+		if (!loading && !error && isAuthenticated) {
+			dispatch({ type: 'GET_BOOKMARKS', payload: savedBookmarks });
+		}
+	}, [savedBookmarks, loading, error, isAuthenticated]);
+
+	// Refetch bookmarks when user logs in
+	useEffect(() => {
+		if (isAuthenticated && !authLoading) {
+			refetch();
+		}
+	}, [isAuthenticated, authLoading, refetch]);
+
+	return (
+		<BookmarksContext.Provider value={{ state, dispatch, loading: loading || authLoading, error }}>
+			{children}
+		</BookmarksContext.Provider>
+	);
+}
+
+export default function App() {
 	return (
 		<BrowserRouter>
 			<Global styles={globalStyles} />
-			<BookmarksContext.Provider value={{ state, dispatch, loading, error }}>
-				<Routes>
-					<Route path='/' element={<Landing />} />
-					<Route path='/bookmarks' element={<BookmarksList />} />
-				</Routes>
-                <SpeedInsights />
-                <Analytics />
-			</BookmarksContext.Provider>
+			<AuthProvider>
+				<BookmarksProvider>
+					<Routes>
+						<Route path='/' element={<Landing />} />
+						<Route path='/login' element={<Login />} />
+						<Route path='/register' element={<Register />} />
+						<Route
+							path='/bookmarks'
+							element={
+								<ProtectedRoute>
+									<BookmarksList />
+								</ProtectedRoute>
+							}
+						/>
+					</Routes>
+					<SpeedInsights />
+					<Analytics />
+				</BookmarksProvider>
+			</AuthProvider>
 		</BrowserRouter>
 	);
 }

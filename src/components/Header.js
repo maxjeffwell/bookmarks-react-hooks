@@ -1,6 +1,7 @@
 import React, { memo } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
+import { useAuth } from './Auth';
 
 import * as style from './Breakpoints';
 
@@ -50,20 +51,75 @@ const StyledLink = styled(Link)`
 	}
 `;
 
+const NavContainer = styled.div`
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+	@media (max-width: ${style.breakpoint.tablet}) {
+		gap: 0.5rem;
+	}
+`;
+
+const UserInfo = styled.span`
+	font-size: 1rem;
+	opacity: 0.8;
+	@media (max-width: ${style.breakpoint.tablet}) {
+		display: none;
+	}
+`;
+
+const LogoutButton = styled.button`
+	background: transparent;
+	border: 1px solid ${props => props.theme.colors.white};
+	color: ${props => props.theme.colors.white};
+	font-family: ${props => props.theme.fonts.secondary};
+	font-size: 1rem;
+	padding: 0.25rem 0.75rem;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: all 0.2s ease;
+
+	&:hover {
+		background: ${props => props.theme.colors.white};
+		color: ${props => props.theme.colors.black};
+	}
+
+	@media (max-width: ${style.breakpoint.tablet}) {
+		font-size: 0.9rem;
+		padding: 0.25rem 0.5rem;
+	}
+`;
+
 const Header = () => {
 	const location = useLocation();
-	const isBookmarksPage = location.pathname !== '/';
+	const navigate = useNavigate();
+	const { isAuthenticated, user, logout } = useAuth();
+	const isBookmarksPage = location.pathname === '/bookmarks';
+	const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
+
+	const handleLogout = async () => {
+		await logout();
+		navigate('/login');
+	};
 
 	return (
 		<StyledHeader>
 			<span>{isBookmarksPage && 'Bookmarked'}</span>
-			<span>
-				{isBookmarksPage ? (
-					<StyledLink to='/'>Home</StyledLink>
+			<NavContainer>
+				{isAuthenticated ? (
+					<>
+						<UserInfo>{user?.username}</UserInfo>
+						{isBookmarksPage ? (
+							<StyledLink to='/'>Home</StyledLink>
+						) : (
+							<StyledLink to='/bookmarks'>My Bookmarks</StyledLink>
+						)}
+						<LogoutButton onClick={handleLogout}>Logout</LogoutButton>
+					</>
 				) : (
-					<StyledLink to='/bookmarks'>My Bookmarks</StyledLink>
+					!isAuthPage && <StyledLink to='/login'>Sign In</StyledLink>
 				)}
-			</span>
+			</NavContainer>
 		</StyledHeader>
 	);
 };
