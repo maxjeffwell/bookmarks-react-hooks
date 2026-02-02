@@ -216,7 +216,7 @@ const StyledGrid = styled.div`
 		padding: 0.75rem 1rem;
 		font-family: ${props => props.theme.fonts.quinary};
 		font-size: 1.25rem;
-		background-color: #7b1f1d;
+		background-color: #6B9B7A;
 		color: #ffffff;
 		border: none;
 		cursor: pointer;
@@ -224,7 +224,7 @@ const StyledGrid = styled.div`
 		transition: background-color 0.2s ease;
 	}
 	.list-item__trigger:hover {
-		background-color: #B4E4BE;
+		background-color: #5A8A69;
 	}
 	.list-item__trigger.is-open .trigger-arrow {
 		transform: rotate(180deg);
