@@ -8,6 +8,7 @@ import * as style from './Breakpoints';
 const StyledHeader = styled.header`
 	grid-row: 1 / 2;
 	grid-column: 1 / -1;
+	width: 100%;
 	background: ${props => props.theme.colors.black};
 	border-bottom: 5px solid ${props => props.theme.colors.secondary};
 	border-radius: 2px;
@@ -22,7 +23,6 @@ const StyledHeader = styled.header`
 	position: relative;
 	z-index: 10;
 	@media (max-width: ${style.breakpoint.tablet}) {
-		width: 100%;
 		padding: 1rem 0.5rem;
 		font-size: 1.5rem;
 	}
@@ -59,25 +59,17 @@ const StyledLink = styled(Link)`
 	}
 `;
 
-const LogoutButton = styled.button`
-	background: transparent !important;
-	border: none !important;
-	padding: 0 !important;
-	margin: 0 !important;
-	height: auto !important;
-	width: auto !important;
-	font-family: ${props => props.theme.fonts.primary} !important;
-	font-size: 1.25rem !important;
-	color: ${props => props.theme.colors.white} !important;
+const LogoutLink = styled.span`
+	font-family: ${props => props.theme.fonts.primary};
+	font-size: 1.25rem;
+	color: ${props => props.theme.colors.white};
 	cursor: pointer;
 	white-space: nowrap;
-	box-shadow: none !important;
 	&:hover {
 		text-decoration: underline;
-		box-shadow: none !important;
 	}
 	@media (max-width: ${style.breakpoint.tablet}) {
-		font-size: 1rem !important;
+		font-size: 1rem;
 	}
 `;
 
@@ -104,7 +96,7 @@ const Header = () => {
 						) : (
 							<StyledLink to='/bookmarks'>My Bookmarks</StyledLink>
 						)}
-						<LogoutButton onClick={handleLogout}>Logout</LogoutButton>
+						<LogoutLink onClick={handleLogout}>Logout</LogoutLink>
 					</>
 				) : (
 					!isAuthPage && <StyledLink to='/login'>Sign In</StyledLink>
