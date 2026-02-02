@@ -7,23 +7,25 @@ import * as style from './Breakpoints';
 
 const StyledHeader = styled.header`
 	grid-row: 1 / 2;
-	grid-column: 1 / -1;
-	width: 100%;
+	grid-column: 1 / 7;
 	background: ${props => props.theme.colors.black};
 	border-bottom: 5px solid ${props => props.theme.colors.secondary};
 	border-radius: 2px;
 	font-family: ${props => props.theme.fonts.primary};
 	color: ${props => props.theme.colors.white};
 	font-size: 2rem;
-	padding: 1rem 1.5rem;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	box-sizing: border-box;
+	padding-left: 10px;
+	padding-top: 20px;
 	position: relative;
+	text-align: left;
 	z-index: 10;
 	@media (max-width: ${style.breakpoint.tablet}) {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		width: 100%;
 		padding: 1rem 0.5rem;
+		box-sizing: border-box;
 		font-size: 1.5rem;
 	}
 	@media (max-width: ${style.breakpoint.mobileL}) {
@@ -32,22 +34,21 @@ const StyledHeader = styled.header`
 `;
 
 const NavContainer = styled.div`
+	float: right;
+	padding-right: 10px;
 	display: flex;
-	flex-direction: row;
-	align-items: baseline;
-	flex-wrap: nowrap;
+	align-items: center;
 	gap: 1.5rem;
-	font-family: ${props => props.theme.fonts.primary};
-	font-size: 1.25rem;
 	@media (max-width: ${style.breakpoint.tablet}) {
+		float: none;
+		padding-right: 0;
 		gap: 1rem;
-		font-size: 1rem;
 	}
 `;
 
-const StyledLink = styled(Link)`
-	font-family: ${props => props.theme.fonts.primary} !important;
-	font-size: 1.25rem !important;
+const NavLink = styled(Link)`
+	font-family: ${props => props.theme.fonts.primary};
+	font-size: 1.25rem;
 	color: ${props => props.theme.colors.white};
 	text-decoration: none;
 	white-space: nowrap;
@@ -55,7 +56,7 @@ const StyledLink = styled(Link)`
 		text-decoration: underline;
 	}
 	@media (max-width: ${style.breakpoint.tablet}) {
-		font-size: 1rem !important;
+		font-size: 1rem;
 	}
 `;
 
@@ -92,14 +93,14 @@ const Header = () => {
 				{isAuthenticated ? (
 					<>
 						{isBookmarksPage ? (
-							<StyledLink to='/'>Home</StyledLink>
+							<NavLink to='/'>Home</NavLink>
 						) : (
-							<StyledLink to='/bookmarks'>My Bookmarks</StyledLink>
+							<NavLink to='/bookmarks'>My Bookmarks</NavLink>
 						)}
 						<LogoutLink onClick={handleLogout}>Logout</LogoutLink>
 					</>
 				) : (
-					!isAuthPage && <StyledLink to='/login'>Sign In</StyledLink>
+					!isAuthPage && <NavLink to='/login'>Sign In</NavLink>
 				)}
 			</NavContainer>
 		</StyledHeader>
