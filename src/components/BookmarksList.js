@@ -1,5 +1,5 @@
 import React, { useContext , useReducer, useState, useMemo, useCallback, useEffect, useRef } from 'react';
-import { List } from 'react-window';
+import Collapsible from 'react-collapsible';
 import styled from '@emotion/styled';
 import axios from 'axios';
 
@@ -11,7 +11,7 @@ import Header from './Header';
 import Footer from './Footer';
 import BookmarkForm from './BookmarkForm';
 import BookmarkImport from './BookmarkImport';
-import BookmarkItem from './BookmarkItem';
+import BookmarkAIFeatures from './BookmarkAIFeatures';
 import SemanticSearch from './SemanticSearch';
 import * as style from './Breakpoints';
 
@@ -466,27 +466,24 @@ const SemanticSearchWrapper = styled.div`
 	}
 `;
 
-const VirtualListContainer = styled.div`
-	grid-column: 1 / 3;
-	grid-row: 4 / 5;
-	padding: 10px 20px 0;
-	margin: 0 auto 2rem;
-	height: calc(100vh - 400px);
-	min-height: 300px;
-	@media (max-width: ${style.breakpoint.tablet}) {
-		padding: 0.5rem;
-		margin: 0;
-		width: 100%;
-		box-sizing: border-box;
-		order: 5;
-		height: auto;
-		min-height: unset;
-	}
-`;
-
-// Item height constants for virtual scrolling
-const COLLAPSED_HEIGHT = 100;
-const EXPANDED_HEIGHT = 700;
+// Helper function to render visual star rating
+const renderStars = (ratingStr) => {
+	const ratingMap = {
+		'5 stars': 5,
+		'4 stars': 4,
+		'3 stars': 3,
+		'2 stars': 2,
+		'1 star': 1,
+	};
+	const numStars = ratingMap[ratingStr] || 0;
+	const filled = '★'.repeat(numStars);
+	const empty = '☆'.repeat(5 - numStars);
+	return (
+		<span className="stars">
+			{filled}<span className="stars-empty">{empty}</span>
+		</span>
+	);
+};
 
 export default function BookmarksList() {
 	const { state, dispatch, loading, error } = useContext(BookmarksContext);
@@ -498,12 +495,7 @@ export default function BookmarksList() {
 	const [showImport, setShowImport] = useState(false);
 	const [isGeneratingTags, setIsGeneratingTags] = useState(false);
 	const [showSemanticSearch, setShowSemanticSearch] = useState(false);
-	const [expandedItems, setExpandedItems] = useState({});
-	const [isMobile, setIsMobile] = useState(false);
 	const searchTimeoutRef = useRef(null);
-	const listRef = useRef(null);
-	const listContainerRef = useRef(null);
-	const [listHeight, setListHeight] = useState(600);
 
 	const title = state.bookmarks.length > 0
 	? 'My Bookmarks' : 'You have not created any bookmarks yet ...';
@@ -608,29 +600,6 @@ export default function BookmarksList() {
 		};
 	}, []);
 
-	// Detect mobile viewport
-	useEffect(() => {
-		const checkMobile = () => {
-			setIsMobile(window.innerWidth <= 768);
-		};
-		checkMobile();
-		window.addEventListener('resize', checkMobile);
-		return () => window.removeEventListener('resize', checkMobile);
-	}, []);
-
-	// Calculate list height based on container
-	useEffect(() => {
-		const updateHeight = () => {
-			if (listContainerRef.current && !isMobile) {
-				const containerHeight = listContainerRef.current.clientHeight;
-				setListHeight(Math.max(containerHeight, 300));
-			}
-		};
-		updateHeight();
-		window.addEventListener('resize', updateHeight);
-		return () => window.removeEventListener('resize', updateHeight);
-	}, [isMobile]);
-
 	// Handle semantic search result selection
 	const handleSemanticResultSelect = useCallback((result) => {
 		// Find the bookmark in our list and scroll to it or highlight it
@@ -663,28 +632,6 @@ export default function BookmarksList() {
 			return filter === 'RATING' && b.rating === rating;
 		});
 	}, [state.bookmarks, searchResults, filter, rating]);
-
-	// Handle item expand/collapse toggle (must be after filteredBookmarks)
-	const handleItemToggle = useCallback((bookmarkId, isExpanded) => {
-		setExpandedItems(prev => ({
-			...prev,
-			[bookmarkId]: isExpanded
-		}));
-		// Reset list heights after toggle
-		if (listRef.current) {
-			const index = filteredBookmarks.findIndex(b => b.id === bookmarkId);
-			if (index !== -1) {
-				listRef.current.resetAfterIndex(index);
-			}
-		}
-	}, [filteredBookmarks]);
-
-	// Get item size for virtual scrolling (must be after filteredBookmarks)
-	const getItemSize = useCallback((index) => {
-		const bookmark = filteredBookmarks[index];
-		if (!bookmark) return COLLAPSED_HEIGHT;
-		return expandedItems[bookmark.id] ? EXPANDED_HEIGHT : COLLAPSED_HEIGHT;
-	}, [filteredBookmarks, expandedItems]);
 
 	return (
 		<StyledGrid>
@@ -781,57 +728,121 @@ export default function BookmarksList() {
 					<SemanticSearch onResultSelect={handleSemanticResultSelect} />
 				</SemanticSearchWrapper>
 			)}
-			{loading && (
-				<div style={{ textAlign: 'center', fontSize: '1.5rem', padding: '2rem', color: 'white' }}>
-					Loading bookmarks...
-				</div>
-			)}
-			{error && (
-				<div style={{ textAlign: 'center', fontSize: '1.5rem', padding: '2rem', color: '#ff4444' }}>
-					Error loading bookmarks: {error.message}
-				</div>
-			)}
-			{!loading && !error && (
-				<VirtualListContainer ref={listContainerRef}>
-					{isMobile ? (
-						// Mobile: Regular scrolling list
-						<ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-							{filteredBookmarks.map(bookmark => (
-								<BookmarkItem
-									key={bookmark.id}
+			<ul>
+				{loading && (
+					<li style={{ textAlign: 'center', fontSize: '1.5rem' }}>
+						Loading bookmarks...
+					</li>
+				)}
+				{error && (
+					<li style={{ textAlign: 'center', fontSize: '1.5rem', color: '#ff4444' }}>
+						Error loading bookmarks: {error.message}
+					</li>
+				)}
+				{!loading && !error && filteredBookmarks.map(bookmark => (
+					<li key={bookmark.id} data-bookmark-id={bookmark.id}>
+						<span>
+							<div className="list-item">
+							<Collapsible
+								trigger={<span className="bookmark-trigger">{bookmark.title} <span className="trigger-arrow">▼</span></span>}
+								triggerTagName="button"
+								transitionTime={400}
+								easing="cubic-bezier(0.175, 0.885, 0.32, 2.275)"
+								classParentString="list-item"
+								triggerOpenedClassName="is-open"
+							>
+								{/* URL Section */}
+								<div className="bookmark-section bookmark-section-url">
+									<span className="bookmark-section-label">URL</span>
+									<a href={bookmark.url} target="_blank" rel="noopener noreferrer">
+										{bookmark.url}
+									</a>
+								</div>
+
+								{/* Rating Section */}
+								<div className="bookmark-section bookmark-section-rating">
+									<span className="bookmark-section-label">Rating</span>
+									{renderStars(bookmark.rating)}
+								</div>
+
+								{/* Description Section */}
+								<div className="bookmark-section bookmark-section-description">
+									<span className="bookmark-section-label">Description</span>
+									{bookmark.description ? (
+										<p>{bookmark.description}</p>
+									) : (
+										<p className="no-description">No description added</p>
+									)}
+								</div>
+
+								{/* AI-powered bookmark tagging */}
+								<BookmarkAIFeatures
 									bookmark={bookmark}
-									dispatch={dispatch}
 									onTagsGenerated={handleTagsGenerated}
-									isExpanded={expandedItems[bookmark.id] || false}
-									onToggle={handleItemToggle}
 								/>
-							))}
-						</ul>
-					) : (
-						// Desktop: Virtual scrolling list
-						<List
-							listRef={listRef}
-							rowCount={filteredBookmarks.length}
-							rowHeight={getItemSize}
-							style={{ listStyle: 'none', width: '100%', height: listHeight, maxHeight: '100%' }}
-							rowComponent={({ index, style }) => {
-								const bookmark = filteredBookmarks[index];
-								if (!bookmark) return null;
-								return (
-									<BookmarkItem
-										bookmark={bookmark}
-										dispatch={dispatch}
-										onTagsGenerated={handleTagsGenerated}
-										isExpanded={expandedItems[bookmark.id] || false}
-										onToggle={handleItemToggle}
-										style={style}
-									/>
-								);
+
+								{/* Action Buttons */}
+								<div className="bookmark-actions">
+									<button
+										className="btn-edit"
+										type="button"
+										onClick={() => dispatch({type: 'SET_CURRENT_BOOKMARK', payload: bookmark})}
+									>
+										Edit
+									</button>
+									<button
+										className="btn-delete"
+										type="button"
+										onClick={async () => {
+											try {
+												await axios.delete(
+													`${apiUrl}/${apiEndpoint}/${bookmark.id}`
+												);
+												dispatch({
+													type: 'DELETE_BOOKMARK',
+													payload: bookmark
+												})
+											} catch (error) {
+												console.error('Failed to delete bookmark:', error);
+												alert('Failed to delete bookmark. Please try again.');
+											}
+										}}
+									>
+										Delete
+									</button>
+								</div>
+							</Collapsible>
+							</div>
+						</span>
+						<span>
+						<label className="list" htmlFor="checkbox-favorite">
+							Add to Favorites
+						</label>
+						</span>
+						<input
+							name="checkbox-favorite"
+							aria-label="checkbox-favorite"
+							type="checkbox"
+							onChange={async () => {
+								try {
+									const res = await axios.patch(
+										`${apiUrl}/${apiEndpoint}/${bookmark.id}`, {
+											checked: !bookmark.checked
+										});
+									dispatch({
+										type: 'ADD_BOOKMARK_TO_FAVORITES',
+										payload: res.data
+									})
+								} catch (error) {
+									console.error('Failed to update favorites:', error);
+									alert('Failed to update favorites. Please try again.');
+								}
 							}}
+							checked={bookmark.checked}
 						/>
-					)}
-				</VirtualListContainer>
-			)}
+					</li>
+				))}
+			</ul>
 		</StyledList>
 		</StyledContent>
 		<Footer />
