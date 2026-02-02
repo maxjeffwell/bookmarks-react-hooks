@@ -1,4 +1,4 @@
-import React, { useReducer, useState, useEffect } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import axios from 'axios';
 import { Global, css } from '@emotion/react';
@@ -7,11 +7,13 @@ import { Analytics } from '@vercel/analytics/react';
 
 import BookmarksContext from '../context';
 import bookmarksReducer from '../reducers/bookmarksReducer';
+import useAPI from '../hooks/useAPI';
 import { apiUrl, apiEndpoint } from '../config';
 
 import { AuthProvider, useAuth, ProtectedRoute, Login, Register } from './Auth';
 import Landing from './Landing';
 import BookmarksList from './BookmarksList';
+import ErrorBoundary from './ErrorBoundary';
 
 // Configure axios to send cookies globally
 axios.defaults.withCredentials = true;
@@ -63,37 +65,6 @@ const globalStyles = css`
 	}
 `;
 
-const useAPI = (endpoint, enabled = true) => {
-	const [data, setData] = useState([]);
-	const [loading, setLoading] = useState(true);
-	const [error, setError] = useState(null);
-
-	const getData = React.useCallback(async () => {
-		if (!enabled) {
-			setLoading(false);
-			return;
-		}
-		try {
-			setLoading(true);
-			setError(null);
-			const res = await axios.get(endpoint);
-			setData(res.data);
-		} catch (error) {
-			console.error('Failed to fetch data:', error);
-			setError(error);
-			setData([]);
-		} finally {
-			setLoading(false);
-		}
-	}, [endpoint, enabled]);
-
-	useEffect(() => {
-		getData();
-	}, [getData]);
-
-	return { data, loading, error, refetch: getData };
-};
-
 // Bookmarks provider that fetches data only when authenticated
 function BookmarksProvider({ children }) {
 	const { isAuthenticated, isLoading: authLoading } = useAuth();
@@ -131,25 +102,29 @@ export default function App() {
 	return (
 		<BrowserRouter>
 			<Global styles={globalStyles} />
-			<AuthProvider>
-				<BookmarksProvider>
-					<Routes>
-						<Route path='/' element={<Landing />} />
-						<Route path='/login' element={<Login />} />
-						<Route path='/register' element={<Register />} />
-						<Route
-							path='/bookmarks'
-							element={
-								<ProtectedRoute>
-									<BookmarksList />
-								</ProtectedRoute>
-							}
-						/>
-					</Routes>
-					<SpeedInsights />
-					<Analytics />
-				</BookmarksProvider>
-			</AuthProvider>
+			<ErrorBoundary>
+				<AuthProvider>
+					<BookmarksProvider>
+						<Routes>
+							<Route path='/' element={<Landing />} />
+							<Route path='/login' element={<Login />} />
+							<Route path='/register' element={<Register />} />
+							<Route
+								path='/bookmarks'
+								element={
+									<ProtectedRoute>
+										<ErrorBoundary>
+											<BookmarksList />
+										</ErrorBoundary>
+									</ProtectedRoute>
+								}
+							/>
+						</Routes>
+						<SpeedInsights />
+						<Analytics />
+					</BookmarksProvider>
+				</AuthProvider>
+			</ErrorBoundary>
 		</BrowserRouter>
 	);
 }
