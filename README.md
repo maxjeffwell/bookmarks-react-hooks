@@ -266,13 +266,24 @@ https://github.com/user-attachments/assets/Video_2025-08-16_01-47-22.mp4
 
 ## 🚀 Deployment
 
+### Kubernetes (Production)
+
+The application also runs on a self-hosted **K3s cluster** managed via ArgoCD GitOps:
+
+- **Live:** [bookmarked.el-jefe.me](https://bookmarked.el-jefe.me)
+- **Ingress:** Traefik with automatic TLS via cert-manager + Let's Encrypt
+- **Database:** Neon PostgreSQL with pgvector for AI-powered semantic search
+- **CI/CD:** GitHub Actions → Docker Hub → ArgoCD auto-sync
+
+### Vercel
+
 <div align="center">
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/maxjeffwell/bookmarks-react-hooks)
 
 </div>
 
-The application is configured for deployment on Vercel:
+The application is also configured for deployment on Vercel:
 
 1. **Connect** your GitHub repository to Vercel
 2. **Add** environment variables in Vercel's dashboard:
