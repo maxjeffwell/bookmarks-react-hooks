@@ -190,7 +190,11 @@ const BookmarkForm = memo(function BookmarkForm() {
 			setBookmarkTitle(currentBookmark.title || '');
 			setBookmarkUrl(currentBookmark.url || '');
 			setBookmarkDescription(currentBookmark.description || '');
-			setBookmarkRating(currentBookmark.toggledRadioButton ? currentBookmark.rating || 0 : 0);
+			// Parse rating as number — DB stores as TEXT so it arrives as a string like "3"
+			const parsedRating = typeof currentBookmark.rating === 'string'
+				? parseInt(currentBookmark.rating, 10) || 0
+				: currentBookmark.rating || 0;
+			setBookmarkRating(parsedRating);
 			setToggleRadioButton(currentBookmark.toggledRadioButton || false);
 			setBookmarkChecked(currentBookmark.checked || false);
 		} else {
@@ -339,7 +343,6 @@ const BookmarkForm = memo(function BookmarkForm() {
 					     onClick={() => setToggleRadioButton(toggleRadioButton === false)}
 					     value="1"
 					     checked={bookmarkRating === 1 && !toggleRadioButton}
-				       required
 				/>
 				<label htmlFor="bookmarkRating-1">1 star</label>
 				<input name="bookmarkRating" type="radio" aria-label="2 star rating"

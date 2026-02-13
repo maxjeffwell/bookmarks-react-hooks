@@ -1,5 +1,6 @@
 import { neon } from '@neondatabase/serverless';
 import { purgeBookmarksCache } from './_lib/cloudflare.js';
+import { createBookmarkSchema, validateData } from './_lib-validation/index.js';
 
 // Initialize the database connection
 let sql;
@@ -268,19 +269,20 @@ export default async function handler(req, res) {
 
       case 'POST':
         try {
-          const { title, url, description, rating, toggledRadioButton, checked } = req.body;
-          
-          if (!title || !url) {
-            return res.status(400).json({ error: 'Title and URL are required' });
+          const validation = await validateData(createBookmarkSchema, req.body);
+          if (!validation.success) {
+            return res.status(400).json(validation.error);
           }
+
+          const { title, url, description, rating, toggledRadioButton, checked } = validation.data;
 
           const newBookmark = await bookmarksDB.create({
             title,
             url,
-            description: description || '',
-            rating: rating || '',
-            toggledRadioButton: toggledRadioButton || false,
-            checked: checked || false
+            description,
+            rating,
+            toggledRadioButton,
+            checked
           });
 
           // Purge cache for both deployments

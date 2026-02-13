@@ -1,5 +1,6 @@
 import { neon } from '@neondatabase/serverless';
 import { purgeBookmarksCache } from '../_lib/cloudflare.js';
+import { updateBookmarkSchema, uuidParamSchema, validateData } from '../_lib-validation/index.js';
 
 // Initialize the database connection
 const sql = neon(process.env.DATABASE_URL);
@@ -96,15 +97,21 @@ export default async function handler(req, res) {
     const { method } = req;
     const { id } = req.query;
 
-    if (!id) {
-      return res.status(400).json({ error: 'Bookmark ID is required' });
+    const idValidation = await validateData(uuidParamSchema, { id });
+    if (!idValidation.success) {
+      return res.status(400).json(idValidation.error);
     }
 
     switch (method) {
       case 'PATCH':
         try {
-          const { title, url, description, rating, toggledRadioButton, checked } = req.body;
-          
+          const validation = await validateData(updateBookmarkSchema, req.body);
+          if (!validation.success) {
+            return res.status(400).json(validation.error);
+          }
+
+          const { title, url, description, rating, toggledRadioButton, checked } = validation.data;
+
           const updatedBookmark = await bookmarksDB.update(id, {
             title,
             url,
