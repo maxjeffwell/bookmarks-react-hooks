@@ -1,5 +1,6 @@
 import React, { useReducer, useEffect } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
+import { FaroRoutes, FaroErrorBoundary } from '@grafana/faro-react';
 import axios from 'axios';
 import { Global, css } from '@emotion/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
@@ -102,10 +103,10 @@ export default function App() {
 	return (
 		<BrowserRouter>
 			<Global styles={globalStyles} />
-			<ErrorBoundary>
+			<FaroErrorBoundary>
 				<AuthProvider>
 					<BookmarksProvider>
-						<Routes>
+						<FaroRoutes>
 							<Route path='/' element={<Landing />} />
 							<Route path='/login' element={<Login />} />
 							<Route path='/register' element={<Register />} />
@@ -119,12 +120,12 @@ export default function App() {
 									</ProtectedRoute>
 								}
 							/>
-						</Routes>
+						</FaroRoutes>
 						<SpeedInsights />
 						<Analytics />
 					</BookmarksProvider>
 				</AuthProvider>
-			</ErrorBoundary>
+			</FaroErrorBoundary>
 		</BrowserRouter>
 	);
 }
