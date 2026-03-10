@@ -21,7 +21,9 @@ COPY . .
 
 # Build arguments for React environment variables (after npm install for better caching)
 ARG REACT_APP_API_BASE_URL
+ARG REACT_APP_FARO_URL
 ENV REACT_APP_API_BASE_URL=$REACT_APP_API_BASE_URL
+ENV REACT_APP_FARO_URL=$REACT_APP_FARO_URL
 
 # Disable CI mode to prevent build failures on warnings
 ENV CI=false

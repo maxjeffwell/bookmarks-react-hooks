@@ -1,11 +1,11 @@
 import React, { useReducer, useEffect } from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
-import { FaroRoutes, FaroErrorBoundary } from '@grafana/faro-react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import axios from 'axios';
 import { Global, css } from '@emotion/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { Analytics } from '@vercel/analytics/react';
 
+import faro from '../faro';
 import BookmarksContext from '../context';
 import bookmarksReducer from '../reducers/bookmarksReducer';
 import useAPI from '../hooks/useAPI';
@@ -15,6 +15,15 @@ import { AuthProvider, useAuth, ProtectedRoute, Login, Register } from './Auth';
 import Landing from './Landing';
 import BookmarksList from './BookmarksList';
 import ErrorBoundary from './ErrorBoundary';
+
+// Conditionally use Faro components only when SDK is initialized
+let AppRoutes = Routes;
+let AppErrorBoundary = ErrorBoundary;
+if (faro) {
+	const { FaroRoutes, FaroErrorBoundary } = require('@grafana/faro-react');
+	AppRoutes = FaroRoutes;
+	AppErrorBoundary = FaroErrorBoundary;
+}
 
 // Configure axios to send cookies globally
 axios.defaults.withCredentials = true;
@@ -103,10 +112,10 @@ export default function App() {
 	return (
 		<BrowserRouter>
 			<Global styles={globalStyles} />
-			<FaroErrorBoundary>
+			<AppErrorBoundary>
 				<AuthProvider>
 					<BookmarksProvider>
-						<FaroRoutes>
+						<AppRoutes>
 							<Route path='/' element={<Landing />} />
 							<Route path='/login' element={<Login />} />
 							<Route path='/register' element={<Register />} />
@@ -120,12 +129,12 @@ export default function App() {
 									</ProtectedRoute>
 								}
 							/>
-						</FaroRoutes>
+						</AppRoutes>
 						<SpeedInsights />
 						<Analytics />
 					</BookmarksProvider>
 				</AuthProvider>
-			</FaroErrorBoundary>
+			</AppErrorBoundary>
 		</BrowserRouter>
 	);
 }

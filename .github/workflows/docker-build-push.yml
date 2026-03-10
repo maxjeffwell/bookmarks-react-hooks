@@ -103,6 +103,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
             REACT_APP_API_BASE_URL=/api
+            REACT_APP_FARO_URL=https://faro.el-jefe.me/collect
           cache-from: type=registry,ref=${{ env.DOCKER_CLIENT_IMAGE }}:buildcache
           cache-to: type=registry,ref=${{ env.DOCKER_CLIENT_IMAGE }}:buildcache,mode=max
 
