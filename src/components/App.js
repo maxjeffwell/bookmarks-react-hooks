@@ -1,5 +1,6 @@
 import React, { useReducer, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { FaroRoutes, FaroErrorBoundary } from '@grafana/faro-react';
 import axios from 'axios';
 import { Global, css } from '@emotion/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
@@ -16,14 +17,9 @@ import Landing from './Landing';
 import BookmarksList from './BookmarksList';
 import ErrorBoundary from './ErrorBoundary';
 
-// Conditionally use Faro components only when SDK is initialized
-let AppRoutes = Routes;
-let AppErrorBoundary = ErrorBoundary;
-if (faro) {
-	const { FaroRoutes, FaroErrorBoundary } = require('@grafana/faro-react');
-	AppRoutes = FaroRoutes;
-	AppErrorBoundary = FaroErrorBoundary;
-}
+// Use Faro-enhanced components when SDK is initialized, fall back to standard ones
+const AppRoutes = faro ? FaroRoutes : Routes;
+const AppErrorBoundary = faro ? FaroErrorBoundary : ErrorBoundary;
 
 // Configure axios to send cookies globally
 axios.defaults.withCredentials = true;
