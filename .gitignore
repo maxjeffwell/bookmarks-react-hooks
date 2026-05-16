@@ -61,3 +61,6 @@ pids/
 
 # GPU
 server/cuda-compat
+
+# Serena MCP server tool state (per-developer; not shared)
+.serena/
