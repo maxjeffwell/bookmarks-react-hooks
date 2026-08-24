@@ -1,5 +1,5 @@
 // Express routes for AI features
-import { neon } from '@neondatabase/serverless';
+import sql from '../lib/sql.js';
 import { AIService, EmbeddingService, initializeAITables } from '../../shared/ai/index.js';
 import { invalidateCache, CACHE_KEYS } from '../lib/redis.js';
 import { purgeBookmarksCache } from '../lib/cloudflare.js';
@@ -10,7 +10,6 @@ let migrationsRun = false;
 
 export default function(app) {
   // Initialize database connection
-  const sql = neon(process.env.DATABASE_URL);
 
   // Run migrations once on first request
   const ensureMigrations = async () => {

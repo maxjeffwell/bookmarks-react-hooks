@@ -1,9 +1,4 @@
-import { neon } from '@neondatabase/serverless';
-import dotenv from 'dotenv';
-dotenv.config();
-
-// Initialize the database connection
-const sql = neon(process.env.DATABASE_URL);
+import sql from './lib/sql.js';
 
 // Create bookmarks table if it doesn't exist
 const initializeDatabase = async () => {

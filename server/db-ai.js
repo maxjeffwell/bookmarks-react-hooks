@@ -1,7 +1,5 @@
 // Database operations for AI/tags features
-const { neon } = require('@neondatabase/serverless');
-
-const sql = neon(process.env.DATABASE_URL);
+import sql from './lib/sql.js';
 
 const aiDB = {
   /**
@@ -239,4 +237,5 @@ const aiDB = {
   }
 };
 
-module.exports = { aiDB };
+export { aiDB };
+export default { aiDB };

@@ -4,7 +4,7 @@ import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
 import rateLimit from 'express-rate-limit';
 import client from 'prom-client';
-import { neon } from '@neondatabase/serverless';
+import sql from './lib/sql.js';
 import { initializeDatabase, bookmarksDB } from './db.js';
 import aiRoutes from './routes/ai-routes.js';
 import authRoutes from './routes/auth-routes.js';
@@ -138,7 +138,6 @@ app.use(express.json());
 app.use(cookieParser());
 
 // Initialize database and run migrations on startup
-const sql = neon(process.env.DATABASE_URL);
 initializeDatabase()
   .then(() => runAuthMigration(sql))
   .catch(console.error);
