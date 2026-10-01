@@ -2,8 +2,6 @@ import React, { useReducer, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import axios from 'axios';
 import { Global, css } from '@emotion/react';
-import { SpeedInsights } from '@vercel/speed-insights/react';
-import { Analytics } from '@vercel/analytics/react';
 
 import '../faro';
 import BookmarksContext from '../context';
@@ -121,8 +119,6 @@ export default function App() {
 								}
 							/>
 						</Routes>
-						<SpeedInsights />
-						<Analytics />
 					</BookmarksProvider>
 				</AuthProvider>
 			</ErrorBoundary>

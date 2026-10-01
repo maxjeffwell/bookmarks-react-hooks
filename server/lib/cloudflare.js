@@ -39,10 +39,10 @@ export async function purgeCache(urls) {
   }
 }
 
-// Both deployment URLs that need cache purging
+// Both public hostnames of the k8s deployment (Vercel retired 2026-10-01)
 const DEPLOYMENT_URLS = [
-  'https://bookmarked-k8s.el-jefe.me',
-  'https://bookmarks-react-hooks.vercel.app'
+  'https://bookmarked.el-jefe.me',
+  'https://bookmarked-k8s.el-jefe.me'
 ];
 
 export async function purgeBookmarksCache() {

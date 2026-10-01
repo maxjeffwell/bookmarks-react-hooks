@@ -4,7 +4,7 @@ const config = {
     apiUrl: 'http://localhost:3001'
   },
   production: {
-    apiUrl: 'https://bookmarks-react-hooks.vercel.app/api'
+    apiUrl: '/api' // same-origin via the k8s ingress (Vercel retired 2026-10-01)
   }
 };
 

@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemaps
-Sitemap: https://bookmarks-react-hooks.vercel.app/sitemap.xml
+Sitemap: https://bookmarked.el-jefe.me/sitemap.xml
 
 # Crawl-delay
 Crawl-delay: 1
