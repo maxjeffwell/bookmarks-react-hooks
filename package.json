@@ -13,7 +13,6 @@
     "@grafana/faro-react": "^2.2.4",
     "@grafana/faro-web-sdk": "^2.2.4",
     "@grafana/faro-web-tracing": "^2.2.4",
-    "@neondatabase/serverless": "^1.0.1",
     "@vercel/analytics": "^1.5.0",
     "@vercel/speed-insights": "^1.2.0",
     "ajv": "^8.17.1",
