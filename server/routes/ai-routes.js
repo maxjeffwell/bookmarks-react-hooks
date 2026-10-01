@@ -233,7 +233,7 @@ export default function(app) {
 
       const embeddingService = new EmbeddingService(sql);
       const userId = req.user.id;
-      const { q, query, limit = 10, threshold = 0.3 } = req.query;
+      const { q, query, limit = 10, threshold } = req.query;
       const searchQuery = q || query;
 
       if (!searchQuery) {
@@ -246,7 +246,7 @@ export default function(app) {
       const results = await embeddingService.semanticSearch(
         searchQuery,
         parseInt(limit),
-        parseFloat(threshold),
+        threshold === undefined ? undefined : parseFloat(threshold),
         userId
       );
 
@@ -281,7 +281,7 @@ export default function(app) {
 
       const embeddingService = new EmbeddingService(sql);
       const userId = req.user.id;
-      const { action, bookmarkId, query, limit = 10, threshold = 0.3 } = req.body;
+      const { action, bookmarkId, query, limit = 10, threshold } = req.body;
 
       // Search by query (user-scoped)
       if (action === 'search' || (!action && query)) {
@@ -359,7 +359,7 @@ export default function(app) {
 
       // Embed all bookmarks without embeddings (user-scoped)
       if (action === 'embed-all') {
-        const processed = await embeddingService.embedAllBookmarks(userId);
+        const processed = await embeddingService.embedAllBookmarks(userId, { force: req.body.force === true });
 
         // Invalidate user-specific cache
         const cacheKey = `${CACHE_KEYS.BOOKMARKS_ALL}:${userId}`;

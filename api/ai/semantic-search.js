@@ -38,7 +38,7 @@ export default async function handler(req, res) {
 
     if (req.method === 'GET') {
       // GET /api/ai/semantic-search?q=query&limit=10
-      const { q, query, limit = 10, threshold = 0.3 } = req.query;
+      const { q, query, limit = 10, threshold } = req.query;
       const searchQuery = q || query;
 
       if (!searchQuery) {
@@ -51,7 +51,7 @@ export default async function handler(req, res) {
       const results = await embeddingService.semanticSearch(
         searchQuery,
         parseInt(limit),
-        parseFloat(threshold)
+        threshold === undefined ? undefined : parseFloat(threshold)
       );
 
       return res.status(200).json({
@@ -62,7 +62,7 @@ export default async function handler(req, res) {
       });
 
     } else if (req.method === 'POST') {
-      const { action, bookmarkId, query, limit = 10, threshold = 0.3 } = req.body;
+      const { action, bookmarkId, query, limit = 10, threshold } = req.body;
 
       // POST /api/ai/semantic-search - Search by query
       if (action === 'search' || (!action && query)) {
@@ -138,7 +138,7 @@ export default async function handler(req, res) {
 
       // POST /api/ai/semantic-search - Embed all bookmarks without embeddings
       if (action === 'embed-all') {
-        const processed = await embeddingService.embedAllBookmarks();
+        const processed = await embeddingService.embedAllBookmarks(null, { force: req.body.force === true });
 
         // Purge cache for both deployments
         await purgeBookmarksCache();
