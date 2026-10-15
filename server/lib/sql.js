@@ -18,6 +18,11 @@ const sql = postgres(process.env.DATABASE_URL, {
   max: 10,
   idle_timeout: 30,
   connect_timeout: 10,
+  // The Neon HTTP driver this replaced sent `undefined` parameters as NULL;
+  // postgres.js throws UNDEFINED_VALUE instead, which broke every partial
+  // UPDATE built on COALESCE(${field}, column) (PATCH /bookmarks/:id with any
+  // field omitted). Keep the old semantics.
+  transform: { undefined: null },
 });
 
 export default sql;
