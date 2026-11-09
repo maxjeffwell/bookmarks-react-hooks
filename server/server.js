@@ -22,7 +22,7 @@ app.set('trust proxy', 1);
 
 // Prometheus metrics setup
 const register = new client.Registry();
-client.collectDefaultMetrics({ register });
+client.collectDefaultMetrics({ register, eventLoopMonitoringPrecision: 100 });
 
 // HTTP request counter
 const httpRequestsTotal = new client.Counter({
