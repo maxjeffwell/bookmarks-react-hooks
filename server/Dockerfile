@@ -4,7 +4,7 @@
 # ============================================
 # Production Stage
 # ============================================
-FROM node:20-alpine AS production
+FROM node:24-alpine AS production
 
 # Set working directory
 WORKDIR /app
@@ -48,7 +48,7 @@ CMD ["npm", "start"]
 # ============================================
 # Development Stage
 # ============================================
-FROM node:20-alpine AS development
+FROM node:24-alpine AS development
 
 # Set working directory
 WORKDIR /app
