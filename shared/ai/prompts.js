@@ -2,7 +2,7 @@
 
 export const PROMPTS = {
   // Auto-tagging prompt
-  AUTO_TAG: `You are a bookmark categorization assistant. Analyze the following bookmark and generate 3-5 relevant tags.
+  AUTO_TAG: `You are a bookmark categorization assistant. Analyze the following bookmark and generate 5-8 relevant tags.
 
 Bookmark Information:
 - Title: {title}
@@ -17,7 +17,7 @@ Requirements:
 5. If the bookmark is about a programming language or framework, include that as a tag
 6. If the bookmark is a tutorial, documentation, or article, mention the content type
 
-Example output: javascript, tutorial, web-development, react, frontend
+Example output: javascript, tutorial, web-development, react, frontend, hooks
 
 Tags:`,
 

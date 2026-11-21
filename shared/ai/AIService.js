@@ -4,6 +4,10 @@ import aiClient from './ai-client.js';
 import PROMPTS from './prompts.js';
 import AICache from './cache.js';
 
+// The AI gateway returns between 5 and 8 tags per bookmark.
+const MIN_TAGS = 5;
+const MAX_TAGS = 8;
+
 class AIService {
   constructor(sql) {
     this.sql = sql;
@@ -58,7 +62,8 @@ class AIService {
     // Check cache first (if enabled)
     if (process.env.AI_CACHE_ENABLED !== 'false') {
       const cachedTags = await this.cache.get(bookmark);
-      if (cachedTags && cachedTags.length > 0) {
+      // Answers cached before the five-tag minimum are regenerated.
+      if (cachedTags && cachedTags.length >= MIN_TAGS) {
         console.log('Returning cached tags:', cachedTags);
         return cachedTags;
       }
@@ -123,11 +128,10 @@ class AIService {
 
         return true;
       })
-      .map(tag => tag.replace(/\s+/g, '-')) // Replace spaces with hyphens
-      .slice(0, 5); // Max 5 tags
+      .map(tag => tag.replace(/\s+/g, '-')); // Replace spaces with hyphens
 
-    // Remove duplicates
-    return [...new Set(tags)];
+    // Remove duplicates, then keep at most MAX_TAGS
+    return [...new Set(tags)].slice(0, MAX_TAGS);
   }
 
   /**
